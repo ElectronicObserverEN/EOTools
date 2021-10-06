@@ -1,0 +1,45 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EOTools.Translation"
+      xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" x:Class="EOTools.Translation.TranslationQuestForm"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1080
+    "
+      Title="TranslationQuest">
+
+    <DockPanel>
+        <DockPanel LastChildFill="False" Width="122">
+            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
+            <Button x:Name="buttonAddQuestTL" Content="Add quest"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestTL_Click"/>
+            <Button x:Name="buttonAddQuestFromEO" Content="Add quest from EO"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestFromEO_Click"/>
+            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
+        </DockPanel>
+        <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
+            <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" Width="465" SelectionChanged="ListQuests_SelectionChanged" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding QuestID}" Header="Quest ID"/>
+                        <GridViewColumn DisplayMemberBinding="{Binding DisplayName}" Header="Name" Width="400"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <DockPanel LastChildFill="False" Width="445" Margin="10,0,0,0">
+                <Label x:Name="labelID" Content="Quest ID" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxID" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Text="{Binding SelectedQuest.QuestID}"/>
+                <Label x:Name="labelCode" Content="Code" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxCode" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedQuest.Code}"/>
+                <Label x:Name="labelJPName" Content="JP Name" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedQuest.NameJP}"/>
+                <Label x:Name="labelENName" Content="EN Name" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxEnName" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedQuest.NameEN}"/>
+                <Label x:Name="labelJPDesc" Content="JP Description" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxJPDesc" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedQuest.DescJP}"/>
+                <Label x:Name="labelENDesc" Content="EN Description" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxEnDesc" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedQuest.DescEN}"/>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</Page>

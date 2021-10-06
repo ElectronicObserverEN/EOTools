@@ -1,0 +1,48 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EOTools.Translation"
+      xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" x:Class="EOTools.Translation.TranslationEquipForm"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1080
+    "
+      Title="TranslationShip">
+
+    <DockPanel>
+        <DockPanel LastChildFill="False" Width="122">
+            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
+            <Button x:Name="buttonAddEquipment" Content="Add equipment"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestTL_Click"/>
+            <Button x:Name="buttonAddEquType" Content="Add equ. type"  DockPanel.Dock="Top" Height="49" Click="buttonAddSuffix_Click" />
+            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
+        </DockPanel>
+        <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
+
+            <DockPanel LastChildFill="False" Width="413">
+                <ListView x:Name="ListEquipment" ItemsSource="{Binding JsonEquip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="449" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <ListView x:Name="ListEquipType" ItemsSource="{Binding JsonEquipType}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="152" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
+            <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="542">
+                <Label x:Name="labelJPName" Content="JP Name" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedEquip.NameJP}"/>
+                <Label x:Name="labelENName" Content="EN Name" Width="auto" DockPanel.Dock="Top"/>
+                <TextBox x:Name="textBoxEnName" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedEquip.NameEN}"/>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</Page>
