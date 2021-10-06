@@ -13,15 +13,13 @@
     <DockPanel>
         <DockPanel LastChildFill="False" Width="122">
             <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
-            <Button x:Name="buttonAddShip" Content="Add ship"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestTL_Click"/>
-            <Button x:Name="buttonAddSuffix" Content="Add suffix"  DockPanel.Dock="Top" Height="49" Click="buttonAddSuffix_Click" />
-            <Button x:Name="buttonAddSType" Content="Add stype"  DockPanel.Dock="Top" Height="49" Click="buttonAddSType_Click" />
             <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
         </DockPanel>
         <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
 
             <DockPanel LastChildFill="False" Width="413">
-                <ListView x:Name="ListShips" ItemsSource="{Binding JsonShip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="270" >
+                <Button x:Name="buttonAddShip" Content="Add ship"  DockPanel.Dock="Top" Height="30" Click="buttonAddQuestTL_Click"/>
+                <ListView x:Name="ListShips" ItemsSource="{Binding JsonShip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="258" KeyUp="ListShips_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
@@ -29,7 +27,9 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView x:Name="ListSuffixe" ItemsSource="{Binding JsonSuffixe}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="187" >
+
+                <Button x:Name="buttonAddSuffix" Content="Add suffix"  DockPanel.Dock="Top" Height="30" Click="buttonAddSuffix_Click" />
+                <ListView x:Name="ListSuffixe" ItemsSource="{Binding JsonSuffixe}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="144" KeyUp="ListSuffixe_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
@@ -37,7 +37,9 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView x:Name="ListStype" ItemsSource="{Binding JsonStype}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="203" >
+
+                <Button x:Name="buttonAddSType" Content="Add stype"  DockPanel.Dock="Top" Height="30" Click="buttonAddSType_Click" />
+                <ListView x:Name="ListStype" ItemsSource="{Binding JsonStype}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="158" KeyUp="ListStype_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>

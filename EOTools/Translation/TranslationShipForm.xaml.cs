@@ -205,7 +205,30 @@ namespace EOTools.Translation
             // --- Stage & push
             StageAndPushFiles();
         }
-        #endregion
 
+        private void ListShips_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                JsonShip.Remove((ShipData)ListShips.SelectedItem);
+            }
+        }
+
+        private void ListSuffixe_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                JsonSuffixe.Remove((ShipData)ListSuffixe.SelectedItem);
+            }
+        }
+
+        private void ListStype_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                JsonStype.Remove((ShipData)ListStype.SelectedItem);
+            }
+        }
+        #endregion
     }
 }

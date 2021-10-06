@@ -13,19 +13,21 @@
     <DockPanel>
         <DockPanel LastChildFill="False" Width="122">
             <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
-            <Button x:Name="buttonAddQuestTL" Content="Add quest"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestTL_Click"/>
-            <Button x:Name="buttonAddQuestFromEO" Content="Add quest from EO"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestFromEO_Click"/>
             <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
         </DockPanel>
         <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
-            <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" Width="465" SelectionChanged="ListQuests_SelectionChanged" >
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding QuestID}" Header="Quest ID"/>
-                        <GridViewColumn DisplayMemberBinding="{Binding DisplayName}" Header="Name" Width="400"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DockPanel>
+                <Button x:Name="buttonAddQuestTL" Content="Add quest"  DockPanel.Dock="Top" Height="30" Click="buttonAddQuestTL_Click"/>
+                <Button x:Name="buttonAddQuestFromEO" Content="Add quest from EO"  DockPanel.Dock="Top" Height="30" Click="buttonAddQuestFromEO_Click"/>
+                <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" Width="465" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListQuests_KeyUp" >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding QuestID}" Header="Quest ID"/>
+                            <GridViewColumn DisplayMemberBinding="{Binding DisplayName}" Header="Name" Width="400"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </DockPanel>
             <DockPanel LastChildFill="False" Width="445" Margin="10,0,0,0">
                 <Label x:Name="labelID" Content="Quest ID" Width="auto" DockPanel.Dock="Top"/>
                 <TextBox x:Name="textBoxID" TextWrapping="Wrap" Width="auto" DockPanel.Dock="Top" Text="{Binding SelectedQuest.QuestID}"/>

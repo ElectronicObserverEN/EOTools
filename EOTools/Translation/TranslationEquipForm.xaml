@@ -13,14 +13,13 @@
     <DockPanel>
         <DockPanel LastChildFill="False" Width="122">
             <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
-            <Button x:Name="buttonAddEquipment" Content="Add equipment"  DockPanel.Dock="Top" Height="49" Click="buttonAddQuestTL_Click"/>
-            <Button x:Name="buttonAddEquType" Content="Add equ. type"  DockPanel.Dock="Top" Height="49" Click="buttonAddSuffix_Click" />
             <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
         </DockPanel>
         <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
 
             <DockPanel LastChildFill="False" Width="413">
-                <ListView x:Name="ListEquipment" ItemsSource="{Binding JsonEquip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="449" >
+                <Button x:Name="buttonAddEquipment" Content="Add equipment"  DockPanel.Dock="Top" Height="30" Click="buttonAddQuestTL_Click"/>
+                <ListView x:Name="ListEquipment" ItemsSource="{Binding JsonEquip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="365" KeyUp="ListEquipment_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
@@ -28,7 +27,8 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <ListView x:Name="ListEquipType" ItemsSource="{Binding JsonEquipType}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="152" >
+                <Button x:Name="buttonAddEquType" Content="Add equ. type"  DockPanel.Dock="Top" Height="30" Click="buttonAddSuffix_Click" />
+                <ListView x:Name="ListEquipType" ItemsSource="{Binding JsonEquipType}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="152" KeyUp="ListEquipType_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>

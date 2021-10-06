@@ -213,6 +213,14 @@ namespace EOTools.Translation
             // --- Stage & push
             StageAndPushFiles();
         }
+
+        private void ListQuests_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Delete)
+            {
+                JsonQuest.Remove((QuestData)ListQuests.SelectedItem);
+            }
+        }
         #endregion
 
     }
