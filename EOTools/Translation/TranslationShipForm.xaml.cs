@@ -74,7 +74,7 @@ namespace EOTools.Translation
 
         private void LoadFile()
         {
-            JsonShipData = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(FilePath));
+            JsonShipData = JsonHelper.ReadJson(FilePath);
 
             // --- Ships
             Version = JsonShipData["version"].ToString();
@@ -97,19 +97,6 @@ namespace EOTools.Translation
 
                 _list.Add(_newShip);
             }
-        }
-
-        private QuestData ParseJsonQuest(JProperty _questKey, JObject _jsonObject)
-        {
-            if (_questKey.Name == "version")
-            {
-                Version = _jsonObject[_questKey.Name].ToString();
-                return null;
-            }
-
-            JObject _questData = (JObject)_jsonObject[_questKey.Name];
-
-            return new QuestData(int.Parse(_questKey.Name), _questData);
         }
 
         private void StageAndPushFiles()
@@ -205,17 +192,15 @@ namespace EOTools.Translation
             _toSerialize.Add("suffix", DictionnaryFromShipDataList(JsonSuffixe));
             _toSerialize.Add("stype", DictionnaryFromShipDataList(JsonStype));
 
-            string _json = JsonConvert.SerializeObject(_toSerialize, Formatting.Indented);
-
-            File.WriteAllText(FilePath, _json);
+            JsonHelper.WriteJson(FilePath, _toSerialize);
 
             // --- Change update.json too
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
-            JObject _update = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(_updatePath));
+            JObject _update = JsonHelper.ReadJson(_updatePath);
 
             _update["tl_ver"]["ship"] = Version;
 
-            File.WriteAllText(_updatePath, JsonConvert.SerializeObject(_update, Formatting.Indented));
+            JsonHelper.WriteJson(_updatePath, _update);
 
             // --- Stage & push
             StageAndPushFiles();

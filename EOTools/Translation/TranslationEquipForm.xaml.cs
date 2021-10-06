@@ -73,7 +73,7 @@ namespace EOTools.Translation
 
         private void LoadFile()
         {
-            JsonEquipData = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(FilePath));
+            JsonEquipData = JsonHelper.ReadJson(FilePath);
 
             // --- Equips
             Version = JsonEquipData["version"].ToString();
@@ -182,17 +182,15 @@ namespace EOTools.Translation
             _toSerialize.Add("equipment", DictionnaryFromEquipDataList(JsonEquip));
             _toSerialize.Add("equiptype", DictionnaryFromEquipDataList(JsonEquipType));
 
-            string _json = JsonConvert.SerializeObject(_toSerialize, Formatting.Indented);
-
-            File.WriteAllText(FilePath, _json);
+            JsonHelper.WriteJson(FilePath, _toSerialize);
 
             // --- Change update.json too
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
-            JObject _update = (JObject)JsonConvert.DeserializeObject(File.ReadAllText(_updatePath));
+            JObject _update = JsonHelper.ReadJson(_updatePath);
 
             _update["tl_ver"]["equipment"] = Version;
 
-            File.WriteAllText(_updatePath, JsonConvert.SerializeObject(_update, Formatting.Indented));
+            JsonHelper.WriteJson(_updatePath, _update);
 
             // --- Stage & push
             StageAndPushFiles();

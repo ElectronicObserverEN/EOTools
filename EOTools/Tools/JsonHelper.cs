@@ -22,7 +22,7 @@ namespace EOTools.Tools
             using (var _jsonTextWriter = new JsonTextWriter(_streamWriter)
             {
                 Formatting = Formatting.Indented,
-                Indentation = 2,
+                Indentation = 1,
                 IndentChar = '\t'
             })
             {
