@@ -17,7 +17,18 @@ namespace EOTools.Translation
     /// </summary>
     public partial class TranslationQuestForm : Page, INotifyPropertyChanged
     {
-        private string FilePath = "";
+        private string FilePath
+        {
+            get
+            {
+                return AppSettings.QuestTLFilePath;
+            }
+            set
+            {
+                AppSettings.QuestTLFilePath = value;
+            }
+        }
+
         private JObject JsonQuestData = new JObject();
 
         private GitManager GitManager
@@ -61,6 +72,11 @@ namespace EOTools.Translation
         {
             this.DataContext = this;
             InitializeComponent();
+
+            if (!string.IsNullOrEmpty(FilePath))
+            {
+                LoadFile();
+            }
         }
 
         private void LoadFile()

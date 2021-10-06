@@ -1,4 +1,5 @@
-﻿using EOTools.Translation;
+﻿using EOTools.Tools;
+using EOTools.Translation;
 using System.Windows;
 
 namespace EOTools
@@ -11,6 +12,8 @@ namespace EOTools
         public MainWindow()
         {
             InitializeComponent();
+
+            AppSettings.LoadSettings();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
