@@ -15,6 +15,7 @@
             </MenuItem>
             <MenuItem Header="_Translations">
                 <MenuItem x:Name="MenuItemQuestTranslation" Header="_Translate quest" Click="MenuItem_Click_1" />
+                <MenuItem x:Name="MenuItemQuestTrackers" Header="_Manage trackers" Click="ManageTrackers" />
                 <MenuItem x:Name="MenuItemShipTranslation" Header="_Translate ships" Click="MenuItemShipTranslation_Click"  />
                 <MenuItem x:Name="MenuItemEquipTranslation" Header="_Translate equipments" Click="MenuItemEquipTranslation_Click"  />
             </MenuItem>

@@ -1,6 +1,6 @@
-﻿using EOTools.Tools;
+﻿using EOTools.Models;
+using EOTools.Tools;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -73,7 +73,7 @@ namespace EOTools.Translation
 
         private void LoadFile()
         {
-            JsonEquipData = JsonHelper.ReadJson(FilePath);
+            JsonEquipData = JsonHelper.ReadJsonObject(FilePath);
 
             // --- Equips
             Version = JsonEquipData["version"].ToString();
@@ -186,7 +186,7 @@ namespace EOTools.Translation
 
             // --- Change update.json too
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
-            JObject _update = JsonHelper.ReadJson(_updatePath);
+            JObject _update = JsonHelper.ReadJsonObject(_updatePath);
 
             _update["tl_ver"]["equipment"] = Version;
 

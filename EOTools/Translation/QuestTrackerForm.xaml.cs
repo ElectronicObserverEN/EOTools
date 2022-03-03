@@ -16,21 +16,21 @@ namespace EOTools.Translation
     /// <summary>
     /// Interaction logic for TranslationQuest.xaml
     /// </summary>
-    public partial class TranslationQuestForm : Page, INotifyPropertyChanged
+    public partial class QuestTrackerForm : Page, INotifyPropertyChanged
     {
         private string FilePath
         {
             get
             {
-                return AppSettings.QuestTLFilePath;
+                return AppSettings.QuestTrackerFilePath;
             }
             set
             {
-                AppSettings.QuestTLFilePath = value;
+                AppSettings.QuestTrackerFilePath = value;
             }
         }
 
-        private JObject JsonQuestData = new JObject();
+        private JArray JsonQuestData = new JArray();
 
         private GitManager GitManager
         {
@@ -41,8 +41,8 @@ namespace EOTools.Translation
             }
         }
 
-        private QuestData selectedQuest;
-        public QuestData SelectedQuest
+        private QuestTrackerData selectedQuest;
+        public QuestTrackerData SelectedQuest
         {
             get
             {
@@ -55,9 +55,9 @@ namespace EOTools.Translation
             }
         }
 
-        public ObservableCollection<QuestData> JsonQuestList { get; set; } = new ObservableCollection<QuestData>();
+        public ObservableCollection<QuestTrackerData> JsonQuestList { get; set; } = new ObservableCollection<QuestTrackerData>();
 
-        public ObservableCollection<QuestData> JsonQuest
+        public ObservableCollection<QuestTrackerData> JsonQuest
         {
             get
             {
@@ -69,7 +69,7 @@ namespace EOTools.Translation
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public TranslationQuestForm()
+        public QuestTrackerForm()
         {
             this.DataContext = this;
             InitializeComponent();
@@ -82,37 +82,27 @@ namespace EOTools.Translation
 
         private void LoadFile()
         {
-            JsonQuestData = JsonHelper.ReadJsonObject(FilePath);
+            JsonQuestData = JsonHelper.ReadJsonArray(FilePath);
 
             JsonQuest.Clear();
 
-            List<QuestData> _listOfQuests = new List<QuestData>();
+            List<QuestTrackerData> _listOfQuests = new List<QuestTrackerData>();
 
-            foreach (JProperty _questKey in JsonQuestData.Properties())
+            foreach (JArray _questData in JsonQuestData)
             {
-                QuestData _newQuest = ParseJsonQuest(_questKey, JsonQuestData);
-                if (_newQuest != null)
-                    _listOfQuests.Add(_newQuest);
+                QuestTrackerData _newQuest = new QuestTrackerData(_questData);
+                _listOfQuests.Add(_newQuest);   
             }
 
             // --- Order by quest ID
-            foreach (QuestData _quest in _listOfQuests.OrderBy(_q => _q.QuestID))
+            foreach (QuestTrackerData _quest in _listOfQuests.OrderBy(_q => _q.QuestID))
             {
                 JsonQuest.Add(_quest);
             }
-        }
 
-        private QuestData ParseJsonQuest(JProperty _questKey, JObject _jsonObject)
-        {
-            if (_questKey.Name == "version")
-            {
-                Version = _jsonObject[_questKey.Name].ToString();
-                return null;
-            }
-
-            JObject _questData = (JObject)_jsonObject[_questKey.Name];
-
-            return new QuestData(int.Parse(_questKey.Name), _questData);
+            // --- Get version
+            JObject _updateJson = JsonHelper.ReadJsonObject(Path.Combine(Path.GetDirectoryName(FilePath), "update.json"));
+            Version = _updateJson["QuestTrackers"].ToString();
         }
 
         private void StageAndPushFiles()
@@ -122,7 +112,7 @@ namespace EOTools.Translation
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
             GitManager.Stage(_updatePath);
 
-            GitManager.CommitAndPush($"Quests - {Version}");
+            GitManager.CommitAndPush($"Quest tracker - {Version}");
         }
 
         #region Events
@@ -156,35 +146,27 @@ namespace EOTools.Translation
         {
             if (e.AddedItems.Count != 1) return;
 
-            SelectedQuest = (QuestData)e.AddedItems[0];
+            SelectedQuest = (QuestTrackerData)e.AddedItems[0];
         }
 
         private void buttonAddQuestTL_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            QuestData _newQuest = new QuestData(JsonQuest.Max(_q => _q.QuestID));
+            JArray _quests = JsonHelper.ReadJsonFromString(Clipboard.GetText()) as JArray;
 
-            JsonQuest.Add(_newQuest);
-            SelectedQuest = _newQuest;
-        }
-
-        private void buttonAddQuestFromEO_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Prompt _prompt = new Prompt("Import quest data from EO", "Enter quest data");
-
-            if (_prompt.ShowDialog() == true)
+            foreach (JArray _quest in _quests)
             {
-                JObject _newQuests = (JObject)JsonConvert.DeserializeObject(_prompt.ResultText);
-                QuestData _newQuest = null;
+                QuestTrackerData _questData = new QuestTrackerData(_quest);
 
-                foreach (JProperty _questKey in _newQuests.Properties())
+                QuestTrackerData _questFound = JsonQuestList.FirstOrDefault((_q1) => _q1.QuestID == _questData.QuestID);
+
+                if (_questFound is QuestTrackerData)
                 {
-                    _newQuest = ParseJsonQuest(_questKey, _newQuests);
-                    if (_newQuest != null)
-                        JsonQuest.Add(_newQuest);
+                    _questFound.QuestData = _questData.QuestData;
+                } 
+                else
+                {
+                    JsonQuestList.Add(_questData);
                 }
-
-                if (_newQuest != null)
-                    SelectedQuest = _newQuest;
             }
         }
 
@@ -192,22 +174,21 @@ namespace EOTools.Translation
         {
             Version = (int.Parse(Version) + 1).ToString();
 
-            Dictionary<string, object> _toSerialize = new Dictionary<string, object>();
+            JArray _toSerialize = new JArray();
 
-            _toSerialize.Add("version", Version);
-
-            foreach (QuestData _quest in JsonQuestList.OrderBy(_q => _q.QuestID))
+            foreach (QuestTrackerData _quest in JsonQuestList.OrderBy(_q => _q.QuestID))
             {
-                _toSerialize.Add(_quest.QuestID.ToString(), _quest);
+
+                _toSerialize.Add(_quest.QuestData);
             }
 
-            JsonHelper.WriteJson(FilePath, _toSerialize);
+            JsonHelper.WriteJsonByOnlyIndentingOnceWidePeepoHappy(FilePath, _toSerialize);
 
             // --- Change update.json too
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
             JObject _update = JsonHelper.ReadJsonObject(_updatePath);
 
-            _update["tl_ver"]["quest"] = Version;
+            _update["QuestTrackers"] = int.Parse(Version);
 
             JsonHelper.WriteJson(_updatePath, _update);
 
@@ -219,7 +200,7 @@ namespace EOTools.Translation
         {
             if (e.Key == System.Windows.Input.Key.Delete)
             {
-                JsonQuest.Remove((QuestData)ListQuests.SelectedItem);
+                JsonQuest.Remove((QuestTrackerData)ListQuests.SelectedItem);
             }
         }
         #endregion

@@ -7,15 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="RPCTools\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="RPCTools\RPCManager.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\TranslationEquipForm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\QuestTrackerForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Translation\TranslationShipForm.xaml.cs">
@@ -24,7 +26,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="RPCTools\RPCManager.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Translation\TranslationEquipForm.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translation\QuestTrackerForm.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

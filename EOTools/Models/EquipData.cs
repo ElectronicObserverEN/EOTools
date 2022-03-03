@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
-namespace EOTools.Translation
+﻿namespace EOTools.Models
 {
     public class EquipData
     {

@@ -1,4 +1,5 @@
-﻿using EOTools.Tools;
+﻿using EOTools.RPCTools;
+using EOTools.Tools;
 using EOTools.Translation;
 using System.Windows;
 
@@ -19,6 +20,7 @@ namespace EOTools
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             // --- Display RPC check form
+            MainContentFrame.Content = new RPCManager();
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
@@ -37,6 +39,12 @@ namespace EOTools
         {
             // --- Open equipment translation
             MainContentFrame.Content = new TranslationEquipForm();
+        }
+
+        private void ManageTrackers(object sender, RoutedEventArgs e)
+        {
+            // --- Open trackers
+            MainContentFrame.Content = new QuestTrackerForm();
         }
     }
 }
