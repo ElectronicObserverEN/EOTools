@@ -15,9 +15,9 @@
             <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" DockPanel.Dock="Left" Margin="10" Height="40"/>
             <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Left"  Margin="10" Height="40" Click="buttonExport_Click"/>
         </DockPanel>
-        <DockPanel LastChildFill="False" DockPanel.Dock="Top">
+        <DockPanel LastChildFill="False" DockPanel.Dock="Top" HorizontalAlignment="Left">
 
-            <DockPanel LastChildFill="False" Margin="10">
+            <DockPanel LastChildFill="False">
                 <Button x:Name="buttonAddEquipment" Content="Add equipment"  DockPanel.Dock="Top" Margin="10" Height="40" Click="buttonAddQuestTL_Click"/>
                 <ListView x:Name="ListEquipment" ItemsSource="{Binding JsonEquip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="200" KeyUp="ListEquipment_KeyUp" >
                     <ListView.View>
@@ -37,7 +37,7 @@
                     </ListView.View>
                 </ListView>
             </DockPanel>
-            <DockPanel LastChildFill="False" DockPanel.Dock="Left" Width="500">
+            <DockPanel LastChildFill="False" DockPanel.Dock="Left" Width="500" Margin="10">
                 <Label x:Name="labelJPName" Content="JP Name" DockPanel.Dock="Top" HorizontalAlignment="Left" Width="500"/>
                 <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" DockPanel.Dock="Top" Height="50" Width="500" Text="{Binding SelectedEquip.NameJP}"  HorizontalAlignment="Left"/>
                 <Label x:Name="labelENName" Content="EN Name" Width="500" DockPanel.Dock="Top" HorizontalAlignment="Left"/>

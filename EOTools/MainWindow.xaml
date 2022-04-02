@@ -7,7 +7,7 @@
         xmlns:ui="http://schemas.modernwpf.com/2019"
         ui:WindowHelper.UseModernWindowStyle="True"
         mc:Ignorable="d"
-        Title="EOTools" Height="720" Width="1080">
+        Title="EOTools" Height="920" Width="1280">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_RPC Tools">
