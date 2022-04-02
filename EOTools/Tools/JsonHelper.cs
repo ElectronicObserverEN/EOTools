@@ -122,10 +122,7 @@ namespace EOTools.Tools
                 string _text = File.ReadAllText(_path);
 
                 // --- revome svdata=
-                _text = _text.Substring(7, _text.Length - 7);
-
-
-                _text = _text.Substring(0, _text.Length - 6);
+                _text = _text[7..];
 
                 return (JObject)JsonConvert.DeserializeObject(_text);
             }

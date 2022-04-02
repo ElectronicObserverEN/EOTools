@@ -11,10 +11,12 @@
       Title="RPC">
 
     <DockPanel>
-        <Button Content="Select getData.json file" DockPanel.Dock="Top" Height="30" Click="buttonSelectFile_Click"/>
-        <Button Content="Select ship icon repo" DockPanel.Dock="Top" Height="30" Click="Button_Click"/>
-        <Button Content="Edit picture" DockPanel.Dock="Top" Height="30" Click="Button_Click_1" />
-        <Button Content="Reload" DockPanel.Dock="Top" Height="30" Click="Button_Click_2"/>
+        <DockPanel DockPanel.Dock="Top">
+            <Button Content="Select getData.json file" DockPanel.Dock="Left" Margin="10" Height="40" Click="buttonSelectFile_Click"/>
+            <Button Content="Select ship icon repo" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click"/>
+            <Button Content="Edit picture" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click_1" />
+            <Button Content="Reload" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click_2"/>
+        </DockPanel>
         <ListView x:Name="ListShipPicture" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="auto"  Width="auto" ItemsSource="{Binding ShipList}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
