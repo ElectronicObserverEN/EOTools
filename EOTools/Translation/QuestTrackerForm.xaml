@@ -11,14 +11,14 @@
       Title="TranslationQuest">
 
     <DockPanel>
-        <DockPanel LastChildFill="False" Width="122">
-            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
-            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
+        <DockPanel DockPanel.Dock="Top">
+            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click"  Margin="10" Height="40" DockPanel.Dock="Left" />
+            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Left"  Margin="10" Height="40" Click="buttonExport_Click"/>
         </DockPanel>
-        <DockPanel LastChildFill="False" DockPanel.Dock="Right" Width="969">
+        <DockPanel DockPanel.Dock="Top">
             <DockPanel>
-                <Button x:Name="buttonAddQuestTL" Content="Add trackers from clipboard"  DockPanel.Dock="Top" Height="30" Click="buttonAddQuestTL_Click"/>
-                <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" Width="465" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListQuests_KeyUp" >
+                <Button x:Name="buttonAddQuestTL" Content="Add trackers from clipboard"  DockPanel.Dock="Top" Margin="10" Height="40" Click="buttonAddQuestTL_Click"/>
+                <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListQuests_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding QuestID}" Header="Quest ID"/>
