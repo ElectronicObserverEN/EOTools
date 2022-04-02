@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
+using System.Net;
 
 namespace EOTools.Tools
 {
@@ -47,6 +48,29 @@ namespace EOTools.Tools
                 Indentation = 1,
                 IndentChar = '\t',
                 MaxIndentDepth = 1
+            })
+            {
+                JsonSerializer _jsonSerializer = JsonSerializer.CreateDefault();
+                _jsonSerializer.Serialize(_jsonTextWriter, _data);
+            }
+
+        }
+
+        /// <summary>
+        /// Write object to a json file
+        /// </summary>
+        /// <param name="_path"></param>
+        /// <param name="_data"></param>
+        public static void WriteJsonByOnlyIndentingXTimesWidePeepoHappy(string _path, object _data, int _indenting)
+        {
+            using (var _fileStream = File.Create(_path))
+            using (var _streamWriter = new StreamWriter(_fileStream))
+            using (var _jsonTextWriter = new CustomIndentingJsonTextWriter(_streamWriter)
+            {
+                Formatting = Formatting.Indented,
+                Indentation = 1,
+                IndentChar = '\t',
+                MaxIndentDepth = 2
             })
             {
                 JsonSerializer _jsonSerializer = JsonSerializer.CreateDefault();
@@ -121,6 +145,29 @@ namespace EOTools.Tools
             catch (Exception _ex) when (_ex is FileNotFoundException || _ex is DirectoryNotFoundException)
             {
                 return null;
+            }
+        }
+
+        /// <summary>
+        /// Read json from url
+        /// </summary>
+        /// <param name="_url"></param>
+        /// <returns></returns>
+        public static JToken ReadJsonFromUrl(string _url)
+        {
+            try
+            {
+                using var _webClient = new WebClient();
+
+                string _rawJson = _webClient.DownloadString(_url);
+
+                return ReadJsonFromString(_rawJson);
+            }
+            catch (Exception _ex)
+            {
+                Exception _exeption = new Exception("Error reading Edge.json", _ex);
+
+                throw _exeption;
             }
         }
     }

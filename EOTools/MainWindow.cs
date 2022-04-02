@@ -46,5 +46,11 @@ namespace EOTools
             // --- Open trackers
             MainContentFrame.Content = new QuestTrackerForm();
         }
+
+        private void MenuItemDestinationUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            // --- Open trackers
+            MainContentFrame.Content = new DestinationUpdateForm();
+        }
     }
 }

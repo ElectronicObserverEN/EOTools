@@ -36,6 +36,21 @@ namespace EOTools.Tools
             }
         }
 
+
+        private static string destinationFilePath = "";
+        public static string DestinationFilePath
+        {
+            get
+            {
+                return destinationFilePath;
+            }
+            set
+            {
+                destinationFilePath = value;
+                WriteSettings();
+            }
+        }
+
         private static string equipmentTLFilePath = "";
         public static string EquipmentTLFilePath
         {
@@ -152,6 +167,11 @@ namespace EOTools.Tools
             {
                 questTrackerFilePath = _value.ToString();
             }
+
+            if (_jsonSettings.TryGetValue("DestinationFilePath", out _value))
+            {
+                destinationFilePath = _value.ToString();
+            }
         }
 
         public static void WriteSettings()
@@ -164,6 +184,7 @@ namespace EOTools.Tools
             _jsonData.Add("GetDataPath", KancolleEOAPIFolder);
             _jsonData.Add("ShipIconFolder", ShipIconFolder);
             _jsonData.Add("QuestTrackerFilePath", QuestTrackerFilePath);
+            _jsonData.Add("DestinationFilePath", DestinationFilePath);
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);
         }

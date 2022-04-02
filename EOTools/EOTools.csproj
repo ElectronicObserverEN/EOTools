@@ -14,6 +14,9 @@
     <Compile Update="RPCTools\RPCManager.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\DestinationUpdateForm.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\TranslationEquipForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -27,6 +30,10 @@
 
   <ItemGroup>
     <Page Update="RPCTools\RPCManager.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translation\DestinationUpdateForm.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
