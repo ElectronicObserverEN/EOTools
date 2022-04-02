@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 
 namespace EOTools.Models
 {
-    public class QuestData
+    public class QuestData : INotifyPropertyChanged
     {
         [JsonIgnore]
         public int QuestID { get; set; }
@@ -14,8 +15,14 @@ namespace EOTools.Models
         [JsonProperty("name_jp")]
         public string NameJP { get; set; }
 
+        private string nameEN;
+
         [JsonProperty("name")]
-        public string NameEN { get; set; }
+        public string NameEN
+        {
+            get { return nameEN; }
+            set { nameEN = value; OnPropertyChanged(); }
+        }
 
         [JsonProperty("desc_jp")]
         public string DescJP { get; set; }
@@ -52,6 +59,12 @@ namespace EOTools.Models
             NameEN = "";
             DescJP = "";
             DescEN = "";
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
     }
 }
