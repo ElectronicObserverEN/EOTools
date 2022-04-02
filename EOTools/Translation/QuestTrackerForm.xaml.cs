@@ -182,7 +182,7 @@ namespace EOTools.Translation
                 _toSerialize.Add(_quest.QuestData);
             }
 
-            JsonHelper.WriteJsonByOnlyIndentingOnceWidePeepoHappy(FilePath, _toSerialize);
+            JsonHelper.WriteJsonByOnlyIndentingOnce(FilePath, _toSerialize);
 
             // --- Change update.json too
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");

@@ -11,10 +11,10 @@
       Title="Destination update">
 
     <DockPanel>
-        <DockPanel LastChildFill="False" Width="122">
-            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"/>
-            <Button x:Name="buttonUpdate" Content="Update file"  DockPanel.Dock="Top" Height="49" Click="buttonUpdate_Click"/>
-            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"/>
+        <DockPanel LastChildFill="False" Width="185">
+            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"  HorizontalAlignment="Center" Margin="10"/>
+            <Button x:Name="buttonUpdate" Content="Update file"  DockPanel.Dock="Top" Height="49" Click="buttonUpdate_Click"  HorizontalAlignment="Center" Margin="10"/>
+            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"  HorizontalAlignment="Center" Margin="10"/>
         </DockPanel>
     </DockPanel>
 </Page>

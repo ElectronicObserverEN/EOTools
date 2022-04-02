@@ -38,22 +38,9 @@ namespace EOTools.Tools
         /// </summary>
         /// <param name="_path"></param>
         /// <param name="_data"></param>
-        public static void WriteJsonByOnlyIndentingOnceWidePeepoHappy(string _path, object _data)
+        public static void WriteJsonByOnlyIndentingOnce(string _path, object _data)
         {
-            using (var _fileStream = File.Create(_path))
-            using (var _streamWriter = new StreamWriter(_fileStream))
-            using (var _jsonTextWriter = new CustomIndentingJsonTextWriter(_streamWriter)
-            {
-                Formatting = Formatting.Indented,
-                Indentation = 1,
-                IndentChar = '\t',
-                MaxIndentDepth = 1
-            })
-            {
-                JsonSerializer _jsonSerializer = JsonSerializer.CreateDefault();
-                _jsonSerializer.Serialize(_jsonTextWriter, _data);
-            }
-
+            WriteJsonByOnlyIndentingXTimes(_path, _data, 1);
         }
 
         /// <summary>
@@ -61,7 +48,7 @@ namespace EOTools.Tools
         /// </summary>
         /// <param name="_path"></param>
         /// <param name="_data"></param>
-        public static void WriteJsonByOnlyIndentingXTimesWidePeepoHappy(string _path, object _data, int _indenting)
+        public static void WriteJsonByOnlyIndentingXTimes(string _path, object _data, int _indenting)
         {
             using (var _fileStream = File.Create(_path))
             using (var _streamWriter = new StreamWriter(_fileStream))
@@ -70,7 +57,7 @@ namespace EOTools.Tools
                 Formatting = Formatting.Indented,
                 Indentation = 1,
                 IndentChar = '\t',
-                MaxIndentDepth = 2
+                MaxIndentDepth = _indenting
             })
             {
                 JsonSerializer _jsonSerializer = JsonSerializer.CreateDefault();

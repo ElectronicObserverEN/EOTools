@@ -1,16 +1,11 @@
 ﻿using EOTools.Tools;
 using Microsoft.Win32;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using EOTools.Models;
-using System;
 
 namespace EOTools.Translation
 {
@@ -30,6 +25,8 @@ namespace EOTools.Translation
                 AppSettings.DestinationFilePath = value;
             }
         }
+
+        private string UpdateFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
 
         private string NodeFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "nodes.json");
 
@@ -74,9 +71,7 @@ namespace EOTools.Translation
         {
             GitManager.Stage(FilePath);
             GitManager.Stage(NodeFilePath);
-
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
-            GitManager.Stage(_updatePath);
+            GitManager.Stage(UpdateFilePath);
 
             GitManager.CommitAndPush($"Destination - {Version}");
         }
@@ -113,23 +108,22 @@ namespace EOTools.Translation
             Version = (int.Parse(Version) + 1).ToString();
 
             JsonDestinationData["version"] = Version;
-            JsonHelper.WriteJsonByOnlyIndentingXTimesWidePeepoHappy(FilePath, JsonDestinationData, 2);
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(FilePath, JsonDestinationData, 2);
 
             JsonNodeData["Revision"] = int.Parse(Version);
-            JsonHelper.WriteJsonByOnlyIndentingXTimesWidePeepoHappy(NodeFilePath, JsonNodeData, 2);
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(NodeFilePath, JsonNodeData, 2);
 
             // --- Change update.json too
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
-            JObject _update = JsonHelper.ReadJsonObject(_updatePath);
+            JObject _update = JsonHelper.ReadJsonObject(UpdateFilePath);
 
             _update["tl_ver"]["nodes"] = int.Parse(Version);
 
-            JsonHelper.WriteJson(_updatePath, _update);
+            JsonHelper.WriteJson(UpdateFilePath, _update);
 
             // --- Stage & push
             StageAndPushFiles();
         }
-        
+
         private void buttonUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -160,6 +154,9 @@ namespace EOTools.Translation
 
                     JsonDestinationData.Add($"World {_world}-{_map}", _property.Value);
                 }
+
+                MessageBox.Show("Data updated");
+
             }
             catch (Exception _ex)
             {
