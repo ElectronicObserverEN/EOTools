@@ -16,6 +16,8 @@ namespace EOTools.Translation
     public class TagTranslationViewModel : ObservableObject
     {
 
+        private GitManager GitManager => new GitManager(ElectronicObserverDataFolderPath);
+
         private string DataFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "Locks.json");
         private string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "update.json");
 
@@ -51,7 +53,7 @@ namespace EOTools.Translation
             }
 
             AddLockCommand = new RelayCommand(() => Translations.Insert(0, new TagTranslationData()));
-            SaveLocksCommand = new RelayCommand(() => SaveToFile());
+            SaveLocksCommand = new RelayCommand(() => SaveFileStageCommitAndPush());
             DeleteLockCommand = new RelayCommand<TagTranslationData>((translation) => Translations.Remove(translation));
         }
 
@@ -66,6 +68,29 @@ namespace EOTools.Translation
             }
 
             JsonHelper.WriteJsonByOnlyIndentingXTimes(DataFilePath, objectToSerialize, 1);
+        }
+
+        private void SaveFileStageCommitAndPush()
+        {
+
+            SaveToFile();
+
+            // --- Change update.json too
+            JObject update = JsonHelper.ReadJsonObject(UpdateFilePath);
+
+            int version = int.Parse(update["Locks"].ToString()) + 1;
+
+            update["Locks"] = version;
+
+            JsonHelper.WriteJson(UpdateFilePath, update);
+
+            // --- Stage & push
+            GitManager.Stage(DataFilePath);
+
+            string _updatePath = Path.Combine(UpdateFilePath);
+            GitManager.Stage(_updatePath);
+
+            GitManager.CommitAndPush($"Locks translations - {version}");
         }
 
         public void LoadFromFile()

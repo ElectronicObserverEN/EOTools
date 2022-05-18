@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.Models;
 using EOTools.Tools;
 using Microsoft.Win32;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,6 +18,10 @@ namespace EOTools.Translation
         public ObservableCollection<int> TagIdsThatCanBeUsed => LocksViewModel.TagIdsThatCanBeUsed;
 
         private string DataFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Data", "Locks.json");
+
+        private string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "update.json");
+
+        private GitManager GitManager => new GitManager(ElectronicObserverDataFolderPath);
 
         public string ElectronicObserverDataFolderPath
         {
@@ -54,7 +59,7 @@ namespace EOTools.Translation
 
             AddLockCommand = new RelayCommand(() => LocksViewModel.Locks.Add(new LockData()));
             ResetLocksCommand = new RelayCommand(() => LocksViewModel.Locks.Clear());
-            SaveLocksCommand = new RelayCommand(() => SaveToFile());
+            SaveLocksCommand = new RelayCommand(() => SaveFileStageCommitAndPush());
             DeleteLockCommand = new RelayCommand<LockData>((lockData) => LocksViewModel.Locks.Remove(lockData));
         }
 
@@ -88,32 +93,27 @@ namespace EOTools.Translation
             JsonHelper.WriteJsonByOnlyIndentingXTimes(DataFilePath, lockAndPhases, 2);
         }
 
-        private void EditUpdateFileStageCommitAndPush()
+        private void SaveFileStageCommitAndPush()
         {
-            /*JObject
-
-            int version = (int.Parse(Version) + 1).ToString();
-
-            JArray _toSerialize = new JArray();
-
-            foreach (QuestTrackerData _quest in JsonQuestList.OrderBy(_q => _q.QuestID))
-            {
-
-                _toSerialize.Add(_quest.QuestData);
-            }
-
-            JsonHelper.WriteJsonByOnlyIndentingOnce(FilePath, _toSerialize);
+            
+            SaveToFile();
 
             // --- Change update.json too
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
-            JObject _update = JsonHelper.ReadJsonObject(_updatePath);
+            JObject update = JsonHelper.ReadJsonObject(UpdateFilePath);
 
-            _update["QuestTrackers"] = int.Parse(Version);
+            int version = int.Parse(update["Locks"].ToString()) + 1;
 
-            JsonHelper.WriteJson(_updatePath, _update);
+            update["Locks"] = version;
+
+            JsonHelper.WriteJson(UpdateFilePath, update);
 
             // --- Stage & push
-            StageAndPushFiles();*/
+            GitManager.Stage(DataFilePath);
+
+            string _updatePath = Path.Combine(UpdateFilePath);
+            GitManager.Stage(_updatePath);
+
+            GitManager.CommitAndPush($"Locks data - {version}");
         }
     }
 
