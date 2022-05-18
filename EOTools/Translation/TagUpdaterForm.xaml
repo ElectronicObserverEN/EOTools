@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:EOTools.Translation"
         xmlns:ui="http://schemas.modernwpf.com/2019"
-    xmlns:picker1="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:models="clr-namespace:EOTools.Models" d:DataContext="{d:DesignInstance Type=local:TagListViewModel}"
+    xmlns:picker1="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:models="clr-namespace:EOTools.Models" xmlns:controls="clr-namespace:ColorPickerLib.Controls;assembly=ColorPickerLib" d:DataContext="{d:DesignInstance Type=local:TagListViewModel}"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="TagUpdaterForm">
@@ -23,8 +23,18 @@
                         VerticalAlignment="Center"
                         Value="{Binding Id}" />
                     <TextBlock Margin="10" VerticalAlignment="Center">Color</TextBlock>
-                    <picker1:ColorPicker Width="150" ColorMode="ColorPalette" SelectedColor="{Binding LockColor, Mode=TwoWay}"></picker1:ColorPicker>
-
+                    
+                    <controls:ColorPicker
+                        Grid.Row="0"
+                        ColorMode="ColorCanvas"
+                        DisplayColorAndName="True"
+                        SelectedColor="{Binding LockColor, Mode=TwoWay}"
+                    >
+                        <controls:ColorPicker.Resources>
+                            <SolidColorBrush x:Key="PopupBackgroundBrush" Color="Black" />
+                        </controls:ColorPicker.Resources>
+                    </controls:ColorPicker>
+                    
                     <TextBlock Margin="10" VerticalAlignment="Center">Name</TextBlock>
                     <TextBox Margin="10"
                              VerticalAlignment="Center"
@@ -42,7 +52,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TagPhaseElementElement">
-            <Button Margin="5,0,0,0"  VerticalAlignment="Center" Content="{Binding}"></Button>
+            <Button Margin="5,0,0,0"  VerticalAlignment="Center" Content="{Binding TagId}" Command="{Binding DeleteCommand}"></Button>
         </DataTemplate>
         
         <DataTemplate x:Key="TagPhaseElement">
@@ -55,7 +65,12 @@
                                 Width="200"
                                 Text="{Binding Name}"></TextBox>
 
-                    <Button>+</Button>
+                    <Button Command="{Binding AddElementCommand}">+</Button>
+                    <ComboBox 
+                        ItemsSource="{Binding DataContext.TagIdsThatCanBeUsed ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+                        SelectedItem="{Binding ComboBoxValue}">
+
+                    </ComboBox>
                     <ui:ItemsRepeater
                         ItemsSource="{Binding TagIds}"
                         ItemTemplate = "{StaticResource TagPhaseElementElement}"
