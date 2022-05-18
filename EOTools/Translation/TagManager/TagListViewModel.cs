@@ -90,13 +90,6 @@ namespace EOTools.Translation
 
     }
 
-    internal class LocksPhasesModel
-    {
-        public List<LockData> Locks { get; set; } = new List<LockData>();
-
-        public List<LockPhaseData> Phases { get; set; } = new List<LockPhaseData>();
-    }
-
     public class LocksViewModel
     {
         public LocksViewModel()

@@ -1,0 +1,83 @@
+﻿<Page x:Class="EOTools.Translation.TagTranslationForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EOTools.Translation" 
+      xmlns:ui="clr-namespace:ModernWpf.Controls;assembly=ModernWpf.Controls" 
+      d:DataContext="{d:DesignInstance Type=local:TagTranslationViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TagTranslationForm">
+
+
+    <Page.Resources>
+        <DataTemplate x:Key="TagElement">
+            <DockPanel>
+                <DockPanel>
+                    <TextBlock Margin="10" VerticalAlignment="Center">JP Tag</TextBlock>
+
+                    <TextBox Margin="10"
+                             VerticalAlignment="Center"
+                             Width="200"
+                             Text="{Binding NameJP}"></TextBox>
+
+
+                    <TextBlock Margin="10" VerticalAlignment="Center">English Tag</TextBlock>
+                    
+                    <TextBox Margin="10"
+                             VerticalAlignment="Center"
+                             Width="200"
+                             Text="{Binding NameTranslated}"></TextBox>
+
+                    <Button 
+                        Command="{Binding DataContext.DeleteLockCommand ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
+                        CommandParameter="{Binding}">
+                        Delete
+                    </Button>
+
+
+                </DockPanel>
+            </DockPanel>
+
+        </DataTemplate>
+    </Page.Resources>
+
+
+    <Page.DataContext>
+        <local:TagTranslationViewModel/>
+    </Page.DataContext>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Left">
+            <DockPanel DockPanel.Dock="Top">
+
+                <Button 
+                Margin="10" 
+                Height="40" 
+                DockPanel.Dock="Left"
+                Command="{Binding AddLockCommand}">Add lock</Button>
+
+                <Button Margin="10" 
+                    Height="40" 
+                    DockPanel.Dock="Left"
+                    Command="{Binding SaveLocksCommand}">Save and push to git</Button>
+
+                <Button Click="Button_Click"
+                    Margin="10" 
+                    Height="40" 
+                    DockPanel.Dock="Left">Select EO Data folder</Button>
+
+                <TextBlock Visibility="Hidden" Name="EoDataFolderPath" Text="{Binding ElectronicObserverDataFolderPath}"></TextBlock>
+            </DockPanel>
+
+            <ui:ListView
+            ItemsSource="{Binding Translations}"
+                ItemTemplate="{StaticResource TagElement}"
+            IsSelectionEnabled="False">
+
+            </ui:ListView>
+        </DockPanel>
+
+    </DockPanel>
+</Page>

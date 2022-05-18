@@ -67,6 +67,7 @@
 
                     <Button Command="{Binding AddElementCommand}">+</Button>
                     <ComboBox 
+                        Margin="10" 
                         ItemsSource="{Binding DataContext.TagIdsThatCanBeUsed ,RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}"
                         SelectedItem="{Binding ComboBoxValue}">
 
