@@ -88,6 +88,33 @@ namespace EOTools.Translation
             JsonHelper.WriteJsonByOnlyIndentingXTimes(DataFilePath, lockAndPhases, 2);
         }
 
+        private void EditUpdateFileStageCommitAndPush()
+        {
+            /*JObject
+
+            int version = (int.Parse(Version) + 1).ToString();
+
+            JArray _toSerialize = new JArray();
+
+            foreach (QuestTrackerData _quest in JsonQuestList.OrderBy(_q => _q.QuestID))
+            {
+
+                _toSerialize.Add(_quest.QuestData);
+            }
+
+            JsonHelper.WriteJsonByOnlyIndentingOnce(FilePath, _toSerialize);
+
+            // --- Change update.json too
+            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
+            JObject _update = JsonHelper.ReadJsonObject(_updatePath);
+
+            _update["QuestTrackers"] = int.Parse(Version);
+
+            JsonHelper.WriteJson(_updatePath, _update);
+
+            // --- Stage & push
+            StageAndPushFiles();*/
+        }
     }
 
     public class LocksViewModel

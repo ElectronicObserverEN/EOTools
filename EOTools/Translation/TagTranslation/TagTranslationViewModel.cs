@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using EOTools.Models;
 using EOTools.Tools;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,21 +57,33 @@ namespace EOTools.Translation
 
         public void SaveToFile()
         {
-            JsonHelper.WriteJsonByOnlyIndentingXTimes(DataFilePath, Translations, 1);
+
+            JObject objectToSerialize = new JObject();
+
+            foreach (TagTranslationData translationData in Translations)
+            {
+                objectToSerialize[translationData.NameJP] = translationData.NameTranslated;
+            }
+
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(DataFilePath, objectToSerialize, 1);
         }
 
         public void LoadFromFile()
         {
             Translations.Clear();
-            if (!File.Exists(DataFilePath)) return;
 
-            List<TagTranslationData> locks = JsonHelper.ReadJson<List<TagTranslationData>>(DataFilePath);
-
-            Translations.Clear();
-
-            foreach (TagTranslationData lockData in locks)
+            if (File.Exists(DataFilePath))
             {
-                Translations.Add(lockData);
+                JObject data = JsonHelper.ReadJsonObject(DataFilePath);
+
+                foreach (JProperty item in data.Properties())
+                {
+                    Translations.Add(new TagTranslationData()
+                    {
+                        NameJP = item.Name,
+                        NameTranslated = data[item.Name].ToString()
+                    });
+                }
             }
 
             // --- Look for untranslated tags
@@ -81,7 +94,7 @@ namespace EOTools.Translation
 
                 foreach (LockData lockData in lockAndPhases.Locks)
                 {
-                    if (!locks.Exists(tagData => tagData.NameJP == lockData.Name))
+                    if (Translations.Where(tagData => tagData.NameJP == lockData.Name).Count() == 0)
                     {
                         Translations.Add(new TagTranslationData()
                         {
