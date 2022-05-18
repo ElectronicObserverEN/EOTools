@@ -154,5 +154,17 @@ namespace EOTools.Tools
                 throw _exeption;
             }
         }
+
+        /// <summary>
+        /// Read json file and deserialize it
+        /// </summary>
+        /// <param name="_path"></param>
+        public static T ReadJson<T>(string _path)
+        {
+            using StreamReader stream = new StreamReader(_path);
+            using JsonReader _reader = new JsonTextReader(stream);
+
+            return new JsonSerializer().Deserialize<T>(_reader);
+        }
     }
 }

@@ -15,6 +15,7 @@ namespace EOTools
             InitializeComponent();
 
             AppSettings.LoadSettings();
+            WindowState = WindowState.Maximized;
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -51,6 +52,12 @@ namespace EOTools
         {
             // --- Open trackers
             MainContentFrame.Content = new DestinationUpdateForm();
+        }
+
+        private void MenuItemTagUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            // --- Open trackers
+            MainContentFrame.Content = new TagUpdaterForm();
         }
     }
 }

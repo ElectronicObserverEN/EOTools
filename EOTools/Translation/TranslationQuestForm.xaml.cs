@@ -207,7 +207,7 @@ namespace EOTools.Translation
             string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
             JObject _update = JsonHelper.ReadJsonObject(_updatePath);
 
-            _update["tl_ver"]["quest"] = Version;
+            _update["quest"] = Version;
 
             JsonHelper.WriteJson(_updatePath, _update);
 

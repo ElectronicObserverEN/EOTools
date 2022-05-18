@@ -1,0 +1,135 @@
+﻿<Page x:Class="EOTools.Translation.TagUpdaterForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EOTools.Translation"
+        xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:picker1="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:models="clr-namespace:EOTools.Models" d:DataContext="{d:DesignInstance Type=local:TagListViewModel}"
+      mc:Ignorable="d"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TagUpdaterForm">
+
+    <Page.Resources>
+
+        <DataTemplate x:Key="TagElement">
+            <DockPanel>
+                <DockPanel>
+                    <TextBlock Margin="10" VerticalAlignment="Center">ID</TextBlock>
+                    <ui:NumberBox
+                        Margin="10"
+                        Width="75"
+                        Minimum="0"
+                        VerticalAlignment="Center"
+                        Value="{Binding Id}" />
+                    <TextBlock Margin="10" VerticalAlignment="Center">Color</TextBlock>
+                    <picker1:ColorPicker Width="150" ColorMode="ColorPalette" SelectedColor="{Binding LockColor, Mode=TwoWay}"></picker1:ColorPicker>
+
+                    <TextBlock Margin="10" VerticalAlignment="Center">Name</TextBlock>
+                    <TextBox Margin="10"
+                             VerticalAlignment="Center"
+                             Width="200"
+                             Text="{Binding Name}"></TextBox>
+
+                    <Button Margin="10"
+                            Height="40"
+                            VerticalAlignment="Center"
+                            Click="Button_Click_1">Delete</Button>
+
+                </DockPanel>
+            </DockPanel>
+
+        </DataTemplate>
+
+        <DataTemplate x:Key="TagPhaseElementElement">
+            <Button Margin="5,0,0,0"  VerticalAlignment="Center" Content="{Binding}"></Button>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="TagPhaseElement">
+            <DockPanel d:DataContext="{d:DesignInstance Type=local:PhaseViewModel}">
+                <DockPanel>
+                    <TextBlock Margin="10"  VerticalAlignment="Center">Name</TextBlock>
+                    
+                    <TextBox Margin="10" 
+                               VerticalAlignment="Center"
+                                Width="200"
+                                Text="{Binding Name}"></TextBox>
+
+                    <Button>+</Button>
+                    <ui:ItemsRepeater
+                        ItemsSource="{Binding TagIds}"
+                        ItemTemplate = "{StaticResource TagPhaseElementElement}"
+                        >
+
+                        <ui:ItemsRepeater.Layout>
+                            <ui:StackLayout Orientation="Horizontal" />
+                        </ui:ItemsRepeater.Layout>
+                    </ui:ItemsRepeater>
+                </DockPanel>
+            </DockPanel>
+
+        </DataTemplate>
+
+    </Page.Resources>
+
+    <Page.DataContext>
+        <local:TagListViewModel/>
+    </Page.DataContext>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Left">
+            <DockPanel DockPanel.Dock="Top">
+
+                <Button 
+                Margin="10" 
+                Height="40" 
+                DockPanel.Dock="Left"
+                Command="{Binding AddLockCommand}">Add lock</Button>
+
+                <Button 
+                Margin="10" 
+                Height="40" 
+                DockPanel.Dock="Left"
+                Command="{Binding ResetLocksCommand}">Reset all locks</Button>
+
+                <Button Margin="10" 
+                    Height="40" 
+                    DockPanel.Dock="Left"
+                    Command="{Binding SaveLocksCommand}">Save and push to git</Button>
+
+                <Button Click="Button_Click"
+                    Margin="10" 
+                    Height="40" 
+                    DockPanel.Dock="Left">Select EO Data folder</Button>
+
+                <TextBlock Visibility="Hidden" Name="EoDataFolderPath" Text="{Binding ElectronicObserverDataFolderPath}"></TextBlock>
+            </DockPanel>
+
+            <ui:ListView
+            ItemsSource="{Binding LocksViewModel.Locks}"
+            ItemTemplate="{StaticResource TagElement}"
+            IsSelectionEnabled="False">
+
+            </ui:ListView>
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Left">
+            <DockPanel DockPanel.Dock="Top">
+                <Button 
+                    Margin="10" 
+                    Height="40" 
+                    DockPanel.Dock="Left"
+                    Command="{Binding AddLockCommand}">Add phase</Button>
+                
+            </DockPanel>
+
+            <ui:ListView
+                ItemsSource="{Binding PhasesViewModel.Phases}"
+                ItemTemplate="{StaticResource TagPhaseElement}"
+                IsSelectionEnabled="False">
+
+            </ui:ListView>
+
+        </DockPanel>
+    </DockPanel>
+</Page>

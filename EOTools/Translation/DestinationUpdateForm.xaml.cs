@@ -116,7 +116,7 @@ namespace EOTools.Translation
             // --- Change update.json too
             JObject _update = JsonHelper.ReadJsonObject(UpdateFilePath);
 
-            _update["tl_ver"]["nodes"] = int.Parse(Version);
+            _update["nodes"] = int.Parse(Version);
 
             JsonHelper.WriteJson(UpdateFilePath, _update);
 

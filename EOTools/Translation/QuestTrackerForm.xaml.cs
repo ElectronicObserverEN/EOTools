@@ -76,7 +76,14 @@ namespace EOTools.Translation
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                LoadFile();
+                try
+                {
+                    LoadFile();
+                }
+                catch
+                {
+                    MessageBox.Show("Error parsing Json");
+                }
             }
         }
 
@@ -101,7 +108,7 @@ namespace EOTools.Translation
             }
 
             // --- Get version
-            JObject _updateJson = JsonHelper.ReadJsonObject(Path.Combine(Path.GetDirectoryName(FilePath), "update.json"));
+            JObject _updateJson = JsonHelper.ReadJsonObject(Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json"));
             Version = _updateJson["QuestTrackers"].ToString();
         }
 
@@ -109,7 +116,7 @@ namespace EOTools.Translation
         {
             GitManager.Stage(FilePath);
 
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
+            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
             GitManager.Stage(_updatePath);
 
             GitManager.CommitAndPush($"Quest tracker - {Version}");
@@ -185,7 +192,7 @@ namespace EOTools.Translation
             JsonHelper.WriteJsonByOnlyIndentingOnce(FilePath, _toSerialize);
 
             // --- Change update.json too
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
+            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
             JObject _update = JsonHelper.ReadJsonObject(_updatePath);
 
             _update["QuestTrackers"] = int.Parse(Version);

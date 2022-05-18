@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EOTools.Tools"
+        Background="Transparent"
         mc:Ignorable="d"
         Title="" d:Width="212.738" d:Height="95.381" >
     <StackPanel>
         <TextBlock Text="" x:Name="PromptLabel"/>
         <TextBox x:Name="ResponseTextBox" Text="{Binding ResultText}"/>
-        <Button Content="OK" Click="OKButton_Click" />
+        <Button Content="OK" Click="OKButton_Click" HorizontalAlignment="Center" Width="129"/>
     </StackPanel>
 </Window>

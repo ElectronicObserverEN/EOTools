@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 
@@ -50,6 +51,21 @@ namespace EOTools.Tools
                 WriteSettings();
             }
         }
+
+        private static string electronicObserverDataFolderPath = "";
+        public static string ElectronicObserverDataFolderPath
+        {
+            get
+            {
+                return electronicObserverDataFolderPath;
+            }
+            set
+            {
+                electronicObserverDataFolderPath = value;
+                WriteSettings();
+            }
+        }
+
 
         private static string equipmentTLFilePath = "";
         public static string EquipmentTLFilePath
@@ -172,6 +188,11 @@ namespace EOTools.Tools
             {
                 destinationFilePath = _value.ToString();
             }
+
+            if (_jsonSettings.TryGetValue("ElectronicObserverDataFolderPath", out _value))
+            {
+                electronicObserverDataFolderPath = _value.ToString();
+            }
         }
 
         public static void WriteSettings()
@@ -185,6 +206,7 @@ namespace EOTools.Tools
             _jsonData.Add("ShipIconFolder", ShipIconFolder);
             _jsonData.Add("QuestTrackerFilePath", QuestTrackerFilePath);
             _jsonData.Add("DestinationFilePath", DestinationFilePath);
+            _jsonData.Add("ElectronicObserverDataFolderPath", ElectronicObserverDataFolderPath);
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);
         }
