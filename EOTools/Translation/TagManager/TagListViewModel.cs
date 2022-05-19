@@ -13,7 +13,7 @@ using System.Text;
 
 namespace EOTools.Translation
 {
-    public class TagListViewModel : ObservableObject
+    public partial class TagListViewModel : ObservableObject
     {
         public ObservableCollection<int> TagIdsThatCanBeUsed => LocksViewModel.TagIdsThatCanBeUsed;
 
@@ -58,9 +58,15 @@ namespace EOTools.Translation
             }
 
             AddLockCommand = new RelayCommand(() => LocksViewModel.Locks.Add(new LockData()));
-            ResetLocksCommand = new RelayCommand(() => LocksViewModel.Locks.Clear());
+            ResetLocksCommand = new RelayCommand(() => { LocksViewModel.Locks.Clear(); PhasesViewModel.Phases.Clear(); });
             SaveLocksCommand = new RelayCommand(() => SaveFileStageCommitAndPush());
             DeleteLockCommand = new RelayCommand<LockData>((lockData) => LocksViewModel.Locks.Remove(lockData));
+        }
+
+        [ICommand]
+        private void AddPhase()
+        {
+            PhasesViewModel.Phases.Add(new PhaseViewModel(new LockPhaseData()));
         }
 
         public void LoadFromFile()

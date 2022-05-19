@@ -128,14 +128,14 @@
 
             </ui:ListView>
         </DockPanel>
-
+        <Separator></Separator>
         <DockPanel DockPanel.Dock="Left">
             <DockPanel DockPanel.Dock="Top">
                 <Button 
                     Margin="10" 
                     Height="40" 
                     DockPanel.Dock="Left"
-                    Command="{Binding AddLockCommand}">Add phase</Button>
+                    Command="{Binding AddPhaseCommand}">Add phase</Button>
                 
             </DockPanel>
 
