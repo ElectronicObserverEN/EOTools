@@ -20,7 +20,8 @@
                 <MenuItem x:Name="MenuItemQuestTrackers" Header="_Manage trackers" Click="ManageTrackers" />
                 <MenuItem x:Name="MenuItemShipTranslation" Header="_Translate ships" Click="MenuItemShipTranslation_Click"  />
                 <MenuItem x:Name="MenuItemEquipTranslation" Header="_Translate equipments" Click="MenuItemEquipTranslation_Click"  />
-                <MenuItem x:Name="MenuItemDestinationTagsDestinationUpdate" Header="_Update tags" Click="MenuItemTagUpdate_Click"  />
+                <MenuItem x:Name="MenuItemDestinationUpdate" Header="_Update destinations" Click="MenuItemDestinationUpdate_Click"  />
+                <MenuItem x:Name="MenuItemTagsUpdate" Header="_Update tags" Click="MenuItemTagUpdate_Click"  />
                 <MenuItem x:Name="MenuItemTagTranslationUpdate" Header="_Update tags translation" Click="MenuItemTagTranslationUpdate_Click"  />
             </MenuItem>
         </Menu>

@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,12 +27,12 @@ namespace EOTools.Translation
             }
         }
 
-        private string UpdateFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "update.json");
+        private string UpdateFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
 
-        private string NodeFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "nodes.json");
+        //private string NodeFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "nodes.json");
 
         private JObject JsonDestinationData = new JObject();
-        private JObject JsonNodeData = new JObject();
+        //private JObject JsonNodeData = new JObject();
 
         private GitManager GitManager
         {
@@ -53,14 +54,21 @@ namespace EOTools.Translation
 
             if (!string.IsNullOrEmpty(FilePath))
             {
-                LoadFile();
+                try
+                {
+                    LoadFile();
+                }
+                catch
+                {
+                    MessageBox.Show("Error parsing Json");
+                }
             }
         }
 
         private void LoadFile()
         {
             JsonDestinationData = JsonHelper.ReadJsonObject(FilePath);
-            JsonNodeData = JsonHelper.ReadJsonObject(NodeFilePath);
+            //JsonNodeData = JsonHelper.ReadJsonObject(NodeFilePath);
 
             // --- Get version
             if (JsonDestinationData != null)
@@ -70,7 +78,7 @@ namespace EOTools.Translation
         private void StageAndPushFiles()
         {
             GitManager.Stage(FilePath);
-            GitManager.Stage(NodeFilePath);
+            //GitManager.Stage(NodeFilePath);
             GitManager.Stage(UpdateFilePath);
 
             GitManager.CommitAndPush($"Destination - {Version}");
@@ -110,8 +118,8 @@ namespace EOTools.Translation
             JsonDestinationData["version"] = Version;
             JsonHelper.WriteJsonByOnlyIndentingXTimes(FilePath, JsonDestinationData, 2);
 
-            JsonNodeData["Revision"] = int.Parse(Version);
-            JsonHelper.WriteJsonByOnlyIndentingXTimes(NodeFilePath, JsonNodeData, 2);
+            //JsonNodeData["Revision"] = int.Parse(Version);
+            //JsonHelper.WriteJsonByOnlyIndentingXTimes(NodeFilePath, JsonNodeData, 2);
 
             // --- Change update.json too
             JObject _update = JsonHelper.ReadJsonObject(UpdateFilePath);
@@ -132,22 +140,22 @@ namespace EOTools.Translation
 
                 // --- Convert to EO data
                 JsonDestinationData = new JObject();
-                JsonNodeData = new JObject();
+                //JsonNodeData = new JObject();
 
                 // --- Add version property
                 JsonDestinationData.Add("version", Version);
-                JsonNodeData.Add("Revision", int.Parse(Version));
+                //JsonNodeData.Add("Revision", int.Parse(Version));
 
                 foreach (JProperty _property in _wikiData.Properties())
                 {
-                    JObject _nodeFormatObject = new JObject();
+                    /*JObject _nodeFormatObject = new JObject();
 
                     foreach (JProperty _nodeProperty in (_property.Value as JObject).Properties())
                     {
                         _nodeFormatObject.Add($"N{_nodeProperty.Name}", _nodeProperty.Value);
-                    }
+                    }*/
 
-                    JsonNodeData.Add($"W{_property.Name}", _nodeFormatObject);
+                    //JsonNodeData.Add($"W{_property.Name}", _nodeFormatObject);
 
                     string _world = _property.Name[0..^1];
                     string _map = _property.Name[^1..];
@@ -164,6 +172,15 @@ namespace EOTools.Translation
             }
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Process openLink = new Process();
+            openLink.StartInfo.UseShellExecute = true;
+            openLink.StartInfo.FileName = "https://raw.githubusercontent.com/kcwiki/kancolle-data/master/map/edge.json";
+            openLink.Start();
+        }
         #endregion
+
     }
 }

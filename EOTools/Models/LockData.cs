@@ -9,7 +9,16 @@ namespace EOTools.Models
 {
     public class LockData : ObservableObject
     {
-        public int Id { get; set; }
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set 
+            { 
+                id = value;
+                OnPropertyChanged(nameof(Id));
+            }
+        }
 
         [JsonIgnore]
         private Color? lockColor { get; set; }

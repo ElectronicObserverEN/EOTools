@@ -130,17 +130,30 @@ namespace EOTools.Translation
             Locks.CollectionChanged += Locks_CollectionChanged;
         }
 
-        private void Locks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void RecomputeTagList()
         {
             TagIdsThatCanBeUsed.Clear();
 
             foreach (LockData lockData in Locks)
             {
                 TagIdsThatCanBeUsed.Add(lockData.Id);
+
+                lockData.PropertyChanged -= LockData_PropertyChanged;
+                lockData.PropertyChanged += LockData_PropertyChanged;
             }
         }
 
-        public ObservableCollection<int> TagIdsThatCanBeUsed {get; set;}= new ObservableCollection<int>();
+        private void Locks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RecomputeTagList();
+        }
+
+        private void LockData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            RecomputeTagList();
+        }
+
+        public ObservableCollection<int> TagIdsThatCanBeUsed { get; set; } = new ObservableCollection<int>();
 
         public ObservableCollection<LockData> Locks { get; private set; } = new ObservableCollection<LockData>();
     }

@@ -15,6 +15,7 @@
             <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Top" Height="49"  HorizontalAlignment="Center" Margin="10"/>
             <Button x:Name="buttonUpdate" Content="Update file"  DockPanel.Dock="Top" Height="49" Click="buttonUpdate_Click"  HorizontalAlignment="Center" Margin="10"/>
             <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Top"  Height="49" Click="buttonExport_Click"  HorizontalAlignment="Center" Margin="10"/>
+            <Button Content="Open raw" DockPanel.Dock="Top" HorizontalAlignment="Center" Height="49" Margin="10" Click="Button_Click"></Button>
         </DockPanel>
     </DockPanel>
 </Page>
