@@ -37,7 +37,6 @@ namespace EOTools.Tools
             }
         }
 
-
         private static string destinationFilePath = "";
         public static string DestinationFilePath
         {

@@ -65,5 +65,12 @@ namespace EOTools
             // --- Open trackers
             MainContentFrame.Content = new TagTranslationForm();
         }
+
+        private void MenuItemMapTranslationUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            // --- Open trackers
+            MainContentFrame.Content = new MapNameTranslation();
+        }
+
     }
 }

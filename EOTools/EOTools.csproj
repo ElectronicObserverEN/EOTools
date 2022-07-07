@@ -23,6 +23,9 @@
     <Compile Update="Translation\DestinationUpdateForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\MapNameTranslation\MapNameTranslation.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\TranslationEquipForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -40,6 +43,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Translation\DestinationUpdateForm.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translation\MapNameTranslation\MapNameTranslation.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
