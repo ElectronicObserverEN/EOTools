@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace EOTools.Models
 {
-    public class MapTranslationModel : ObservableObject
+    public partial class MapTranslationModel : ObservableObject
     {
-        public string NameJP { get; set; }
+        [ObservableProperty]
+        private string _nameJP;
 
-        public string NameTranslated { get; set; }
+        [ObservableProperty]
+        private string _nameTranslated;
     }
 }

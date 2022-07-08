@@ -54,8 +54,7 @@ namespace EOTools.Translation
         {
             get
             {
-                string _gitPath = Path.GetDirectoryName(ElectronicObserverDataFolderPath);
-                return new GitManager(_gitPath);
+                return new GitManager(ElectronicObserverDataFolderPath);
             }
         }
 
@@ -85,7 +84,7 @@ namespace EOTools.Translation
             }
 
             ChooseDataFolder = new RelayCommand(() => OpenDataFolderChoice());
-            SaveFileThenPush = new RelayCommand(() => WriteFile());
+            SaveFileThenPush = new RelayCommand(() => { WriteFile(); StageAndPushFiles(); });
             ChooseAPIFolder = new RelayCommand(() => OpenAPIFolderChoice());
         }
 
@@ -195,12 +194,14 @@ namespace EOTools.Translation
                 foreach (JObject _mapInfo in _mapsFromAPI)
                 {
                     string _mapName = _mapInfo.Value<string>("api_name");
+                    string _mapId = _mapInfo.Value<string>("api_no");
+                    string _worldId = _mapInfo.Value<string>("api_maparea_id");
                     if (!_translations.Contains(_mapName))
                     {
                         MapTranslationData.Add(new MapTranslationModel()
                         {
                             NameJP = _mapName,
-                            NameTranslated = _mapName,
+                            NameTranslated = $"{_mapName} ({_worldId}-{_mapId})",
                         });
                     }
                 }
@@ -209,97 +210,12 @@ namespace EOTools.Translation
 
         private void StageAndPushFiles()
         {
-            GitManager.Stage(ElectronicObserverDataFolderPath);
+            GitManager.Stage(TranslationFilePath);
 
-            string _updatePath = Path.Combine(Path.GetDirectoryName(ElectronicObserverDataFolderPath), "..", "update.json");
-            GitManager.Stage(_updatePath);
+            GitManager.Stage(UpdateFilePath);
 
-            GitManager.CommitAndPush($"Quest tracker - {Version}");
+            GitManager.CommitAndPush($"Map translations - {Version}");
         }
-
-
-        #region Events
-        /*private void buttonSelectFile_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() != true) return;
-
-            // --- Load file
-            FilePath = openFileDialog.FileName;
-
-            try
-            {
-                LoadFile();
-            }
-            catch
-            {
-                MessageBox.Show("Error parsing Json");
-            }
-        }
-
-        private void ListQuests_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count != 1) return;
-
-            SelectedQuest = (QuestTrackerData)e.AddedItems[0];
-        }
-
-        private void buttonAddQuestTL_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            JArray _quests = JsonHelper.ReadJsonFromString(Clipboard.GetText()) as JArray;
-
-            foreach (JArray _quest in _quests)
-            {
-                QuestTrackerData _questData = new QuestTrackerData(_quest);
-
-                QuestTrackerData _questFound = JsonQuestList.FirstOrDefault((_q1) => _q1.QuestID == _questData.QuestID);
-
-                if (_questFound is QuestTrackerData)
-                {
-                    _questFound.QuestData = _questData.QuestData;
-                }
-                else
-                {
-                    JsonQuestList.Add(_questData);
-                }
-            }
-        }
-
-        private void buttonExport_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            Version = (int.Parse(Version) + 1).ToString();
-
-            JArray _toSerialize = new JArray();
-
-            foreach (QuestTrackerData _quest in JsonQuestList.OrderBy(_q => _q.QuestID))
-            {
-
-                _toSerialize.Add(_quest.QuestData);
-            }
-
-            JsonHelper.WriteJsonByOnlyIndentingOnce(FilePath, _toSerialize);
-
-            // --- Change update.json too
-            string _updatePath = Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
-            JObject _update = JsonHelper.ReadJsonObject(_updatePath);
-
-            _update["QuestTrackers"] = int.Parse(Version);
-
-            JsonHelper.WriteJson(_updatePath, _update);
-
-            // --- Stage & push
-            StageAndPushFiles();
-        }
-
-        private void ListQuests_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Delete)
-            {
-                JsonQuest.Remove((QuestTrackerData)ListQuests.SelectedItem);
-            }
-        }*/
-        #endregion
     }
 }
 
