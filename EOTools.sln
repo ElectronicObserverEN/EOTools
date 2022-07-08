@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31717.71
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EOTools", "EOTools\EOTools.csproj", "{2D5179F4-0066-43CB-A592-906A73C1E78E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadBattleResultService", "ReadBattleResultService\ReadBattleResultService.csproj", "{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{2D5179F4-0066-43CB-A592-906A73C1E78E}.Release|x64.Build.0 = Release|x64
 		{2D5179F4-0066-43CB-A592-906A73C1E78E}.Release|x86.ActiveCfg = Release|x86
 		{2D5179F4-0066-43CB-A592-906A73C1E78E}.Release|x86.Build.0 = Release|x86
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|x64.Build.0 = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Debug|x86.Build.0 = Debug|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|x64.ActiveCfg = Release|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|x64.Build.0 = Release|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|x86.ActiveCfg = Release|Any CPU
+		{AEC20C9F-9AC0-4B74-996C-E652D7E32D30}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

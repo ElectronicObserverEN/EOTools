@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace EOTools.Translation
 {
-    public class MapNameViewModel : ObservableObject
+    public partial class MapNameViewModel : ObservableObject
     {
         private string ElectronicObserverDataFolderPath
         {
@@ -29,11 +29,26 @@ namespace EOTools.Translation
             }
         }
 
+        private string KancolleAPIFolder
+        {
+            get
+            {
+                return AppSettings.KancolleEOAPIFolder;
+            }
+            set
+            {
+                AppSettings.KancolleEOAPIFolder = value;
+                LoadFile();
+            }
+        }
+
         public ObservableCollection<MapTranslationModel> MapTranslationData { get; set; } = new ObservableCollection<MapTranslationModel>();
         public ObservableCollection<MapTranslationModel> FleetsTranslationData { get; set; } = new ObservableCollection<MapTranslationModel>();
 
         private string TranslationFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "operation.json");
         private string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "update.json");
+
+        private string ApiDataFilePath => AppSettings.GetDataPath;
 
         private GitManager GitManager
         {
@@ -46,11 +61,13 @@ namespace EOTools.Translation
 
         private JObject RawJson { get; set; }
 
-        public MapTranslationModel SelectedTranslation { get; set; }
+        [ObservableProperty]
+        private MapTranslationModel _selectedTranslation;
 
         private string Version = "";
 
         public RelayCommand ChooseDataFolder { get; set; }
+        public RelayCommand ChooseAPIFolder { get; set; }
         public RelayCommand SaveFileThenPush { get; set; }
 
         public MapNameViewModel()
@@ -69,6 +86,7 @@ namespace EOTools.Translation
 
             ChooseDataFolder = new RelayCommand(() => OpenDataFolderChoice());
             SaveFileThenPush = new RelayCommand(() => WriteFile());
+            ChooseAPIFolder = new RelayCommand(() => OpenAPIFolderChoice());
         }
 
         private void OpenDataFolderChoice()
@@ -85,6 +103,21 @@ namespace EOTools.Translation
             }
         }
 
+        private void OpenAPIFolderChoice()
+        {
+            // --- Load file
+            using (var dialog = new FolderBrowserDialog())
+            {
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    KancolleAPIFolder = dialog.SelectedPath;
+                }
+            }
+        }
+
+
         private void WriteFile()
         {
             Version = (int.Parse(Version) + 1).ToString();
@@ -94,7 +127,7 @@ namespace EOTools.Translation
             JObject _fleetList = new JObject();
 
             _toSerialize["version"] = Version;
-            _toSerialize["maps"] = _mapList;
+            _toSerialize["map"] = _mapList;
             _toSerialize["fleet"] = _fleetList;
 
             foreach (var _map in MapTranslationData)
@@ -150,6 +183,27 @@ namespace EOTools.Translation
                 };
 
                 FleetsTranslationData.Add(_newFleet);
+            }
+
+            // --- Read untranslated stuff : 
+            JObject _mapApi = JsonHelper.ReadKCJson(ApiDataFilePath);
+            if (_mapApi != null)
+            {
+                JArray _mapsFromAPI = (JArray)_mapApi["api_data"]["api_mst_mapinfo"];
+                List<string> _translations = MapTranslationData.Select(_m => _m.NameJP).ToList();
+
+                foreach (JObject _mapInfo in _mapsFromAPI)
+                {
+                    string _mapName = _mapInfo.Value<string>("api_name");
+                    if (!_translations.Contains(_mapName))
+                    {
+                        MapTranslationData.Add(new MapTranslationModel()
+                        {
+                            NameJP = _mapName,
+                            NameTranslated = _mapName,
+                        });
+                    }
+                }
             }
         }
 

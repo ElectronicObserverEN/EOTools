@@ -18,12 +18,12 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Button x:Name="buttonSelectDataPath" Content="Choose EO data path"  Margin="10" Height="40" DockPanel.Dock="Left" Command="{Binding ChooseDataFolder}"/>
-            <Button x:Name="buttonSelectFile" Content="Choose file"  Margin="10" Height="40" DockPanel.Dock="Left" />
+            <Button x:Name="buttonSelectFile" Content="Choose Kancolle API folder"  Margin="10" Height="40" DockPanel.Dock="Left" Command="{Binding ChooseAPIFolder}" />
             <Button x:Name="buttonExport" Content="Save and push to git" Command="{Binding SaveFileThenPush}"  DockPanel.Dock="Left"  Margin="10" Height="40" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <DockPanel>
-                <ListView x:Name="ListQuests" ItemsSource="{Binding MapTranslationData}"  >
+                <ListView x:Name="ListQuests" ItemsSource="{Binding MapTranslationData}" SelectedItem="{Binding SelectedTranslation}" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
@@ -42,6 +42,14 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
+            </DockPanel>
+
+
+            <DockPanel LastChildFill="False" DockPanel.Dock="Left" Margin="10" DataContext="{Binding SelectedTranslation}">
+                <Label x:Name="labelJPName" Content="JP Name" DockPanel.Dock="Top" HorizontalAlignment="Left" Width="500" />
+                <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" DockPanel.Dock="Top" Height="50" Width="500" Text="{Binding NameJP}"  HorizontalAlignment="Left"/>
+                <Label x:Name="labelENName" Content="EN Name" Width="500" DockPanel.Dock="Top" HorizontalAlignment="Left"/>
+                <TextBox x:Name="textBoxEnName" TextWrapping="Wrap" Width="500" DockPanel.Dock="Top" Height="50" Text="{Binding NameTranslated}" HorizontalAlignment="Left"/>
             </DockPanel>
         </DockPanel>
     </DockPanel>
