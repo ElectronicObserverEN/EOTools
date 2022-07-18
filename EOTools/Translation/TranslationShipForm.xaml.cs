@@ -56,6 +56,7 @@ namespace EOTools.Translation
         public ObservableCollection<ShipData> JsonShip { get; set; } = new ObservableCollection<ShipData>();
         public ObservableCollection<ShipData> JsonSuffixe { get; set; } = new ObservableCollection<ShipData>();
         public ObservableCollection<ShipData> JsonStype { get; set; } = new ObservableCollection<ShipData>();
+        public ObservableCollection<ShipData> JsonClass { get; set; } = new ObservableCollection<ShipData>();
 
         private string Version = "";
 
@@ -82,6 +83,7 @@ namespace EOTools.Translation
             LoadShipDataFromJObject(JsonShip, (JObject)JsonShipData["ship"]);
             LoadShipDataFromJObject(JsonSuffixe, (JObject)JsonShipData["suffix"]);
             LoadShipDataFromJObject(JsonStype, (JObject)JsonShipData["stype"]);
+            LoadShipDataFromJObject(JsonClass, (JObject)JsonShipData["class"]);
         }
 
         private void LoadShipDataFromJObject(ObservableCollection<ShipData> _list, JObject _object)
@@ -179,6 +181,14 @@ namespace EOTools.Translation
             SelectedShip = _newShip;
         }
 
+        private void buttonAddClass_Click(object sender, RoutedEventArgs e)
+        {
+            ShipData _newShip = new ShipData("", "");
+
+            JsonClass.Add(_newShip);
+            SelectedShip = _newShip;
+        }
+
         private void buttonExport_Click(object sender, System.Windows.RoutedEventArgs e)
         {
 
@@ -189,6 +199,7 @@ namespace EOTools.Translation
             _toSerialize.Add("version", Version);
 
             _toSerialize.Add("ship", DictionnaryFromShipDataList(JsonShip));
+            _toSerialize.Add("class", DictionnaryFromShipDataList(JsonClass));
             _toSerialize.Add("suffix", DictionnaryFromShipDataList(JsonSuffixe));
             _toSerialize.Add("stype", DictionnaryFromShipDataList(JsonStype));
 
@@ -230,5 +241,6 @@ namespace EOTools.Translation
             }
         }
         #endregion
+
     }
 }

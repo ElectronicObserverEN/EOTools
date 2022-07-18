@@ -58,6 +58,9 @@
         <DataTemplate x:Key="TagPhaseElement">
             <DockPanel d:DataContext="{d:DesignInstance Type=local:PhaseViewModel}">
                 <DockPanel>
+
+                    <Button Command="{Binding DeletePhaseCommand}">Delete phase</Button>
+                    
                     <TextBlock Margin="10"  VerticalAlignment="Center">Name</TextBlock>
                     
                     <TextBox Margin="10" 

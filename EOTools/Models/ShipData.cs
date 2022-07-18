@@ -1,4 +1,5 @@
-﻿using EOTools.Tools;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using EOTools.Tools;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -8,11 +9,13 @@ using System.Windows.Media.Imaging;
 
 namespace EOTools.Models
 {
-    public class ShipData : INotifyPropertyChanged
+    public partial class ShipData : ObservableObject
     {
-        public string NameJP { get; set; }
+        [ObservableProperty]
+        private string nameJP;
 
-        public string NameEN { get; set; }
+        [ObservableProperty]
+        private string nameEN;
 
         public int ShipId { get; set; }
         public string RessourceName { get; set; } = "";
@@ -29,17 +32,8 @@ namespace EOTools.Models
             }
         }
 
-        public ImageSource shipIcon = null;
-
-        public ImageSource ShipIcon
-        {
-            get {  return shipIcon; }
-            set 
-            {  
-                shipIcon = value;
-                OnPropertyChanged();
-            }
-        }
+        [ObservableProperty]
+        private ImageSource shipIcon = null;
 
         /// <summary>
         /// X, Y coordinate of first point for wedding screen (used for RPC)
@@ -52,8 +46,8 @@ namespace EOTools.Models
 
         public ShipData(string _nameJP, string _nameEN)
         {
-            NameJP = _nameJP;
-            NameEN = _nameEN;
+            nameJP = _nameJP;
+            nameEN = _nameEN;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

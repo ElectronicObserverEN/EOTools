@@ -69,6 +69,8 @@ namespace EOTools.Translation
             PhasesViewModel.Phases.Add(new PhaseViewModel(new LockPhaseData()));
         }
 
+
+
         public void LoadFromFile()
         {
             LocksPhasesModel lockAndPhases = JsonHelper.ReadJson<LocksPhasesModel>(DataFilePath);
@@ -162,10 +164,32 @@ namespace EOTools.Translation
     {
         public ObservableCollection<PhaseViewModel> Phases { get; private set; } = new ObservableCollection<PhaseViewModel>();
 
+        public PhasesViewModel()
+        {
+            Phases.CollectionChanged += Phases_CollectionChanged;
+        }
 
+        private void Phases_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.NewItems != null)
+            {
+                foreach (var item in e.NewItems)
+                {
+                    if (item is PhaseViewModel viewModel)
+                    {
+                        viewModel.PhaseDeleted += ViewModel_PhaseDeleted;
+                    }
+                }
+            }
+        }
+
+        private void ViewModel_PhaseDeleted(object sender, PhaseViewModel e)
+        {
+            Phases.Remove(e);
+        }
     }
 
-    public class PhaseViewModel : ObservableObject
+    public partial class PhaseViewModel : ObservableObject
     {
         public LockPhaseData Phase { get; private set; } = new LockPhaseData();
 
@@ -206,6 +230,14 @@ namespace EOTools.Translation
                 
             });
         }
+
+        [ICommand]
+        public void DeletePhase()
+        {
+            PhaseDeleted.Invoke(this, this);
+        }
+
+        public event EventHandler<PhaseViewModel> PhaseDeleted;
 
         private void AddElement(int lockId)
         {
