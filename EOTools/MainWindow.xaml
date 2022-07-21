@@ -24,6 +24,7 @@
                 <MenuItem x:Name="MenuItemTagsUpdate" Header="_Update tags" Click="MenuItemTagUpdate_Click"  />
                 <MenuItem x:Name="MenuItemTagTranslationUpdate" Header="_Update tags translation" Click="MenuItemTagTranslationUpdate_Click"  />
                 <MenuItem x:Name="MenuItemMapTranslationUpdate" Header="_Update maps translation" Click="MenuItemMapTranslationUpdate_Click"  />
+                <MenuItem x:Name="MenuItemFitBonusUpdate" Header="_Update fit bonuses" Click="MenuItemFitBonusUpdate_Click"  />
             </MenuItem>
         </Menu>
 

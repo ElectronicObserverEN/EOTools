@@ -1,6 +1,7 @@
 ﻿using EOTools.RPCTools;
 using EOTools.Tools;
 using EOTools.Translation;
+using EOTools.Translation.FitBonus;
 using System.Windows;
 
 namespace EOTools
@@ -70,6 +71,11 @@ namespace EOTools
         {
             // --- Open trackers
             MainContentFrame.Content = new MapNameTranslation();
+        }
+
+        private void MenuItemFitBonusUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new FitBonusView();
         }
 
     }
