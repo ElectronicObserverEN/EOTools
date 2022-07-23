@@ -48,6 +48,8 @@ namespace EOTools.Translation
         private string TranslationFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "operation.json");
         private string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Translations", "en-US", "update.json");
 
+        private string FleetsFilePath => Path.Combine(".", "parsedFleets.json");
+
         private string ApiDataFilePath => AppSettings.GetDataPath;
 
         private GitManager GitManager
@@ -116,7 +118,7 @@ namespace EOTools.Translation
             }
         }
 
-
+        [ICommand]
         private void WriteFile()
         {
             Version = (int.Parse(Version) + 1).ToString();
@@ -202,6 +204,28 @@ namespace EOTools.Translation
                         {
                             NameJP = _mapName,
                             NameTranslated = $"{_mapName} ({_worldId}-{_mapId})",
+                        });
+                    }
+                }
+            }
+
+            // --- Fleets unstranslated : 
+            JArray _fleetsUntranslated = JsonHelper.ReadJsonArray(FleetsFilePath);
+
+            if (_fleetsUntranslated != null)
+            {
+                List<string> _translations = FleetsTranslationData.Select(_m => _m.NameJP).ToList();
+
+                foreach (JToken _token in _fleetsUntranslated)
+                {
+                    string _fleetName = _token.Value<string>();
+
+                    if (!_translations.Contains(_fleetName))
+                    {
+                        FleetsTranslationData.Add(new MapTranslationModel()
+                        {
+                            NameJP = _fleetName,
+                            NameTranslated = _fleetName,
                         });
                     }
                 }

@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EOTools.Models
 {
     public class FitBonusPerEquipmentModel
     {
-        [JsonPropertyName("types")]
+        [JsonProperty("types")]
         public List<int?> EquipmentTypes { get; set; } = null;
 
-        [JsonPropertyName("ids")]
+        [JsonProperty("ids")]
         public List<int?> EquipmentIds { get; set; } = null;
 
-        [JsonPropertyName("bonuses")]
+        [JsonProperty("bonuses")]
         public List<FitBonusDataModel> Bonuses { get; set; } = null;
     }
 }

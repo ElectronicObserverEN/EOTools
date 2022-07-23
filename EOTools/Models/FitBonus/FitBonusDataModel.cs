@@ -1,52 +1,52 @@
-﻿using System.Text.Json.Serialization;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace EOTools.Models
 {
     public class FitBonusDataModel
     {
-        [JsonPropertyName("shipClass")]
+        [JsonProperty("shipClass")]
         public List<int?> ShipClasses { get; set; } = null;
 
         /// <summary>
         /// Master id = exact id of the ship
         /// </summary>
-        [JsonPropertyName("shipX")]
+        [JsonProperty("shipX")]
         public List<int?> ShipMasterIds { get; set; } = null;
 
         /// <summary>
         /// Base id of the ship (minimum remodel), bonus applies to all of the ship forms
         /// </summary>
-        [JsonPropertyName("shipS")]
+        [JsonProperty("shipS")]
         public List<int?> ShipIds { get; set; } = null;
 
-        [JsonPropertyName("shipType")]
+        [JsonProperty("shipType")]
         public List<int?> ShipTypes { get; set; } = null;
 
 
-        [JsonPropertyName("requires")]
+        [JsonProperty("requires")]
         public List<int?> EquipmentRequired { get; set; } = null;
 
-        [JsonPropertyName("requiresNum")]
+        [JsonProperty("requiresNum")]
         public int? NumberOfEquipmentsRequired { get; set; }
 
 
-        [JsonPropertyName("requiresType")]
+        [JsonProperty("requiresType")]
         public List<int?> EquipmentTypesRequired { get; set; } = null;
 
-        [JsonPropertyName("requiresNumType")]
+        [JsonProperty("requiresNumType")]
         public int? NumberOfEquipmentTypesRequired { get; set; }
 
         /// <summary>
         /// Improvment level of the equipment required
         /// </summary>
-        [JsonPropertyName("level")]
+        [JsonProperty("level")]
         public int? EquipmentLevel { get; set; }
 
         /// <summary>
         /// Number Of Equipments Required after applying the improvment filter
         /// </summary>
-        [JsonPropertyName("num")]
+        [JsonProperty("num")]
         public int? NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }
 
         /// <summary>
@@ -54,19 +54,19 @@ namespace EOTools.Models
         /// Applied x times, x being the number of equipment matching the conditions of the bonus fit 
         /// If NumberOfEquipmentsRequiredAfterOtherFilters or EquipmentRequired or EquipmentTypesRequired, bonus is applied only once
         /// </summary>
-        [JsonPropertyName("bonus")]
+        [JsonProperty("bonus")]
         public FitBonusValueModel Bonuses { get; set; } = null;
 
         /// <summary>
         /// Bonuses to apply if ship had a radar with LOS >= 5
         /// </summary>
-        [JsonPropertyName("bonusSR")]
+        [JsonProperty("bonusSR")]
         public FitBonusValueModel BonusesIfLOSRadar { get; set; } = null;
 
         /// <summary>
         /// Bonuses to apply if ship had a radar with AA >= 2
         /// </summary>
-        [JsonPropertyName("bonusAR")]
+        [JsonProperty("bonusAR")]
         public FitBonusValueModel BonusesIfAirRadar { get; set; } = null;
 
     }

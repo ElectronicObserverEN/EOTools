@@ -50,6 +50,17 @@ namespace EOTools.Tools
         /// <param name="_data"></param>
         public static void WriteJsonByOnlyIndentingXTimes(string _path, object _data, int _indenting)
         {
+            WriteJsonByOnlyIndentingXTimes(_path, _data, _indenting, false);
+        }
+
+        /// <summary>
+        /// Write object to a json file
+        /// </summary>
+        /// <param name="_path"></param>
+        /// <param name="_data"></param>
+        public static void WriteJsonByOnlyIndentingXTimes(string _path, object _data, int _indenting, bool _ignoreNull)
+        {
+
             using (var _fileStream = File.Create(_path))
             using (var _streamWriter = new StreamWriter(_fileStream))
             using (var _jsonTextWriter = new CustomIndentingJsonTextWriter(_streamWriter)
@@ -57,10 +68,11 @@ namespace EOTools.Tools
                 Formatting = Formatting.Indented,
                 Indentation = 1,
                 IndentChar = '\t',
-                MaxIndentDepth = _indenting
+                MaxIndentDepth = _indenting,
             })
             {
                 JsonSerializer _jsonSerializer = JsonSerializer.CreateDefault();
+                if (_ignoreNull) _jsonSerializer.NullValueHandling = NullValueHandling.Ignore;
                 _jsonSerializer.Serialize(_jsonTextWriter, _data);
             }
 

@@ -1,16 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EOTools.Models;
 using EOTools.Tools;
-using System;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace EOTools.Translation.FitBonus
@@ -56,7 +51,7 @@ namespace EOTools.Translation.FitBonus
         {
             FitBonuses.Clear();
 
-            List<FitBonusPerEquipmentModel> list = JsonSerializer.Deserialize<List<FitBonusPerEquipmentModel>>(File.ReadAllText(FitBonusFilePath));
+            List<FitBonusPerEquipmentModel> list = JsonHelper.ReadJson<List<FitBonusPerEquipmentModel>>(FitBonusFilePath);
 
             foreach (FitBonusPerEquipmentModel model in list)
             {
@@ -82,26 +77,16 @@ namespace EOTools.Translation.FitBonus
         [ICommand]
         public void SaveFileThenPush()
         {
-            using (var fileStream = File.Create(FitBonusFilePath))
-                JsonSerializer.Serialize(fileStream, FitBonuses.Select(vm => vm.Model), typeof(IEnumerable<FitBonusPerEquipmentModel>), new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-                });
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(FitBonusFilePath, FitBonuses.Select(vm => vm.Model), 4, true);
 
             // --- Change update.json too
-            JsonObject update = JsonSerializer.Deserialize<JsonObject>(File.ReadAllText(UpdateFilePath));
+            JObject update = JsonHelper.ReadJsonObject(UpdateFilePath);
 
-            JsonNode fitBonusUpdateVersion = update["FitBonuses"];
-            int version = fitBonusUpdateVersion.GetValue<int>() + 1;
+            JToken fitBonusUpdateVersion = update["FitBonuses"];
+            int version = fitBonusUpdateVersion.Value<int>() + 1;
             update["FitBonuses"] = version;
 
-            using (var fileStream = File.Create(UpdateFilePath))
-                JsonSerializer.Serialize(fileStream, update, typeof(JsonObject), new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                });
-
+            JsonHelper.WriteJson(UpdateFilePath, update);
 
             GitManager.Stage(FitBonusFilePath);
 

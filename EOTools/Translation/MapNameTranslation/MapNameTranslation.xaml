@@ -20,6 +20,7 @@
             <Button x:Name="buttonSelectDataPath" Content="Choose EO data path"  Margin="10" Height="40" DockPanel.Dock="Left" Command="{Binding ChooseDataFolder}"/>
             <Button x:Name="buttonSelectFile" Content="Choose Kancolle API folder"  Margin="10" Height="40" DockPanel.Dock="Left" Command="{Binding ChooseAPIFolder}" />
             <Button x:Name="buttonExport" Content="Save and push to git" Command="{Binding SaveFileThenPush}"  DockPanel.Dock="Left"  Margin="10" Height="40" />
+            <Button Content="Write file" Command="{Binding WriteFileCommand}"  DockPanel.Dock="Left"  Margin="10" Height="40" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <DockPanel>

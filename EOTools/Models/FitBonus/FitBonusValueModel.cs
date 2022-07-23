@@ -1,38 +1,38 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace EOTools.Models
 {
     public class FitBonusValueModel
     {
 
-        [JsonPropertyName("houg")]
+        [JsonProperty("houg")]
         public int? Firepower { get; set; }
 
-        [JsonPropertyName("raig")]
+        [JsonProperty("raig")]
         public int? Torpedo { get; set; }
 
-        [JsonPropertyName("tyku")]
+        [JsonProperty("tyku")]
         public int? AntiAir { get; set; }
 
-        [JsonPropertyName("souk")]
+        [JsonProperty("souk")]
         public int? Armor { get; set; }
 
-        [JsonPropertyName("kaih")]
+        [JsonProperty("kaih")]
         public int? Evasion { get; set; }
 
-        [JsonPropertyName("tais")]
+        [JsonProperty("tais")]
         public int? ASW { get; set; }
 
-        [JsonPropertyName("saku")]
+        [JsonProperty("saku")]
         public int? LOS { get; set; }
 
         /// <summary>
         /// Visible acc fit actually doesn't work according to some studies
         /// </summary>
-        [JsonPropertyName("houm")]
+        [JsonProperty("houm")]
         public int? Accuracy { get; set; }
 
-        [JsonPropertyName("leng")]
+        [JsonProperty("leng")]
         public int? Range { get; set; }
 
     }
