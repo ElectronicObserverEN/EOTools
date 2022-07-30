@@ -20,7 +20,11 @@ namespace ReadBattleResultService
                 try
                 {
                     if (string.IsNullOrEmpty(AppSettings.KancolleEOAPIFolder)) _logger.LogError("API folder not defined");
-                    else ReadBattleResult.ReadAndParseFile(BattleResultPath, ParsedFleetPath);
+                    else
+                    {
+                        ReadBattleResult.ReadAndParseFile(BattleResultPath, ParsedFleetPath);
+                        ReadBattleResult.ReadAndParseFile(CombinedBattleResultPath, ParsedFleetPath);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -34,5 +38,6 @@ namespace ReadBattleResultService
         private string ParsedFleetPath => Path.Combine(AppSettings.ParsedFleetFile, "parsedFleets.json");
 
         private string BattleResultPath => Path.Combine(AppSettings.KancolleEOAPIFolder, "kcsapi", "api_req_sortie", "battleresult");
+        private string CombinedBattleResultPath => Path.Combine(AppSettings.KancolleEOAPIFolder, "kcsapi", "api_req_combined_battle", "battleresult");
     }
 }

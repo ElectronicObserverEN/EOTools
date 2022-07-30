@@ -65,6 +65,18 @@ namespace EOTools.Translation
             }
         }
 
+        private string filter = "";
+        public string Filter
+        {
+            get { return filter; }
+            set { 
+                filter = value; 
+                OnPropertyChanged(nameof(Filter)); 
+            }
+        }
+
+        public ObservableCollection<QuestData> QuestListFiltered { get; set; } = new ObservableCollection<QuestData>();
+
         private string Version = "";
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -77,6 +89,16 @@ namespace EOTools.Translation
             if (!string.IsNullOrEmpty(FilePath))
             {
                 LoadFile();
+            }
+
+            PropertyChanged += TranslationQuestForm_PropertyChanged;
+        }
+
+        private void TranslationQuestForm_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Filter))
+            {
+                UpdateQuestList();
             }
         }
 
@@ -100,6 +122,9 @@ namespace EOTools.Translation
             {
                 JsonQuest.Add(_quest);
             }
+
+
+            UpdateQuestList();
         }
 
         private QuestData ParseJsonQuest(JProperty _questKey, JObject _jsonObject)
@@ -149,6 +174,20 @@ namespace EOTools.Translation
             catch
             {
                 MessageBox.Show("Error parsing Json");
+            }
+        }
+
+        private void UpdateQuestList()
+        {
+            QuestListFiltered.Clear();
+
+            if (JsonQuest is null) return;
+
+            string filterToTest = Filter.ToUpper();
+
+            foreach (var quest in JsonQuest)
+            {
+                if (string.IsNullOrEmpty(filterToTest) || quest.Code.ToUpper().Contains(filterToTest) || quest.NameEN.ToUpper().Contains(filterToTest)) QuestListFiltered.Add(quest);
             }
         }
 

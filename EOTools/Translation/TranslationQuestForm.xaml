@@ -21,7 +21,8 @@
                     <Button x:Name="buttonAddQuestTL" Content="Add quest"  DockPanel.Dock="Left" Margin="10" Height="40" Click="buttonAddQuestTL_Click"/>
                     <Button x:Name="buttonAddQuestFromEO" Content="Add quest from EO"  DockPanel.Dock="Left" Margin="10" Height="40" Click="buttonAddQuestFromEO_Click"/>
                 </DockPanel>
-                <ListView x:Name="ListQuests" ItemsSource="{Binding JsonQuest}" Width="530" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListQuests_KeyUp" >
+                <TextBox DockPanel.Dock="Top" Text="{Binding Filter}"></TextBox>
+                <ListView x:Name="ListQuests" ItemsSource="{Binding QuestListFiltered}" Width="530" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListQuests_KeyUp" >
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding QuestID}" Header="Quest ID"/>
