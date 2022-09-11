@@ -224,6 +224,8 @@ namespace EOTools.Translation
 
                 if (_newQuest != null)
                     SelectedQuest = _newQuest;
+
+                UpdateQuestList();
             }
         }
 
