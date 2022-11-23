@@ -1,6 +1,7 @@
 ﻿using EOTools.RPCTools;
 using EOTools.Tools;
 using EOTools.Translation;
+using EOTools.Translation.EquipmentUpgrade;
 using EOTools.Translation.FitBonus;
 using System.Windows;
 
@@ -78,5 +79,9 @@ namespace EOTools
             MainContentFrame.Content = new FitBonusView();
         }
 
+        private void MenuItemEqUpgradeUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new EquipmentUpgradeView();
+        }
     }
 }

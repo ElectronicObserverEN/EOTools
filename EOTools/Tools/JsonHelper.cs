@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
+using System.Windows.Shapes;
 
 namespace EOTools.Tools
 {
@@ -165,6 +166,23 @@ namespace EOTools.Tools
 
                 throw _exeption;
             }
+        }
+
+        /// <summary>
+        /// Read json from url
+        /// </summary>
+        /// <param name="_url"></param>
+        /// <returns></returns>
+        public static T ReadJsonFromUrl<T>(string _url)
+        {
+            using var _webClient = new WebClient();
+
+            string _rawJson = _webClient.DownloadString(_url);
+
+            using StringReader stream = new StringReader(_rawJson);
+            using JsonReader reader = new JsonTextReader(stream);
+
+            return new JsonSerializer().Deserialize<T>(reader);
         }
 
         /// <summary>

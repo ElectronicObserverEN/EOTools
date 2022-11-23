@@ -12,12 +12,16 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0-preview3" />
     <PackageReference Include="Dirkster.ColorPickerLib" Version="1.6.2" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.3.0" />
+    <PackageReference Include="MessagePack.Annotations" Version="2.4.35" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="RPCTools\RPCManager.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\EquipmentUpgrade\EquipmentUpgradeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Translation\DestinationUpdateForm.xaml.cs">
@@ -39,6 +43,10 @@
 
   <ItemGroup>
     <Page Update="RPCTools\RPCManager.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translation\EquipmentUpgrade\EquipmentUpgradeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
