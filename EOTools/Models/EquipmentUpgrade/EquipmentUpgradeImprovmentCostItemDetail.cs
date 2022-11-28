@@ -8,11 +8,11 @@ public class EquipmentUpgradeImprovmentCostItemDetail
     /// Id of the item
     /// </summary>
     [JsonProperty("id")]
-    public int? Id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// Number of this equipment required
     /// </summary>
     [JsonProperty("eq_count")]
-    public int? Count { get; set; }
+    public int Count { get; set; }
 }

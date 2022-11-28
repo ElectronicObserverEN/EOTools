@@ -206,12 +206,12 @@ public partial class EquipmentUpgradeViewModel
 
                 // Costs 
 
-                ParseImprovmentParseCosts(sourceImprovment, improvment);
+                ParseImprovmentParseCosts(sourceImprovment, improvment, wiki?.UpgradeTo?.Count > 0);
             }
         }
     }
 
-    private static void ParseImprovmentParseCosts(EquipmentUpgradeSourceDataImprovement sourceImprovment, EquipmentUpgradeImprovmentModel improvment)
+    private static void ParseImprovmentParseCosts(EquipmentUpgradeSourceDataImprovement sourceImprovment, EquipmentUpgradeImprovmentModel improvment, bool canBeconverted)
     {
         List<int> rscCosts = sourceImprovment.Resource[0].Select(rsc => int.Parse(rsc.ToString())).ToList();
 
@@ -228,7 +228,7 @@ public partial class EquipmentUpgradeViewModel
         ParseImprovmentParseAnUpgradeCostDetail(improvment.Costs.Cost6To9, sourceImprovment.Resource[2]);
 
         // [3] = Conversion
-        if (sourceImprovment.Resource.Count >= 4)
+        if (sourceImprovment.Resource.Count >= 4 && canBeconverted)
         {
             improvment.Costs.CostMax = new EquipmentUpgradeImprovmentCostDetail();
             ParseImprovmentParseAnUpgradeCostDetail(improvment.Costs.CostMax, sourceImprovment.Resource[3]);
@@ -255,7 +255,7 @@ public partial class EquipmentUpgradeViewModel
                 EquipmentUpgradeImprovmentCostItemDetail equipmentDetail = new();
 
                 // [1] = required equipment count
-                equipmentDetail.Count = equipmentDetailSource[1].Value<int?>();
+                equipmentDetail.Count = equipmentDetailSource[1].Value<int>();
 
                 if (equipmentDetailSource[0].Value<object>() is int idEquipment)
                 {
