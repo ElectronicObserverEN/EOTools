@@ -257,21 +257,35 @@ public partial class EquipmentUpgradeViewModel
                 // [1] = required equipment count
                 equipmentDetail.Count = equipmentDetailSource[1].Value<int>();
 
-                if (equipmentDetailSource[0].Value<object>() is int idEquipment)
+                if (equipmentDetailSource[0].Type == JTokenType.Integer)
                 {
                     // [0] = required equipment ID
-                    equipmentDetail.Id = idEquipment;
-                }
-                else if (equipmentDetailSource[0].Value<object>() is string consumable)
-                {
-                    // [0] = required equipment ID
-                    equipmentDetail.Id = int.Parse(consumable.Replace("consumable_", ""));
-                }
+                    equipmentDetail.Id = equipmentDetailSource[0].Value<int>();
 
-                if (equipmentDetail.Id > 0)
-                    costDetail.EquipmentDetail.Add(equipmentDetail);
+                    if (equipmentDetail.Id > 0)
+                        costDetail.EquipmentDetail.Add(equipmentDetail);
+                }
+                else if (equipmentDetailSource[0].Type == JTokenType.String)
+                {
+                    // [0] = required equipment ID
+                    equipmentDetail.Id = int.Parse(equipmentDetailSource[0].Value<string>().Replace("consumable_", ""));
+
+                    if (equipmentDetail.Id > 0)
+                        costDetail.ConsumableDetail.Add(equipmentDetail);
+                }
 
             }
+        }
+        else if (costDetailSource[4] is long value5 && costDetailSource.Count > 5 && costDetailSource[5] is long value6 && value5 > 0)
+        {
+            EquipmentUpgradeImprovmentCostItemDetail equipmentDetail = new();
+            costDetail.EquipmentDetail.Add(equipmentDetail);
+
+            // [0] = required equipment ID
+            equipmentDetail.Id = (int)value5;
+
+            // [1] = required equipment count
+            equipmentDetail.Count = (int)value6;
         }
         else if (costDetailSource[4] is int requiredEquipment)
         {
@@ -307,7 +321,11 @@ public partial class EquipmentUpgradeViewModel
 
                 helpers.ShipIds = ships.Select(shipId => (int)shipId).ToList();
                 improvment.Helpers.Add(helpers);
-            }            
+            }
+            else
+            {
+
+            }
         }
     }
 
