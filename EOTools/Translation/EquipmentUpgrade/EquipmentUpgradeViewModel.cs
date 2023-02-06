@@ -85,8 +85,6 @@ public partial class EquipmentUpgradeViewModel
     [ICommand]
     public void SaveFileThenPush()
     {
-        JsonHelper.WriteJsonByOnlyIndentingXTimes(EquipmentUpgradeFilePath, EquipmentUpgrades, 4, true);
-
         // --- Change update.json too
         JObject update = JsonHelper.ReadJsonObject(UpdateFilePath);
 
@@ -108,7 +106,7 @@ public partial class EquipmentUpgradeViewModel
     {
         Process openLink = new Process();
         openLink.StartInfo.UseShellExecute = true;
-        openLink.StartInfo.FileName = "https://raw.githubusercontent.com/TeamFleet/WhoCallsTheFleet-DB/master/db/items.nedb";
+        openLink.StartInfo.FileName = "https://raw.githubusercontent.com/kcwikizh/WhoCallsTheFleet-DB/master/db/items.nedb";
         openLink.Start();
     }
 
@@ -118,7 +116,7 @@ public partial class EquipmentUpgradeViewModel
         try
         {
             using var _webClient = new HttpClient();
-            string _rawJson = await _webClient.GetStringAsync("https://raw.githubusercontent.com/TeamFleet/WhoCallsTheFleet-DB/master/db/items.nedb");
+            string _rawJson = await _webClient.GetStringAsync("https://raw.githubusercontent.com/kcwikizh/WhoCallsTheFleet-DB/master/db/items.nedb");
             List<EquipmentUpgradeSourceData> wikiData = new();
             EquipmentUpgrades.Clear();
 
@@ -149,6 +147,8 @@ public partial class EquipmentUpgradeViewModel
                 // Used by
                 equipment.UpgradeFor = source.UpgradeFor;
             }
+
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(EquipmentUpgradeFilePath, EquipmentUpgrades, 4, true);
 
             MessageBox.Show("Data updated");
 

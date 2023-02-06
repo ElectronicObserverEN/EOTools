@@ -35,7 +35,7 @@
             </DockPanel>
 
             <DockPanel>
-                <ListView x:Name="fleetList" ItemsSource="{Binding FleetsTranslationData}"  >
+                <ListView x:Name="fleetList" ItemsSource="{Binding FleetsTranslationData}"  SelectedItem="{Binding SelectedTranslation}">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
