@@ -118,7 +118,7 @@ namespace EOTools.Translation
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         private void WriteFile()
         {
             Version = (int.Parse(Version) + 1).ToString();

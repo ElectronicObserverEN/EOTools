@@ -67,7 +67,7 @@ public partial class EquipmentUpgradeViewModel
         }
     }
 
-    [ICommand]
+    [RelayCommand]
     public void OpenDataFolderChoice()
     {
         // --- Load file
@@ -82,7 +82,7 @@ public partial class EquipmentUpgradeViewModel
         }
     }
 
-    [ICommand]
+    [RelayCommand]
     public void SaveFileThenPush()
     {
         // --- Change update.json too
@@ -101,7 +101,7 @@ public partial class EquipmentUpgradeViewModel
         GitManager.CommitAndPush($"Equipment upgrades - {version}");
     }
 
-    [ICommand] 
+    [RelayCommand] 
     public void OpenRaw()
     {
         Process openLink = new Process();
@@ -110,7 +110,7 @@ public partial class EquipmentUpgradeViewModel
         openLink.Start();
     }
 
-    [ICommand]
+    [RelayCommand]
     public async void UpdateFile()
     {
         try

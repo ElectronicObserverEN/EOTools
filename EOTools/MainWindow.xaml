@@ -60,6 +60,10 @@
 					Click="MenuItemEqUpgradeUpdate_Click"
 					Header="_Update equipment upgrade data" />
 			</MenuItem>
+
+			<MenuItem Header="Manage data">
+				<MenuItem Click="ManageUpdateClick" Header="Manage updates" />
+			</MenuItem>
 		</Menu>
 
 		<Frame

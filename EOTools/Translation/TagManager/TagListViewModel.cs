@@ -63,7 +63,7 @@ namespace EOTools.Translation
             DeleteLockCommand = new RelayCommand<LockData>((lockData) => LocksViewModel.Locks.Remove(lockData));
         }
 
-        [ICommand]
+        [RelayCommand]
         private void AddPhase()
         {
             PhasesViewModel.Phases.Add(new PhaseViewModel(new LockPhaseData()));
@@ -231,7 +231,7 @@ namespace EOTools.Translation
             });
         }
 
-        [ICommand]
+        [RelayCommand]
         public void DeletePhase()
         {
             PhaseDeleted.Invoke(this, this);

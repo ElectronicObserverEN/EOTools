@@ -3,6 +3,7 @@ using EOTools.Tools;
 using EOTools.Translation;
 using EOTools.Translation.EquipmentUpgrade;
 using EOTools.Translation.FitBonus;
+using EOTools.Translation.QuestManager.Updates;
 using System.Windows;
 
 namespace EOTools
@@ -82,6 +83,11 @@ namespace EOTools
         private void MenuItemEqUpgradeUpdate_Click(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new EquipmentUpgradeView();
+        }
+
+        private void ManageUpdateClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new UpdateManagerView();
         }
     }
 }

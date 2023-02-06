@@ -59,7 +59,7 @@ namespace EOTools.Translation.FitBonus
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         public void OpenDataFolderChoice()
         {
             // --- Load file
@@ -74,7 +74,7 @@ namespace EOTools.Translation.FitBonus
             }
         }
 
-        [ICommand]
+        [RelayCommand]
         public void SaveFileThenPush()
         {
             JsonHelper.WriteJsonByOnlyIndentingXTimes(FitBonusFilePath, FitBonuses.Select(vm => vm.Model), 4, true);
