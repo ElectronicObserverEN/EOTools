@@ -32,7 +32,6 @@
 								Content="Edit" />
 
 							<StackPanel Margin="5" Orientation="Vertical">
-
 								<TextBlock
 									Margin="5"
 									VerticalAlignment="Center"
@@ -49,7 +48,6 @@
 										IsEnabled="False" />
 								</StackPanel>
 							</StackPanel>
-
 						</StackPanel>
 					</DataTemplate>
 				</ListView.ItemTemplate>

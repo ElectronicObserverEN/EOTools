@@ -36,6 +36,15 @@
     <Compile Update="Translation\MapNameTranslation\MapNameTranslation.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\QuestManager\Seasons\SeasonEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\QuestManager\Seasons\SeasonManagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\QuestManager\Updates\UpdateListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\TranslationEquipForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,4 +1,5 @@
 ﻿using EOTools.Translation.QuestManager.Updates;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EOTools.Translation.QuestManager.Seasons;
 
@@ -8,6 +9,9 @@ public class SeasonModel
 
     public string Name { get; set; } = "";
 
-    public UpdateModel? AddedOnUpdate { get; set; }
-    public UpdateModel? RemovedOnUpdate { get; set; }
+    [ForeignKey(nameof(UpdateModel))]
+    public int? AddedOnUpdateId { get; set; }
+
+    [ForeignKey(nameof(UpdateModel))]
+    public int? RemovedOnUpdateId { get; set; }
 }

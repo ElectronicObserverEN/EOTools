@@ -3,6 +3,7 @@ using EOTools.Tools;
 using EOTools.Translation;
 using EOTools.Translation.EquipmentUpgrade;
 using EOTools.Translation.FitBonus;
+using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
 using System.Windows;
 
@@ -88,6 +89,11 @@ namespace EOTools
         private void ManageUpdateClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new UpdateManagerView();
+        }
+
+        private void ManageSeasonClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new SeasonManagerView();
         }
     }
 }
