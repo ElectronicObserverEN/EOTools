@@ -65,6 +65,8 @@
 				<MenuItem Click="ManageUpdateClick" Header="Manage updates" />
 				<MenuItem Click="ManageSeasonClick" Header="Manage seasons" />
 				<MenuItem Click="ManageEventClick" Header="Manage events" />
+				<Separator />
+				<MenuItem Click="UpdateMaintData" Header="Update maint data" />
 			</MenuItem>
 		</Menu>
 

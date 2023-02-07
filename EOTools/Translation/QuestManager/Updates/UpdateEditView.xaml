@@ -61,11 +61,14 @@
 				Margin="5"
 				Text="Date" />
 
-			<DatePicker
+			<StackPanel
 				Grid.Row="2"
 				Grid.Column="1"
-				Margin="5"
-				SelectedDate="{Binding UpdateDate}" />
+				Orientation="Horizontal">
+
+				<DatePicker Margin="5" SelectedDate="{Binding UpdateDate}" />
+				<TextBox Text="{Binding UpdateStartTime}" />
+			</StackPanel>
 		</Grid>
 
 		<CheckBox Content="Was live update" IsChecked="{Binding WasLiveUpdate}" />

@@ -101,5 +101,11 @@ namespace EOTools
         {
             MainContentFrame.Content = new EventManagerView();
         }
+
+        private void UpdateMaintData(object sender, RoutedEventArgs e)
+        {
+            UpdateMaintenanceDataService service = new();
+            service.UpdateMaintenanceData();
+        }
     }
 }

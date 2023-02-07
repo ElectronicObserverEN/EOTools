@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EOTools.Translation.QuestManager.Updates;
 
@@ -7,6 +8,9 @@ public partial class UpdateViewModel : ObservableObject
 {
     [ObservableProperty]
     private DateTime updateDate = DateTime.Now;
+
+    [ObservableProperty]
+    private TimeSpan updateStartTime = TimeSpan.Zero;
 
     [ObservableProperty]
     private string name = "";
@@ -25,6 +29,7 @@ public partial class UpdateViewModel : ObservableObject
         Name = update.Name;
         Description = update.Description;
         WasLiveUpdate = update.WasLiveUpdate;
+        UpdateStartTime = update.UpdateStartTime;
 
         Model = update;
     }
@@ -35,5 +40,6 @@ public partial class UpdateViewModel : ObservableObject
         Model.Name = Name;
         Model.Description = Description;
         Model.WasLiveUpdate = WasLiveUpdate;
+        Model.UpdateStartTime = UpdateStartTime;
     }
 }
