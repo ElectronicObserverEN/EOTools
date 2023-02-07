@@ -65,6 +65,7 @@ public partial class UpdateManagerViewModel
             UpdateDate = vm.UpdateDate,
             WasLiveUpdate = vm.WasLiveUpdate,
             UpdateStartTime = vm.UpdateStartTime,
+            UpdateEndTime = vm.UpdateEndTime,
         });
 
         UpdateEditView view = new(vmEdit);
@@ -76,6 +77,7 @@ public partial class UpdateManagerViewModel
             vm.UpdateDate = vmEdit.UpdateDate;
             vm.WasLiveUpdate = vmEdit.WasLiveUpdate;
             vm.UpdateStartTime = vmEdit.UpdateStartTime;
+            vm.UpdateEndTime = vmEdit.UpdateEndTime;
 
             vm.SaveChanges();
             using EOToolsDbContext db = new();

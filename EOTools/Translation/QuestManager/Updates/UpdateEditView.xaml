@@ -67,7 +67,18 @@
 				Orientation="Horizontal">
 
 				<DatePicker Margin="5" SelectedDate="{Binding UpdateDate}" />
+
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					Text="Start : " />
 				<TextBox Text="{Binding UpdateStartTime}" />
+
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					Text="End : " />
+				<TextBox Text="{Binding UpdateEndTime}" />
 			</StackPanel>
 		</Grid>
 

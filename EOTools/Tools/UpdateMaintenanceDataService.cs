@@ -39,9 +39,11 @@ public class UpdateMaintenanceDataService
 
         // get last update : 
         using EOToolsDbContext db = new();
+
         UpdateModel? update = db.Updates
             .AsEnumerable()
-            .OrderByDescending(upd => upd.UpdateDate)
+            .Where(upd => UpdateInProgress(upd) || UpdateIsComing(upd))
+            .OrderBy(upd => upd.UpdateDate)
             .FirstOrDefault();
 
         if (update is null) return;
@@ -72,10 +74,50 @@ public class UpdateMaintenanceDataService
         JsonHelper.WriteJson(UpdatesFilePath, db.Updates.ToList());
         JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
 
+
+        return;
         GitManager.Stage(UpdateFilePath);
         GitManager.Stage(UpdatesFilePath);
         GitManager.Stage(EventsFilePath);
 
         GitManager.CommitAndPush($"Maintenance information - {update.Name}");
+    }
+
+    /// <summary>
+    /// Returns true if update is coming
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    private bool UpdateIsComing(UpdateModel model)
+    {
+        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
+        DateTime start = model.UpdateDate.Date.Add(model.UpdateStartTime);
+
+        // Update has started ?
+        return start > dateNowJST;
+    }
+
+    /// <summary>
+    /// Returns true if update is in progress
+    /// </summary>
+    /// <param name="model"></param>
+    /// <returns></returns>
+    private bool UpdateInProgress(UpdateModel model)
+    {
+        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
+        DateTime start = model.UpdateDate.Date.Add(model.UpdateStartTime);
+
+        // Update has started and no end time => update in progress
+        if (start < dateNowJST && model.UpdateEndTime is null) return true;
+
+        // Update has started and end time => update could be in progress
+        if (start < dateNowJST && model.UpdateEndTime is TimeSpan endTime)
+        {
+            DateTime end = model.UpdateDate.Date.Add(endTime);
+
+            // End didn't happen yet => Update is in progress
+            if (end > dateNowJST) return true;
+        }
+        return false;
     }
 }

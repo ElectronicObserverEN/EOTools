@@ -16,7 +16,7 @@ public class UpdateModel
     public TimeSpan UpdateStartTime { get; set; } = TimeSpan.Zero;
 
     [JsonPropertyName("end_time")]
-    public TimeSpan UpdateEndTime { get; set; } = TimeSpan.Zero;
+    public TimeSpan? UpdateEndTime { get; set; } = null;
 
     [JsonPropertyName("name")]
     public string Name { get; set; } = "";
