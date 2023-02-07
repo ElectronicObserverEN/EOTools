@@ -1,4 +1,4 @@
-﻿using EOTools.Translation.QuestManager.Event;
+﻿using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;

@@ -1,0 +1,140 @@
+﻿<Window
+	x:Class="EOTools.Translation.QuestManager.Events.EventEditView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation.QuestManager.Events"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="http://schemas.modernwpf.com/2019"
+	xmlns:updates="clr-namespace:EOTools.Translation.QuestManager.Updates"
+	Title="Edit Event data"
+	Width="800"
+	Height="450"
+	d:DataContext="{d:DesignInstance local:EventViewModel}"
+	ui:WindowHelper.UseModernWindowStyle="True"
+	SizeToContent="WidthAndHeight"
+	mc:Ignorable="d">
+
+	<StackPanel Margin="5">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="auto" />
+				<ColumnDefinition Width="auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<TextBlock
+				Grid.Row="0"
+				Grid.Column="0"
+				Margin="5"
+				Text="Name" />
+
+			<TextBox
+				Grid.Row="0"
+				Grid.Column="1"
+				Grid.ColumnSpan="2"
+				Margin="5"
+				Text="{Binding Name}" />
+
+
+			<TextBlock
+				Grid.Row="1"
+				Grid.Column="0"
+				Margin="5"
+				Text="Start on update" />
+
+			<Button
+				Grid.Row="1"
+				Grid.Column="1"
+				Margin="5,3"
+				Command="{Binding OpenAddedOnUpdateListCommand}"
+				Content="{Binding StartOnUpdateDisplay}">
+
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel Margin="5" Orientation="Vertical">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="{Binding StartOnUpdate.Name}" />
+
+							<StackPanel Orientation="Horizontal">
+								<DatePicker
+									Margin="5"
+									IsEnabled="False"
+									SelectedDate="{Binding StartOnUpdate.UpdateDate}" />
+								<CheckBox
+									Content="Live update"
+									IsChecked="{Binding StartOnUpdate.WasLiveUpdate}"
+									IsEnabled="False" />
+							</StackPanel>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button
+				Grid.Row="1"
+				Grid.Column="2"
+				Command="{Binding ClearAddedOnUpdateCommand}"
+				Content="Clear" />
+
+			<TextBlock
+				Grid.Row="2"
+				Grid.Column="0"
+				Margin="5"
+				Text="End on update" />
+
+			<Button
+				Grid.Row="2"
+				Grid.Column="1"
+				Margin="5,3"
+				Command="{Binding OpenRemovedOnUpdateListCommand}"
+				Content="{Binding EndOnUpdateDisplay}">
+
+				<Button.ToolTip>
+					<ToolTip>
+						<StackPanel Margin="5" Orientation="Vertical">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="{Binding EndOnUpdate.Name}" />
+
+							<StackPanel Orientation="Horizontal">
+								<DatePicker
+									Margin="5"
+									IsEnabled="False"
+									SelectedDate="{Binding EndOnUpdate.UpdateDate}" />
+								<CheckBox
+									Content="Live update"
+									IsChecked="{Binding EndOnUpdate.WasLiveUpdate}"
+									IsEnabled="False" />
+							</StackPanel>
+						</StackPanel>
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button
+				Grid.Row="2"
+				Grid.Column="2"
+				Command="{Binding ClearRemovedOnUpdateCommand}"
+				Content="Clear" />
+		</Grid>
+
+		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+			<Button
+				Margin="5"
+				Click="OnConfirmClick"
+				Content="Ok" />
+			<Button
+				Margin="5"
+				Click="OnCancelClick"
+				Content="Cancel" />
+		</StackPanel>
+	</StackPanel>
+</Window>
