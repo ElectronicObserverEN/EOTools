@@ -17,8 +17,6 @@ public class UpdateMaintenanceDataService
     private GitManager GitManager => new GitManager(AppSettings.ElectronicObserverDataFolderPath);
 
     private string UpdateFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "update.json");
-    private string UpdatesFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Updates.json");
-    private string EventsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Events.json");
 
     public void UpdateMaintenanceData()
     {
@@ -69,18 +67,16 @@ public class UpdateMaintenanceDataService
             updateData["event_state"] = (int)MaintenanceState.EventStart;
         }
 
+        new DatabaseSyncService().PushDatabaseChangesToGit();
+
         JsonHelper.WriteJson(UpdateFilePath, updateData);
 
-        JsonHelper.WriteJson(UpdatesFilePath, db.Updates.ToList());
-        JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
-
-
         return;
+
         GitManager.Stage(UpdateFilePath);
-        GitManager.Stage(UpdatesFilePath);
-        GitManager.Stage(EventsFilePath);
 
         GitManager.CommitAndPush($"Maintenance information - {update.Name}");
+
     }
 
     /// <summary>

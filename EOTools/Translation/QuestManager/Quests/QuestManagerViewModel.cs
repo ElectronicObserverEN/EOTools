@@ -231,6 +231,13 @@ public partial class QuestManagerViewModel
 
         return trackers;
     }
+
+    [RelayCommand]
+    public void UpdateTranslations()
+    {
+        UpdateQuestDataService service = new();
+        service.UpdateQuestTranslations();
+    }
     #endregion
 
 }

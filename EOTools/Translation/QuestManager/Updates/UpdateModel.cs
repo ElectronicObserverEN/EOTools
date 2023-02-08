@@ -1,29 +1,29 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace EOTools.Translation.QuestManager.Updates;
 
 public class UpdateModel
 {
 
-    [JsonPropertyName("id")]
+    [JsonProperty("id")]
     public int Id { get; set; }
 
-    [JsonPropertyName("start_date")]
+    [JsonProperty("start_date")]
     public DateTime UpdateDate { get; set; } = DateTime.Now;
 
-    [JsonPropertyName("start_time")]
+    [JsonProperty("start_time")]
     public TimeSpan UpdateStartTime { get; set; } = TimeSpan.Zero;
 
-    [JsonPropertyName("end_time")]
+    [JsonProperty("end_time")]
     public TimeSpan? UpdateEndTime { get; set; } = null;
 
-    [JsonPropertyName("name")]
+    [JsonProperty("name")]
     public string Name { get; set; } = "";
 
-    [JsonPropertyName("description")]
+    [JsonProperty("description")]
     public string Description { get; set; } = "";
 
-    [JsonPropertyName("live_update")]
+    [JsonProperty("live_update")]
     public bool WasLiveUpdate { get; set; } = false;
 }

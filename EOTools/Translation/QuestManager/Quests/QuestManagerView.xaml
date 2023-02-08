@@ -11,42 +11,67 @@
 	d:DesignWidth="800"
 	mc:Ignorable="d">
 
-	<ScrollViewer>
-		<StackPanel>
-			<StackPanel Margin="5" Orientation="Horizontal">
-				<Button Command="{Binding AddQuestCommand}" Content="Add" />
-				<Button Command="{Binding UpdateFromTranslationsCommand}" Content="Update from quest translations" />
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<StackPanel
+			Grid.Row="0"
+			Margin="5"
+			Orientation="Vertical">
+
+			<StackPanel Orientation="Horizontal">
+				<Button
+					Margin="5"
+					Command="{Binding AddQuestCommand}"
+					Content="Add" />
+				<Button
+					Margin="5"
+					Command="{Binding UpdateFromTranslationsCommand}"
+					Content="Update from quest translations"
+					IsEnabled="False" />
 			</StackPanel>
 
-			<DataGrid
-				AutoGenerateColumns="False"
-				IsReadOnly="True"
-				ItemsSource="{Binding QuestListFiltered}">
-				<DataGrid.Columns>
-					<DataGridTemplateColumn>
-						<DataGridTemplateColumn.CellTemplate>
-							<DataTemplate>
-								<StackPanel Orientation="Horizontal">
-									<Button
-										Command="{Binding DataContext.RemoveQuestCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QuestManagerView}}"
-										CommandParameter="{Binding}"
-										Content="Delete" />
-									<Button
-										Margin="5,0,5,0"
-										Command="{Binding DataContext.EditQuestCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QuestManagerView}}"
-										CommandParameter="{Binding}"
-										Content="Edit" />
-								</StackPanel>
-							</DataTemplate>
-						</DataGridTemplateColumn.CellTemplate>
-					</DataGridTemplateColumn>
-
-					<DataGridTextColumn Binding="{Binding ApiId}" Header="API Id" />
-					<DataGridTextColumn Binding="{Binding Code}" Header="Code" />
-					<DataGridTextColumn Binding="{Binding DescEN}" Header="Description" />
-					<DataGridTextColumn Binding="{Binding SeasonDisplay}" Header="Season" />
-				</DataGrid.Columns>
-			</DataGrid>
+			<StackPanel>
+				<Button
+					Margin="5"
+					Command="{Binding UpdateTranslationsCommand}"
+					Content="Update quest translations" />
+			</StackPanel>
 		</StackPanel>
-	</ScrollViewer>
+
+		<DataGrid
+			Grid.Row="1"
+			AutoGenerateColumns="False"
+			IsReadOnly="True"
+			ItemsSource="{Binding QuestListFiltered}"
+			VerticalScrollBarVisibility="Visible">
+			<DataGrid.Columns>
+				<DataGridTemplateColumn>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Button
+									Command="{Binding DataContext.RemoveQuestCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QuestManagerView}}"
+									CommandParameter="{Binding}"
+									Content="Delete" />
+								<Button
+									Margin="5,0,5,0"
+									Command="{Binding DataContext.EditQuestCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:QuestManagerView}}"
+									CommandParameter="{Binding}"
+									Content="Edit" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<DataGridTextColumn Binding="{Binding ApiId}" Header="API Id" />
+				<DataGridTextColumn Binding="{Binding Code}" Header="Code" />
+				<DataGridTextColumn Binding="{Binding DescEN}" Header="Description" />
+				<DataGridTextColumn Binding="{Binding SeasonDisplay}" Header="Season" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
 </Page>
