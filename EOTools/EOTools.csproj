@@ -42,10 +42,19 @@
     <Compile Update="Translation\QuestManager\Events\EventManagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\QuestManager\Quests\QuestEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\QuestManager\Quests\QuestManagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\QuestManager\Seasons\SeasonEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Translation\QuestManager\Seasons\SeasonManagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\QuestManager\Seasons\SeasonListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Translation\QuestManager\Updates\UpdateListView.xaml.cs">

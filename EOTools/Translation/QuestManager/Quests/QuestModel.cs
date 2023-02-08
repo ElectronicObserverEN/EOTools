@@ -1,5 +1,6 @@
 ﻿using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EOTools.Translation.QuestManager.Quests
 {
@@ -19,10 +20,14 @@ namespace EOTools.Translation.QuestManager.Quests
 
         public string DescEN { get; set; } = "";
 
-        public UpdateModel? AddedOnUpdate { get; set; }
-        public UpdateModel? RemovedOnUpdate { get; set; }
+        [ForeignKey(nameof(UpdateModel))]
+        public int? AddedOnUpdateId { get; set; }
 
-        public SeasonModel? Season { get; set; }
+        [ForeignKey(nameof(UpdateModel))]
+        public int? RemovedOnUpdateId { get; set; }
+
+        [ForeignKey(nameof(SeasonModel))]
+        public int? SeasonId { get; set; }
     }
 }
 

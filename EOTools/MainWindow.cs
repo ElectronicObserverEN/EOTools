@@ -4,6 +4,7 @@ using EOTools.Translation;
 using EOTools.Translation.EquipmentUpgrade;
 using EOTools.Translation.FitBonus;
 using EOTools.Translation.QuestManager.Events;
+using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
 using System.Windows;
@@ -100,6 +101,11 @@ namespace EOTools
         private void ManageEventClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new EventManagerView();
+        }
+
+        private void ManageQuestsClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new QuestManagerView();
         }
 
         private void UpdateMaintData(object sender, RoutedEventArgs e)
