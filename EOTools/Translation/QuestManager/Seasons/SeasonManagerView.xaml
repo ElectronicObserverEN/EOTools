@@ -30,6 +30,11 @@
 								Command="{Binding DataContext.EditSeasonCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SeasonManagerView}}"
 								CommandParameter="{Binding}"
 								Content="Edit" />
+							<Button
+								Margin="5,0,5,0"
+								Command="{Binding DataContext.EndQuestsCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:SeasonManagerView}}"
+								CommandParameter="{Binding}"
+								Content="Update quests" />
 
 							<StackPanel Margin="5" Orientation="Vertical">
 

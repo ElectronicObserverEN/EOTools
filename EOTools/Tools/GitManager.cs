@@ -26,6 +26,30 @@ namespace EOTools.Tools
             }).WaitForExit();
         }
 
+        public void Pull()
+        {
+            string strCmdText;
+
+            strCmdText = $"/C git fetch";
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                WorkingDirectory = WorkingDir,
+                FileName = "CMD.exe",
+                Arguments = strCmdText
+            }).WaitForExit();
+
+            strCmdText = $"/C git pull";
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                WorkingDirectory = WorkingDir,
+                FileName = "CMD.exe",
+                Arguments = strCmdText
+            }).WaitForExit();
+
+        }
+
         public void CommitAndPush(string _commitDesc)
         {
             string strCmdText;

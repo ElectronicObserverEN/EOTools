@@ -62,6 +62,8 @@ public partial class QuestManagerViewModel
             DescEN = vm.DescEN,
             DescJP = vm.DescJP,
 
+            Tracker = vm.Tracker,
+
             AddedOnUpdateId = vm.AddedOnUpdateId,
             RemovedOnUpdateId = vm.RemovedOnUpdateId,
             SeasonId = vm.SeasonId,
@@ -77,6 +79,7 @@ public partial class QuestManagerViewModel
             vm.NameJP = vmEdit.NameJP;
             vm.DescEN = vmEdit.DescEN;
             vm.DescJP = vmEdit.DescJP;
+            vm.Tracker = vmEdit.Tracker;
             vm.SeasonId = vmEdit.SeasonId;
             vm.AddedOnUpdateId = vmEdit.AddedOnUpdateId;
             vm.RemovedOnUpdateId = vmEdit.RemovedOnUpdateId;
@@ -161,6 +164,10 @@ public partial class QuestManagerViewModel
         {
             if (questTranslation.QuestID > 9000) continue;
 
+            QuestTrackerData? tracker = questsTrackers
+                    .Where(tracker => tracker.QuestID == questTranslation.QuestID)
+                    .FirstOrDefault();
+
             questDataModels.Add(new()
             {
                 ApiId = questTranslation.QuestID,
@@ -172,10 +179,15 @@ public partial class QuestManagerViewModel
                 DescEN = questTranslation.DescEN,
                 DescJP = questTranslation.DescJP,
 
-                Tracker = questsTrackers
-                    .Where(tracker => tracker.QuestID == questTranslation.QuestID)
-                    .Select(tracker => tracker.QuestData.ToString())
-                    .FirstOrDefault() ?? ""
+                Tracker = tracker switch
+                {
+                    QuestTrackerData trackerNotNull => trackerNotNull.QuestData
+                    .ToString()
+                    .Replace("\r\n", "")
+                    .Replace(" ", ""),
+
+                    _ => ""
+                }
             });
         }
 
@@ -185,6 +197,17 @@ public partial class QuestManagerViewModel
         {
             if (!codes.Contains(model.Code))
                 AddQuestToList(new(model));
+            /*else
+            {
+                // update tacker
+                QuestViewModel vmToChange = QuestList.Find(vm => vm.Code == model.Code);
+                vmToChange.Tracker = model.Tracker;
+
+                vmToChange.SaveChanges();
+                using EOToolsDbContext db = new();
+                db.Update(vmToChange.Model);
+                db.SaveChanges();
+            }*/
         }
     }
 
@@ -237,6 +260,13 @@ public partial class QuestManagerViewModel
     {
         UpdateQuestDataService service = new();
         service.UpdateQuestTranslations();
+    }
+
+    [RelayCommand]
+    public void UpdateTrackers()
+    {
+        UpdateQuestDataService service = new();
+        service.UpdateQuestTrackers();
     }
     #endregion
 

@@ -26,6 +26,9 @@ public partial class QuestViewModel : ObservableObject
     private string descEN = "";
 
     [ObservableProperty]
+    private string tracker = "";
+
+    [ObservableProperty]
     private int apiId;
 
     [ObservableProperty]
@@ -71,6 +74,8 @@ public partial class QuestViewModel : ObservableObject
         DescJP = Quest.DescJP;
         DescEN = Quest.DescEN;
 
+        Tracker = Quest.Tracker;
+
         RemovedOnUpdateId = Quest.RemovedOnUpdateId;
         AddedOnUpdateId = Quest.AddedOnUpdateId;
 
@@ -97,6 +102,8 @@ public partial class QuestViewModel : ObservableObject
         Model.NameEN = NameEN;
         Model.DescJP = DescJP;
         Model.DescEN = DescEN;
+
+        Model.Tracker = Tracker;
 
         Model.RemovedOnUpdateId = RemovedOnUpdateId;
         Model.AddedOnUpdateId = AddedOnUpdateId;
@@ -148,6 +155,12 @@ public partial class QuestViewModel : ObservableObject
         if (list.ShowDialog() is true)
         {
             SeasonId = vm.PickedSeason?.Id;
+
+            if (vm.PickedSeason is SeasonModel season)
+            {
+                AddedOnUpdateId = season.AddedOnUpdateId;
+                RemovedOnUpdateId = season.RemovedOnUpdateId;
+            }
         }
     }
 

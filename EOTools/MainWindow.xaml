@@ -20,14 +20,6 @@
 			</MenuItem>
 			<MenuItem Header="_Translations">
 				<MenuItem
-					x:Name="MenuItemQuestTranslation"
-					Click="MenuItem_Click_1"
-					Header="_Translate quest" />
-				<MenuItem
-					x:Name="MenuItemQuestTrackers"
-					Click="ManageTrackers"
-					Header="_Manage trackers" />
-				<MenuItem
 					x:Name="MenuItemShipTranslation"
 					Click="MenuItemShipTranslation_Click"
 					Header="_Translate ships" />
@@ -68,6 +60,8 @@
 				<MenuItem Click="ManageQuestsClick" Header="Manage quests" />
 				<Separator />
 				<MenuItem Click="UpdateMaintData" Header="Update maint data" />
+				<MenuItem Click="PushDatabase" Header="Force push database to git" />
+				<MenuItem Click="PullDatabase" Header="Force pull database from git (All changes will be lost)" />
 			</MenuItem>
 		</Menu>
 

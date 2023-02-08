@@ -32,6 +32,7 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
@@ -220,6 +221,23 @@
 				Height="100"
 				Margin="5"
 				Text="{Binding DescEN}"
+				TextWrapping="Wrap"
+				VerticalScrollBarVisibility="Visible" />
+
+
+			<TextBlock
+				Grid.Row="8"
+				Grid.Column="0"
+				Margin="5"
+				Text="Tracker" />
+
+			<TextBox
+				Grid.Row="8"
+				Grid.Column="1"
+				Grid.ColumnSpan="3"
+				Height="100"
+				Margin="5"
+				Text="{Binding Tracker}"
 				TextWrapping="Wrap"
 				VerticalScrollBarVisibility="Visible" />
 		</Grid>

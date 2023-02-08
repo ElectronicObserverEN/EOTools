@@ -113,5 +113,19 @@ namespace EOTools
             UpdateMaintenanceDataService service = new();
             service.UpdateMaintenanceData();
         }
+
+        private void PushDatabase(object sender, RoutedEventArgs e)
+        {
+            DatabaseSyncService service = new();
+            service.PushDatabaseChangesToGit();
+        }
+
+
+        private void PullDatabase(object sender, RoutedEventArgs e)
+        {
+            DatabaseSyncService service = new();
+            service.PullDataBase();
+        }
+
     }
 }

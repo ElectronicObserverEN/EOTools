@@ -34,11 +34,16 @@
 					IsEnabled="False" />
 			</StackPanel>
 
-			<StackPanel>
+			<StackPanel Orientation="Horizontal">
 				<Button
 					Margin="5"
 					Command="{Binding UpdateTranslationsCommand}"
 					Content="Update quest translations" />
+
+				<Button
+					Margin="5"
+					Command="{Binding UpdateTrackersCommand}"
+					Content="Update quest trackers" />
 			</StackPanel>
 		</StackPanel>
 

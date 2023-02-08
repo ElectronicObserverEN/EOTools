@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
+using EOTools.Translation.QuestManager.Quests;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -93,5 +94,22 @@ public partial class SeasonManagerViewModel
         SeasonList.Remove(vm);
 
         ReloadSeasonList();
+    }
+
+    [RelayCommand]
+    public void EndQuests(SeasonViewModel vm)
+    {
+        if (vm.RemovedOnUpdate is null) return;
+
+        using EOToolsDbContext db = new();
+        List<QuestModel> quests = db.Quests.Where(q => q.SeasonId == vm.Model.Id).ToList();
+
+        foreach (QuestModel quest in quests)
+        {
+            quest.RemovedOnUpdateId = vm.RemovedOnUpdate.Id;
+            db.Update(quest);
+        }
+
+        db.SaveChanges();
     }
 }
