@@ -1,9 +1,12 @@
 ﻿using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EOTools.Translation.QuestManager.Quests
 {
+    [Index(nameof(Code), IsUnique = true)]
+    [Index(nameof(ApiId), IsUnique = true)]
     public class QuestModel
     {
         public int Id { get; set; }
@@ -28,6 +31,8 @@ namespace EOTools.Translation.QuestManager.Quests
 
         [ForeignKey(nameof(SeasonModel))]
         public int? SeasonId { get; set; }
+
+        public string Tracker { get; set; } = "";
     }
 }
 
