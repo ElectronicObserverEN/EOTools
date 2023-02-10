@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
+using System.Collections.Generic;
 
 namespace EOTools.Translation.QuestManager.Quests;
 
@@ -62,6 +63,41 @@ public partial class QuestViewModel : ObservableObject
     };
 
     public QuestModel Model { get; private set; }
+
+    public QuestModel? SelectedTemplate { get; set; } = null;
+    public static QuestModel[] QuestTemplates => new[]
+    {
+        new QuestModel
+        {
+            NameEN = "Battle model",
+            DescEN = "Organize a fleet with XX in your fleet and score an S rank at the boss nodes on XX, and XX (Part X)"
+        },
+        new QuestModel
+        {
+            NameEN = "Battle model with 1-6",
+            DescEN = "Organize a fleet with XX in your fleet and score an S rank at the boss nodes on XX, and reach the anchor node N on 1-6."
+        },
+        new QuestModel
+        {
+            NameEN = "PVP Model",
+            DescEN = "Organize a fleet with XX in your fleet and score S rank XX times in PvP"
+        },
+        new QuestModel
+        {
+            NameEN = "Arsenal Model 1",
+            DescEN = "Have your secretary flagship XX equip XX in the first slot and then proceed to scrap XX and have XX (All resources and Materials will be consumed upon completion)"
+        },
+        new QuestModel
+        {
+            NameEN = "Arsenal Model 2",
+            DescEN = "Have XX (All resources and Materials will be consumed upon completion)"
+        },
+        new QuestModel
+        {
+            NameEN = "Expedition model",
+            DescEN = "Complete expeditions XX and XX XXX times"
+        },
+    };
 
     public QuestViewModel(QuestModel Quest)
     {
@@ -169,5 +205,12 @@ public partial class QuestViewModel : ObservableObject
     public void ClearSeason()
     {
         SeasonId = null;
+    }
+
+    [RelayCommand]
+    public void ApplyTemplate()
+    {
+        if (SelectedTemplate is null) return;
+        DescEN = SelectedTemplate.DescEN;
     }
 }

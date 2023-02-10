@@ -33,30 +33,45 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
-			<TextBlock
+			<StackPanel
 				Grid.Row="0"
+				Grid.Column="0"
+				Grid.ColumnSpan="4"
+				Orientation="Horizontal">
+
+				<ComboBox
+					DisplayMemberPath="NameEN"
+					ItemsSource="{Binding QuestTemplates}"
+					SelectedItem="{Binding SelectedTemplate}" />
+
+				<Button Command="{Binding ApplyTemplateCommand}" Content="Apply template" />
+			</StackPanel>
+
+			<TextBlock
+				Grid.Row="1"
 				Grid.Column="0"
 				Margin="5"
 				Text="API Id" />
 
 			<TextBox
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.Column="1"
 				MinWidth="150"
 				Margin="5"
 				Text="{Binding ApiId}" />
 
 			<TextBlock
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.Column="2"
 				Margin="5"
 				Text="Code" />
 
 			<TextBox
-				Grid.Row="0"
+				Grid.Row="1"
 				Grid.Column="3"
 				MinWidth="150"
 				Margin="5"
@@ -64,12 +79,12 @@
 
 
 			<TextBlock
-				Grid.Row="1"
+				Grid.Row="2"
 				Grid.Column="0"
 				Margin="5"
 				Text="Added on update" />
 			<StackPanel
-				Grid.Row="1"
+				Grid.Row="2"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Orientation="Horizontal">
@@ -105,12 +120,12 @@
 			</StackPanel>
 
 			<TextBlock
-				Grid.Row="2"
+				Grid.Row="3"
 				Grid.Column="0"
 				Margin="5"
 				Text="Removed on update" />
 			<StackPanel
-				Grid.Row="2"
+				Grid.Row="3"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Orientation="Horizontal">
@@ -147,13 +162,13 @@
 			</StackPanel>
 
 			<TextBlock
-				Grid.Row="3"
+				Grid.Row="4"
 				Grid.Column="0"
 				Margin="5"
 				Text="Season" />
 
 			<StackPanel
-				Grid.Row="3"
+				Grid.Row="4"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Orientation="Horizontal">
@@ -166,26 +181,26 @@
 			</StackPanel>
 
 			<TextBlock
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="0"
 				Margin="5"
 				Text="Name JP" />
 
 			<TextBox
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Margin="5"
 				Text="{Binding NameJP}" />
 
 			<TextBlock
-				Grid.Row="5"
+				Grid.Row="6"
 				Grid.Column="0"
 				Margin="5"
 				Text="Name EN" />
 
 			<TextBox
-				Grid.Row="5"
+				Grid.Row="6"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Margin="5"
@@ -193,13 +208,13 @@
 
 
 			<TextBlock
-				Grid.Row="6"
+				Grid.Row="7"
 				Grid.Column="0"
 				Margin="5"
 				Text="Desciption JP" />
 
 			<TextBox
-				Grid.Row="6"
+				Grid.Row="7"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Height="100"
@@ -209,13 +224,13 @@
 				VerticalScrollBarVisibility="Visible" />
 
 			<TextBlock
-				Grid.Row="7"
+				Grid.Row="8"
 				Grid.Column="0"
 				Margin="5"
 				Text="Desciption EN" />
 
 			<TextBox
-				Grid.Row="7"
+				Grid.Row="8"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Height="100"
@@ -226,13 +241,13 @@
 
 
 			<TextBlock
-				Grid.Row="8"
+				Grid.Row="9"
 				Grid.Column="0"
 				Margin="5"
 				Text="Tracker" />
 
 			<TextBox
-				Grid.Row="8"
+				Grid.Row="9"
 				Grid.Column="1"
 				Grid.ColumnSpan="3"
 				Height="100"
