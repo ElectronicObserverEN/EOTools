@@ -1,8 +1,10 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Tools;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -10,13 +12,17 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EOTools.Translation.QuestManager.Quests;
 
-public partial class QuestManagerViewModel
+public partial class QuestManagerViewModel : ObservableObject
 {
     public ObservableCollection<QuestViewModel> QuestListFiltered { get; set; } = new();
     public List<QuestViewModel> QuestList { get; set; }
+
+    [ObservableProperty]
+    private string filter = "";
 
     public QuestManagerViewModel()
     {
@@ -26,14 +32,23 @@ public partial class QuestManagerViewModel
             .Select(Quest => new QuestViewModel(Quest))
             .ToList());
 
+        PropertyChanged += QuestManagerViewModel_PropertyChanged;
+
         ReloadQuestList();
+    }
+
+    private void QuestManagerViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Filter)) ReloadQuestList();
     }
 
     public void ReloadQuestList()
     {
         QuestListFiltered.Clear();
 
-        List<QuestViewModel> quests = QuestList;
+        List<QuestViewModel> quests = QuestList
+            .Where(quest => string.IsNullOrEmpty(Filter) || quest.Code.ToLower().Contains(Filter.ToLower()) || quest.NameEN.ToLower().Contains(Filter.ToLower()) || quest.DescEN.ToLower().Contains(Filter.ToLower()))
+            .ToList();
 
         foreach (QuestViewModel quest in quests)
         {
@@ -267,6 +282,34 @@ public partial class QuestManagerViewModel
     {
         UpdateQuestDataService service = new();
         service.UpdateQuestTrackers();
+    }
+
+    [RelayCommand]
+    public void AddQuestFromClipboard()
+    {
+        string questJson = Clipboard.GetText();
+
+        JObject quests = (JObject)JsonHelper.ReadJsonFromString(questJson);
+
+        foreach (JProperty questKey in quests.Properties())
+        {
+            JObject questData = (JObject)quests[questKey.Name]!;
+
+            QuestModel newModel = new()
+            {
+                ApiId = int.Parse(questKey.Name),
+
+                Code = questKey.Name,
+
+                DescJP = questData.Value<string>("name_jp") ?? "",
+                NameJP = questData.Value<string>("desc_jp") ?? "",
+
+                NameEN = questData.Value<string>("name_jp") ?? "",
+                DescEN = questData.Value<string>("desc_jp") ?? "",
+            };
+
+            AddQuestToList(new(newModel));
+        }
     }
     #endregion
 

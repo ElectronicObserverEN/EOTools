@@ -32,6 +32,11 @@
 					Command="{Binding UpdateFromTranslationsCommand}"
 					Content="Update from quest translations"
 					IsEnabled="False" />
+
+				<Button
+					Margin="5"
+					Command="{Binding AddQuestFromClipboardCommand}"
+					Content="Add from clipboard" />
 			</StackPanel>
 
 			<StackPanel Orientation="Horizontal">
@@ -45,6 +50,8 @@
 					Command="{Binding UpdateTrackersCommand}"
 					Content="Update quest trackers" />
 			</StackPanel>
+
+			<TextBox Text="{Binding Filter}" />
 		</StackPanel>
 
 		<DataGrid

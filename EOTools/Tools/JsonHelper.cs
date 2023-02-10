@@ -118,6 +118,15 @@ namespace EOTools.Tools
         /// Read json file and deserialize it
         /// </summary>
         /// <param name="_path"></param>
+        public static T ReadJsonFromString<T>(string _text)
+        {
+            return JsonConvert.DeserializeObject<T>(_text);
+        }
+
+        /// <summary>
+        /// Read json file and deserialize it
+        /// </summary>
+        /// <param name="_path"></param>
         public static JArray ReadJsonArray(string _path)
         {
             return ReadJson(_path) as JArray;
