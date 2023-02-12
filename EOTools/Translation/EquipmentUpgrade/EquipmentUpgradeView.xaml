@@ -6,44 +6,52 @@
 	xmlns:local="clr-namespace:EOTools.Translation.EquipmentUpgrade"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	Title="Destination update"
-	d:DataContext="{d:DesignInstance Type=local:EquipmentUpgradeViewModel}"
+	d:DataContext="{d:DesignInstance Type=local:EquipmentUpgradeListViewModel}"
 	d:DesignHeight="720"
 	d:DesignWidth="1080"
 	mc:Ignorable="d">
 
 	<Page.DataContext>
-		<local:EquipmentUpgradeViewModel />
+		<local:EquipmentUpgradeListViewModel />
 	</Page.DataContext>
 
-	<StackPanel>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
 
 
-		<Button
-			x:Name="buttonSelectFile"
-			Height="49"
-			Margin="10"
-			HorizontalAlignment="Center"
-			Command="{Binding OpenDataFolderChoiceCommand}"
-			Content="Select EO Data Folder" />
-		<Button
-			x:Name="buttonUpdate"
-			Height="49"
-			Margin="10"
-			HorizontalAlignment="Center"
-			Command="{Binding UpdateFileCommand}"
-			Content="Update file" />
-		<Button
-			x:Name="buttonExport"
-			Height="49"
-			Margin="10"
-			HorizontalAlignment="Center"
-			Command="{Binding SaveFileThenPushCommand}"
-			Content="Save and push to git" />
-		<Button
-			Height="49"
-			Margin="10"
-			HorizontalAlignment="Center"
-			Command="{Binding OpenRawCommand}"
-			Content="Open raw" />
-	</StackPanel>
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+
+
+			<Button
+				x:Name="buttonSelectFile"
+				Height="49"
+				Margin="10"
+				HorizontalAlignment="Center"
+				Command="{Binding OpenDataFolderChoiceCommand}"
+				Content="Select EO Data Folder" />
+			<Button
+				x:Name="buttonUpdate"
+				Height="49"
+				Margin="10"
+				HorizontalAlignment="Center"
+				Command="{Binding UpdateFileCommand}"
+				Content="Update file" />
+			<Button
+				x:Name="buttonExport"
+				Height="49"
+				Margin="10"
+				HorizontalAlignment="Center"
+				Command="{Binding SaveFileThenPushCommand}"
+				Content="Save and push to git" />
+			<Button
+				Height="49"
+				Margin="10"
+				HorizontalAlignment="Center"
+				Command="{Binding OpenRawCommand}"
+				Content="Open raw" />
+		</StackPanel>
+	</Grid>
 </Page>

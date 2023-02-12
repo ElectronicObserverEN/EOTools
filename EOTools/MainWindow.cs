@@ -1,6 +1,7 @@
 ﻿using EOTools.RPCTools;
 using EOTools.Tools;
 using EOTools.Translation;
+using EOTools.Translation.Equipments;
 using EOTools.Translation.EquipmentUpgrade;
 using EOTools.Translation.FitBonus;
 using EOTools.Translation.QuestManager.Events;
@@ -106,6 +107,11 @@ namespace EOTools
         private void ManageQuestsClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new QuestManagerView();
+        }
+
+        private void ManageEquipmentsClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new EquipmentManagerView();
         }
 
         private void UpdateMaintData(object sender, RoutedEventArgs e)

@@ -18,7 +18,7 @@ using System.Windows.Forms;
 
 namespace EOTools.Translation.EquipmentUpgrade;
 
-public partial class EquipmentUpgradeViewModel
+public partial class EquipmentUpgradeListViewModel
 {
     private GitManager GitManager
     {
@@ -47,7 +47,7 @@ public partial class EquipmentUpgradeViewModel
     public ObservableCollection<EquipmentUpgradeDataModel> EquipmentUpgrades { get; set; } = new ObservableCollection<EquipmentUpgradeDataModel>();
 
 
-    public EquipmentUpgradeViewModel()
+    public EquipmentUpgradeListViewModel()
     {
         if (!string.IsNullOrEmpty(ElectronicObserverDataFolderPath) && File.Exists(EquipmentUpgradeFilePath))
         {

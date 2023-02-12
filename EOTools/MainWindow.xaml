@@ -57,7 +57,9 @@
 				<MenuItem Click="ManageUpdateClick" Header="Manage updates" />
 				<MenuItem Click="ManageSeasonClick" Header="Manage seasons" />
 				<MenuItem Click="ManageEventClick" Header="Manage events" />
+				<Separator />
 				<MenuItem Click="ManageQuestsClick" Header="Manage quests" />
+				<MenuItem Click="ManageEquipmentsClick" Header="Manage equipments" />
 				<Separator />
 				<MenuItem Click="UpdateMaintData" Header="Update maint data" />
 				<MenuItem Click="PushDatabase" Header="Force push database to git" />

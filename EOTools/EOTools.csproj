@@ -27,6 +27,9 @@
     <Compile Update="RPCTools\RPCManager.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\Equipments\EquipmentManagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\EquipmentUpgrade\EquipmentUpgradeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -75,6 +78,9 @@
     <Page Update="RPCTools\RPCManager.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Translation\Equipments\EquipmentManagerView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Translation\EquipmentUpgrade\EquipmentUpgradeView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

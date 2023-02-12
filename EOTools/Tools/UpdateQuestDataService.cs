@@ -57,6 +57,8 @@ public class UpdateQuestDataService
         JsonHelper.WriteJson(UpdateFilePath, updateJson);
 
         // --- Stage & push
+        GitManager.Pull();
+
         GitManager.Stage(QuestsTranslationsFilePath);
         GitManager.Stage(UpdateFilePath);
 
@@ -92,6 +94,8 @@ public class UpdateQuestDataService
         JsonHelper.WriteJson(UpdateDataFilePath, updateJson);
 
         // --- Stage & push
+        GitManager.Pull();
+
         GitManager.Stage(TrackersFilePath);
         GitManager.Stage(UpdateDataFilePath);
 

@@ -1,0 +1,41 @@
+﻿<Page
+	x:Class="EOTools.Translation.Equipments.EquipmentManagerView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation.Equipments"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="Destination update"
+	d:DataContext="{d:DesignInstance Type=local:EquipmentManagerViewModel}"
+	d:DesignHeight="720"
+	d:DesignWidth="1080"
+	mc:Ignorable="d">
+
+	<Page.DataContext>
+		<local:EquipmentManagerViewModel />
+	</Page.DataContext>
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<Button Command="{Binding ImportFromTranslationsCommand}" Content="Import from translations and data" />
+		</StackPanel>
+
+		<DataGrid
+			Grid.Row="1"
+			AutoGenerateColumns="False"
+			IsReadOnly="True"
+			ItemsSource="{Binding EquipmentModels}">
+			<DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Model.ApiId}" Header="Id" />
+				<DataGridTextColumn Binding="{Binding Model.NameEN}" Header="Equipment" />
+				<DataGridTextColumn Binding="{Binding Model.NameJP}" Header="Equipment JP" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</Grid>
+</Page>

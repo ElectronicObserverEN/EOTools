@@ -94,15 +94,8 @@ namespace EOTools.Tools
         /// <param name="_path"></param>
         private static JToken ReadJson(string _path)
         {
-            try
-            {
-                string _text = File.ReadAllText(_path);
-                return ReadJsonFromString(_text);
-            }
-            catch (Exception _ex) when (_ex is FileNotFoundException || _ex is DirectoryNotFoundException)
-            {
-                return null;
-            }
+            string _text = File.ReadAllText(_path);
+            return ReadJsonFromString(_text);
         }
 
         /// <summary>

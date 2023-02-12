@@ -1,4 +1,5 @@
-﻿using EOTools.Translation.QuestManager.Events;
+﻿using EOTools.Models;
+using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
@@ -13,6 +14,7 @@ namespace EOTools.DataBase
         public DbSet<QuestModel> Quests { get; set; }
         public DbSet<SeasonModel> Seasons { get; set; }
         public DbSet<EventModel> Events { get; set; }
+        public DbSet<EquipmentModel> Equipments { get; set; }
 
         public string DbPath { get; }
 
