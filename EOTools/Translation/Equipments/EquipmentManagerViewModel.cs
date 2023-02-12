@@ -45,6 +45,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
         EquipmentModels.Clear();
         using EOToolsDbContext db = new();
         db.Equipments.RemoveRange(db.Equipments);
+        db.SaveChanges();
 
         foreach (JObject equipmentJson in equipments)
         {
@@ -76,6 +77,14 @@ public partial class EquipmentManagerViewModel : ObservableObject
         }
 
         return results;
+    }
+
+
+    [RelayCommand]
+    public void UpdateTranslations()
+    {
+        UpdateEquipmentDataService service = new();
+        service.UpdateEquipmentTranslations();
     }
     #endregion
 }

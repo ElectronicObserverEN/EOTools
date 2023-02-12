@@ -23,7 +23,15 @@
 
 
 		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Button Command="{Binding ImportFromTranslationsCommand}" Content="Import from translations and data" />
+			<Button
+				Margin="5"
+				Command="{Binding UpdateTranslationsCommand}"
+				Content="Update translations" />
+			<Button
+				Margin="5"
+				Command="{Binding ImportFromTranslationsCommand}"
+				Content="Import from translations and data"
+				IsEnabled="False" />
 		</StackPanel>
 
 		<DataGrid
