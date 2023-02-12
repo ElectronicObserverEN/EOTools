@@ -3,23 +3,30 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Tools;
+using ModernWpf.Controls;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EOTools.Translation.Equipments;
 
 public partial class EquipmentManagerViewModel : ObservableObject
 {
-    public ObservableCollection<EquipmentViewModel> EquipmentModels { get; set; }
+    public ObservableCollection<EquipmentViewModel> EquipmentList { get; set; } = new();
 
     public EquipmentManagerViewModel()
     {
-        using EOToolsDbContext db = new();
-        EquipmentModels = new(db.Equipments.Select(model => new EquipmentViewModel(model)).ToList());
+        ReloadEquipmentList();
     }
 
+    private void ReloadEquipmentList()
+    {
+        using EOToolsDbContext db = new();
+        EquipmentList = new(db.Equipments.Select(model => new EquipmentViewModel(model)).ToList());
+    }
 
     private void AddNewEquipment(EquipmentModel model)
     {
@@ -29,7 +36,79 @@ public partial class EquipmentManagerViewModel : ObservableObject
         db.Equipments.Add(model);
         db.SaveChanges();
 
-        EquipmentModels.Add(vm);
+        EquipmentList.Add(vm);
+    }
+
+    private async Task ShowEditDialog(EquipmentViewModel vm, bool newEntity)
+    {
+        EquipmentViewModel vmEdit = new(vm.Model);
+
+        EquipmentEditView view = new(vmEdit);
+
+        if (view.ShowDialog() == true)
+        {
+            vm.ApiId = vmEdit.ApiId;
+            vm.NameEN = vmEdit.NameEN;
+            vm.NameJP = vmEdit.NameJP;
+
+            try
+            {
+                vm.SaveChanges();
+
+                if (newEntity)
+                {
+                    AddNewEquipment(vm.Model);
+                }
+                else
+                {
+                    using EOToolsDbContext db = new();
+                    db.Update(vm.Model);
+                    db.SaveChanges();
+
+                    ReloadEquipmentList();
+                }
+            }
+            catch (Exception ex)
+            {
+                while (ex.InnerException != null)
+                {
+                    ex = ex.InnerException;
+                }
+
+                ContentDialog errorDialog = new ContentDialog();
+                errorDialog.Content = $"{ex.Message}\n\n\n\n{ex.StackTrace}";
+                errorDialog.CloseButtonText = "Close";
+
+                await errorDialog.ShowAsync();
+
+                await ShowEditDialog(vm, newEntity);
+            }
+        }
+    }
+
+    [RelayCommand]
+    public async Task ShowAddEquipmentDialog()
+    {
+        EquipmentViewModel vm = new(new());
+        await ShowEditDialog(vm, true);
+    }
+
+    [RelayCommand]
+    public async Task EditEquipment(EquipmentViewModel vm)
+    {
+        await ShowEditDialog(vm, false);
+    }
+
+    [RelayCommand]
+    public void RemoveEquipment(EquipmentViewModel vm)
+    {
+        using EOToolsDbContext db = new();
+        db.Remove(vm.Model);
+        db.SaveChanges();
+
+        EquipmentList.Remove(vm);
+
+        ReloadEquipmentList();
     }
 
     #region Data import and export stuff
@@ -42,7 +121,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
         // Translations to get JP name : 
         List<EquipData> translations = LoadEquipmentTranslations();
 
-        EquipmentModels.Clear();
+        EquipmentList.Clear();
         using EOToolsDbContext db = new();
         db.Equipments.RemoveRange(db.Equipments);
         db.SaveChanges();

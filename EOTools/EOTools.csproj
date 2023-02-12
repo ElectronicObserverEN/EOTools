@@ -30,6 +30,9 @@
     <Compile Update="Translation\Equipments\EquipmentManagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\Equipments\EquipmentEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\EquipmentUpgrade\EquipmentUpgradeView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

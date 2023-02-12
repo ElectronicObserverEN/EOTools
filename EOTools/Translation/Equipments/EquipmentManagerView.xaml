@@ -22,27 +22,52 @@
 		</Grid.RowDefinitions>
 
 
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Button
-				Margin="5"
-				Command="{Binding UpdateTranslationsCommand}"
-				Content="Update translations" />
-			<Button
-				Margin="5"
-				Command="{Binding ImportFromTranslationsCommand}"
-				Content="Import from translations and data"
-				IsEnabled="False" />
+		<StackPanel Grid.Row="0" Orientation="Vertical">
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<Button Command="{Binding ShowAddEquipmentDialogCommand}" Content="Add" />
+			</StackPanel>
+
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<Button
+					Margin="5"
+					Command="{Binding UpdateTranslationsCommand}"
+					Content="Update translations" />
+				<Button
+					Margin="5"
+					Command="{Binding ImportFromTranslationsCommand}"
+					Content="Import from translations and data"
+					IsEnabled="False" />
+			</StackPanel>
 		</StackPanel>
 
 		<DataGrid
 			Grid.Row="1"
 			AutoGenerateColumns="False"
 			IsReadOnly="True"
-			ItemsSource="{Binding EquipmentModels}">
+			ItemsSource="{Binding EquipmentList}">
 			<DataGrid.Columns>
-				<DataGridTextColumn Binding="{Binding Model.ApiId}" Header="Id" />
-				<DataGridTextColumn Binding="{Binding Model.NameEN}" Header="Equipment" />
-				<DataGridTextColumn Binding="{Binding Model.NameJP}" Header="Equipment JP" />
+
+				<DataGridTemplateColumn>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<StackPanel Orientation="Horizontal">
+								<Button
+									Command="{Binding DataContext.RemoveEquipmentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:EquipmentManagerView}}"
+									CommandParameter="{Binding}"
+									Content="Delete" />
+								<Button
+									Margin="5,0,5,0"
+									Command="{Binding DataContext.EditEquipmentCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:EquipmentManagerView}}"
+									CommandParameter="{Binding}"
+									Content="Edit" />
+							</StackPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+
+				<DataGridTextColumn Binding="{Binding ApiId}" Header="Id" />
+				<DataGridTextColumn Binding="{Binding NameEN}" Header="Equipment" />
+				<DataGridTextColumn Binding="{Binding NameJP}" Header="Equipment JP" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>
