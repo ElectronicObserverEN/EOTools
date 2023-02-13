@@ -13,315 +13,377 @@
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
 	<StackPanel>
-		<StackPanel>
-			<StackPanel Orientation="Horizontal">
-				<TextBlock
-					Margin="5"
-					VerticalAlignment="Center"
-					Text="Convert to " />
-				<Button
-					Margin="5"
-					Command="{Binding OpenEquipmentPickerCommand}"
-					Content="{Binding AfterConversionEquipmentName}" />
-				<Button Command="{Binding ClearEquipmentCommand}" Content="Clear" />
-			</StackPanel>
-
-			<StackPanel Margin="5" Orientation="Horizontal">
-				<TextBlock
-					Margin="5"
-					VerticalAlignment="Center"
-					Text="Level after upgrade" />
-				<ui:NumberBox
-					Maximum="10"
-					Minimum="0"
-					Value="{Binding ConversionViewModel.EquipmentLevelAfter}" />
-			</StackPanel>
-
-			<StackPanel DataContext="{Binding CostViewModel}" Orientation="Vertical">
+		<StackPanel Orientation="Horizontal">
+			<StackPanel Orientation="Vertical">
 				<StackPanel Orientation="Horizontal">
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Fuel" />
-						<ui:NumberBox Value="{Binding Fuel}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Ammo" />
-						<ui:NumberBox Value="{Binding Ammo}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Steel" />
-						<ui:NumberBox Value="{Binding Steel}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Bauxite" />
-						<ui:NumberBox Value="{Binding Bauxite}" />
-					</StackPanel>
+					<TextBlock
+						Margin="5"
+						VerticalAlignment="Center"
+						Text="Convert to " />
+					<Button
+						Margin="5"
+						Command="{Binding OpenEquipmentPickerCommand}"
+						Content="{Binding AfterConversionEquipmentName}" />
+					<Button Command="{Binding ClearEquipmentCommand}" Content="Clear" />
 				</StackPanel>
 
-				<TextBlock Margin="5" Text="Cost 0 to 5" />
-
-				<StackPanel DataContext="{Binding Cost0To5ViewModel}" Orientation="Horizontal">
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="DevMats" />
-						<ui:NumberBox Value="{Binding DevmatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Screws" />
-						<ui:NumberBox Value="{Binding ImproveMatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
-					</StackPanel>
+				<StackPanel Margin="5" Orientation="Horizontal">
+					<TextBlock
+						Margin="5"
+						VerticalAlignment="Center"
+						Text="Level after upgrade" />
+					<ui:NumberBox
+						Maximum="10"
+						Minimum="0"
+						Value="{Binding ConversionViewModel.EquipmentLevelAfter}" />
 				</StackPanel>
 
-				<Button
-					Margin="5"
-					Command="{Binding Cost0To5ViewModel.AddEquipmentRequirementCommand}"
-					Content="Add" />
-
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost0To5ViewModel.EquipmentsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Equipment">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
-
-				<Button
-					Margin="5"
-					Command="{Binding Cost0To5ViewModel.AddUseItemRequirementCommand}"
-					Content="Add" />
-
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost0To5ViewModel.UseItemsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Consumable">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
-
-				<TextBlock Margin="5" Text="Cost 6 to 9" />
-
-				<StackPanel DataContext="{Binding Cost6To9ViewModel}" Orientation="Horizontal">
-
+				<StackPanel DataContext="{Binding CostViewModel}" Orientation="Vertical">
 					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="DevMats" />
-						<ui:NumberBox Value="{Binding DevmatCost}" />
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Fuel" />
+							<ui:NumberBox Value="{Binding Fuel}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Ammo" />
+							<ui:NumberBox Value="{Binding Ammo}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Steel" />
+							<ui:NumberBox Value="{Binding Steel}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Bauxite" />
+							<ui:NumberBox Value="{Binding Bauxite}" />
+						</StackPanel>
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+					<TextBlock Margin="5" Text="Cost 0 to 5" />
+
+					<StackPanel DataContext="{Binding Cost0To5ViewModel}" Orientation="Horizontal">
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="DevMats" />
+							<ui:NumberBox Value="{Binding DevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Screws" />
+							<ui:NumberBox Value="{Binding ImproveMatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+						</StackPanel>
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Screws" />
-						<ui:NumberBox Value="{Binding ImproveMatCost}" />
+					<Button
+						Margin="5"
+						Command="{Binding Cost0To5ViewModel.AddEquipmentRequirementCommand}"
+						Content="Add" />
+
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost0To5ViewModel.EquipmentsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Equipment">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
+
+					<Button
+						Margin="5"
+						Command="{Binding Cost0To5ViewModel.AddUseItemRequirementCommand}"
+						Content="Add" />
+
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost0To5ViewModel.UseItemsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Consumable">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
+
+					<TextBlock Margin="5" Text="Cost 6 to 9" />
+
+					<StackPanel DataContext="{Binding Cost6To9ViewModel}" Orientation="Horizontal">
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="DevMats" />
+							<ui:NumberBox Value="{Binding DevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Screws" />
+							<ui:NumberBox Value="{Binding ImproveMatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+						</StackPanel>
+
 					</StackPanel>
 
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+					<Button
+						Margin="5"
+						Command="{Binding Cost6To9ViewModel.AddEquipmentRequirementCommand}"
+						Content="Add" />
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost6To9ViewModel.EquipmentsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Equipment">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
+
+					<Button
+						Margin="5"
+						Command="{Binding Cost6To9ViewModel.AddUseItemRequirementCommand}"
+						Content="Add" />
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost6To9ViewModel.UseItemsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Consumable">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
+
+
+					<TextBlock Margin="5" Text="Cost Max" />
+
+					<StackPanel DataContext="{Binding CostMaxViewModel}" Orientation="Horizontal">
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="DevMats" />
+							<ui:NumberBox Value="{Binding DevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="Screws" />
+							<ui:NumberBox Value="{Binding ImproveMatCost}" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock
+								Margin="5"
+								VerticalAlignment="Center"
+								Text="With slider" />
+							<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+						</StackPanel>
+
 					</StackPanel>
 
+					<Button
+						Margin="5"
+						Command="{Binding CostMaxViewModel.AddEquipmentRequirementCommand}"
+						Content="Add" />
+
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CostMaxViewModel.EquipmentsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Equipment">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
+
+					<Button
+						Margin="5"
+						Command="{Binding CostMaxViewModel.AddUseItemRequirementCommand}"
+						Content="Add" />
+
+					<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CostMaxViewModel.UseItemsRequired}">
+						<DataGrid.Columns>
+							<DataGridTemplateColumn Header="Consumable">
+								<DataGridTemplateColumn.CellTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
+										</StackPanel>
+									</DataTemplate>
+								</DataGridTemplateColumn.CellTemplate>
+							</DataGridTemplateColumn>
+
+							<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+						</DataGrid.Columns>
+					</DataGrid>
 				</StackPanel>
-
-				<Button
-					Margin="5"
-					Command="{Binding Cost6To9ViewModel.AddEquipmentRequirementCommand}"
-					Content="Add" />
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost6To9ViewModel.EquipmentsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Equipment">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
-
-				<Button
-					Margin="5"
-					Command="{Binding Cost6To9ViewModel.AddUseItemRequirementCommand}"
-					Content="Add" />
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost6To9ViewModel.UseItemsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Consumable">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
-
-
-				<TextBlock Margin="5" Text="Cost Max" />
-
-				<StackPanel DataContext="{Binding CostMaxViewModel}" Orientation="Horizontal">
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="DevMats" />
-						<ui:NumberBox Value="{Binding DevmatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="Screws" />
-						<ui:NumberBox Value="{Binding ImproveMatCost}" />
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock
-							Margin="5"
-							VerticalAlignment="Center"
-							Text="With slider" />
-						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
-					</StackPanel>
-
-				</StackPanel>
-
-				<Button
-					Margin="5"
-					Command="{Binding CostMaxViewModel.AddEquipmentRequirementCommand}"
-					Content="Add" />
-
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CostMaxViewModel.EquipmentsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Equipment">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
-
-				<Button
-					Margin="5"
-					Command="{Binding CostMaxViewModel.AddUseItemRequirementCommand}"
-					Content="Add" />
-
-				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CostMaxViewModel.UseItemsRequired}">
-					<DataGrid.Columns>
-						<DataGridTemplateColumn Header="Consumable">
-							<DataGridTemplateColumn.CellTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Item.NameEN}" />
-									</StackPanel>
-								</DataTemplate>
-							</DataGridTemplateColumn.CellTemplate>
-						</DataGridTemplateColumn>
-
-						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
-					</DataGrid.Columns>
-				</DataGrid>
 			</StackPanel>
 
+			<StackPanel Orientation="Vertical">
 
-			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 				<Button
 					Margin="5"
-					Click="OnConfirmClick"
-					Content="Ok" />
-				<Button
-					Margin="5"
-					Click="OnCancelClick"
-					Content="Cancel" />
+					Command="{Binding AddHelpersCommand}"
+					Content="Add helpers" />
+
+				<ListView ItemsSource="{Binding Helpers}">
+					<ListView.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<StackPanel Margin="5" Orientation="Horizontal">
+									<TextBlock VerticalAlignment="Center" Text="Ships : " />
+									<ui:NumberBox Value="{Binding ShipId}" />
+									<Button Command="{Binding AddShipIdCommand}" Content="Add" />
+								</StackPanel>
+								<ListView ItemsSource="{Binding Ships}">
+									<ListView.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ListView.ItemsPanel>
+
+									<ListView.ItemTemplate>
+										<DataTemplate>
+											<Button
+												Command="{Binding DataContext.RemoveShipIdCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+												CommandParameter="{Binding}"
+												Content="{Binding}" />
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+
+								<StackPanel Margin="5" Orientation="Horizontal">
+									<TextBlock VerticalAlignment="Center" Text="Days : " />
+									<ComboBox ItemsSource="{Binding Days}" SelectedItem="{Binding Day}" />
+									<Button Command="{Binding AddDayCommand}" Content="Add" />
+								</StackPanel>
+
+								<ListView ItemsSource="{Binding CanHelpOnDays}">
+									<ListView.ItemsPanel>
+										<ItemsPanelTemplate>
+											<StackPanel Orientation="Horizontal" />
+										</ItemsPanelTemplate>
+									</ListView.ItemsPanel>
+
+									<ListView.ItemTemplate>
+										<DataTemplate>
+											<Button
+												Command="{Binding DataContext.RemoveDayCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
+												CommandParameter="{Binding}"
+												Content="{Binding}" />
+										</DataTemplate>
+									</ListView.ItemTemplate>
+								</ListView>
+							</StackPanel>
+						</DataTemplate>
+					</ListView.ItemTemplate>
+				</ListView>
 			</StackPanel>
+		</StackPanel>
+
+		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+			<Button
+				Margin="5"
+				Click="OnConfirmClick"
+				Content="Ok" />
+			<Button
+				Margin="5"
+				Click="OnCancelClick"
+				Content="Cancel" />
 		</StackPanel>
 	</StackPanel>
 </Window>
