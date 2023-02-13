@@ -34,6 +34,10 @@
 					Content="Update translations" />
 				<Button
 					Margin="5"
+					Command="{Binding UpdateUpgradesCommand}"
+					Content="Update upgrades" />
+				<Button
+					Margin="5"
 					Command="{Binding ImportFromTranslationsCommand}"
 					Content="Import from translations and data"
 					IsEnabled="False" />

@@ -5,7 +5,7 @@ namespace EOTools.Models.EquipmentUpgrade
 {
     public class EquipmentUpgradeImprovmentModel
     {
-        [JsonProperty("convert", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("convert")]
         public EquipmentUpgradeConversionModel? ConversionData { get; set; }
 
         [JsonProperty("helpers")]

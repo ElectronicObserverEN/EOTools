@@ -5,13 +5,13 @@ using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
 using ModernWpf.Controls;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EOTools.Translation.Equipments;
@@ -121,17 +121,19 @@ public partial class EquipmentManagerViewModel : ObservableObject
     [RelayCommand]
     public void ImportUpgradeData()
     {
-        List<EquipmentUpgradeDataModel> upgrades = JsonHelper.ReadJson<List<EquipmentUpgradeDataModel>>(EquipmentUpgradeFilePath);
+        JArray upgrades = JsonHelper.ReadJsonArray(EquipmentUpgradeFilePath);
 
         using EOToolsDbContext db = new();
 
-        foreach (EquipmentUpgradeDataModel model in upgrades)
+        foreach (JToken model in upgrades)
         {
-            EquipmentModel? eq = db.Equipments.Where(eq => eq.ApiId == model.EquipmentId).FirstOrDefault();
+            EquipmentModel? eq = db.Equipments.Where(eq => eq.ApiId == model.Value<int>("eq_id")).FirstOrDefault();
 
             if (eq != null)
             {
-                eq.UpgradeData = JsonSerializer.Serialize(model);
+                eq.UpgradeData = model.ToString()
+                    .Replace("\r\n", "")
+                    .Replace(" ", "");
             }
         }
 
@@ -191,5 +193,13 @@ public partial class EquipmentManagerViewModel : ObservableObject
         UpdateEquipmentDataService service = new();
         service.UpdateEquipmentTranslations();
     }
+
+    [RelayCommand]
+    public void UpdateUpgrades()
+    {
+        UpdateEquipmentDataService service = new();
+        service.UpdateEquipmentUpgrades();
+    }
+    
     #endregion
 }

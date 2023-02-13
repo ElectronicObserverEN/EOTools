@@ -2,11 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
+using EOTools.Tools;
 using EOTools.Translation.EquipmentUpgrade;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text.Json;
 
 namespace EOTools.Translation.Equipments;
 
@@ -35,7 +36,7 @@ public partial class EquipmentViewModel : ObservableObject
 
         List<EquipmentUpgradeImprovmentViewModel> upgrades = model.UpgradeData switch
         {
-            string => JsonSerializer.Deserialize<EquipmentUpgradeDataModel>(model.UpgradeData).Improvement.Select(upg => new EquipmentUpgradeImprovmentViewModel(upg)).ToList(),
+            string => JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(model.UpgradeData).Improvement.Select(upg => new EquipmentUpgradeImprovmentViewModel(upg)).ToList(),
             _ => new()
         };
 
@@ -56,7 +57,9 @@ public partial class EquipmentViewModel : ObservableObject
             UpgradeFor = new(),
         };
 
-        Model.UpgradeData = JsonSerializer.Serialize(upgrades);
+        Model.UpgradeData = JToken.FromObject(upgrades).ToString()
+                    .Replace("\r\n", "")
+                    .Replace(" ", "");
     }
 
 

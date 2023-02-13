@@ -1,5 +1,6 @@
 ﻿using EOTools.DataBase;
 using EOTools.Models;
+using EOTools.Models.EquipmentUpgrade;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
@@ -71,6 +72,33 @@ public class UpdateEquipmentDataService
         int version = updateJson.Value<int>("EquipmentUpgrades") + 1;
         updateJson["EquipmentUpgrades"] = version;
 
-        // TODO
+        using EOToolsDbContext db = new();
+        List<EquipmentModel> equipments = db.Equipments
+            .AsEnumerable()
+            .OrderBy(eq => eq.ApiId)
+            .Where(eq => !string.IsNullOrEmpty(eq.UpgradeData))
+            .ToList();
+
+        List<EquipmentUpgradeDataModel> upgradesJson = new();
+
+        foreach (EquipmentModel equipmentModel in equipments)
+        {
+            EquipmentUpgradeDataModel upgrade = JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(equipmentModel.UpgradeData);
+            upgrade.EquipmentId = equipmentModel.ApiId;
+            upgradesJson.Add(upgrade);
+        }
+
+        new DatabaseSyncService().PushDatabaseChangesToGit();
+
+        JsonHelper.WriteJsonByOnlyIndentingXTimes(EquipmentUpgradesFilePath, upgradesJson, 4);
+        JsonHelper.WriteJson(UpdateDataFilePath, updateJson);
+
+        // --- Stage & push
+        GitManager.Pull();
+
+        GitManager.Stage(EquipmentUpgradesFilePath);
+        GitManager.Stage(UpdateDataFilePath);
+
+        GitManager.CommitAndPush($"Equipment upgrades - {version}");
     }
 }
