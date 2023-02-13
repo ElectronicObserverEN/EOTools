@@ -109,6 +109,25 @@
 					</StackPanel>
 				</StackPanel>
 
+				<Button
+					Margin="5"
+					Command="{Binding Cost0To5ViewModel.AddEquipmentRequirementCommand}"
+					Content="Add" />
+
+				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost0To5ViewModel.EquipmentsRequired}">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Equipment" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button Command="{Binding OpenEquipmentPicker}" Content="{Binding Equipment.NameEN}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+					</DataGrid.Columns>
+				</DataGrid>
+
 				<TextBlock Margin="5" Text="Cost 6 to 9" />
 
 				<StackPanel DataContext="{Binding Cost6To9ViewModel}" Orientation="Horizontal">
@@ -144,7 +163,26 @@
 							Text="With slider" />
 						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
 					</StackPanel>
+
 				</StackPanel>
+
+				<Button
+					Margin="5"
+					Command="{Binding Cost6To9ViewModel.AddEquipmentRequirementCommand}"
+					Content="Add" />
+				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Cost6To9ViewModel.EquipmentsRequired}">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Equipment" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button Command="{Binding OpenEquipmentPicker}" Content="{Binding Equipment.NameEN}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+					</DataGrid.Columns>
+				</DataGrid>
 
 				<TextBlock Margin="5" Text="Cost Max" />
 
@@ -181,7 +219,26 @@
 							Text="With slider" />
 						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
 					</StackPanel>
+
 				</StackPanel>
+
+				<Button
+					Margin="5"
+					Command="{Binding CostMaxViewModel.AddEquipmentRequirementCommand}"
+					Content="Add" />
+				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding CostMaxViewModel.EquipmentsRequired}">
+					<DataGrid.Columns>
+						<DataGridTemplateColumn Header="Equipment" IsReadOnly="True">
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<Button Command="{Binding OpenEquipmentPicker}" Content="{Binding Equipment.NameEN}" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
+					</DataGrid.Columns>
+				</DataGrid>
 			</StackPanel>
 
 
