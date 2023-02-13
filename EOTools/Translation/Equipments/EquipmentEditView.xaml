@@ -64,11 +64,45 @@
 				Margin="5"
 				Text="{Binding NameJP}" />
 
-			<DataGrid
+			<StackPanel
 				Grid.Row="3"
 				Grid.Column="0"
 				Grid.ColumnSpan="2"
-				ItemsSource="{Binding Upgrades}" />
+				Orientation="Vertical">
+				<Button
+					Margin="5"
+					Command="{Binding ShowAddEquipmentUpgradeDialogCommand}"
+					Content="Add upgrade" />
+
+				<DataGrid
+					AutoGenerateColumns="False"
+					IsReadOnly="True"
+					ItemsSource="{Binding Upgrades}">
+
+					<DataGrid.Columns>
+
+						<DataGridTemplateColumn>
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal">
+										<Button
+											Command="{Binding DataContext.RemoveEquipmentUpgradeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:EquipmentEditView}}"
+											CommandParameter="{Binding}"
+											Content="Delete" />
+										<Button
+											Margin="5,0,5,0"
+											Command="{Binding DataContext.EditEquipmentUpgradeCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:EquipmentEditView}}"
+											CommandParameter="{Binding}"
+											Content="Edit" />
+									</StackPanel>
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTextColumn Binding="{Binding}" Header="Upgrade" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
 
 		</Grid>
 

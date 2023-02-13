@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
-using EOTools.Tools;
 using EOTools.Translation.EquipmentUpgrade;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,7 +33,8 @@ public partial class EquipmentViewModel : ObservableObject
         NameJP = model.NameJP;
         ApiId = model.ApiId;
 
-        List<EquipmentUpgradeImprovmentViewModel> upgrades = model.UpgradeData switch {
+        List<EquipmentUpgradeImprovmentViewModel> upgrades = model.UpgradeData switch
+        {
             string => JsonSerializer.Deserialize<EquipmentUpgradeDataModel>(model.UpgradeData).Improvement.Select(upg => new EquipmentUpgradeImprovmentViewModel(upg)).ToList(),
             _ => new()
         };
@@ -56,5 +57,44 @@ public partial class EquipmentViewModel : ObservableObject
         };
 
         Model.UpgradeData = JsonSerializer.Serialize(upgrades);
+    }
+
+
+    private void ShowUpgradeEditDialog(EquipmentUpgradeImprovmentViewModel vm, bool newEntity)
+    {
+        EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model);
+
+        EquipmentUpgradeEditView view = new(vmEdit);
+
+        if (view.ShowDialog() == true)
+        {
+            vmEdit.SaveChanges();
+            vm.Model = vmEdit.Model;
+            vm.LoadFromModel();
+
+            if (newEntity)
+            {
+                Upgrades.Add(vm);
+            }
+        }
+    }
+
+    [RelayCommand]
+    public void ShowAddEquipmentUpgradeDialog()
+    {
+        EquipmentUpgradeImprovmentViewModel vm = new(new());
+        ShowUpgradeEditDialog(vm, true);
+    }
+
+    [RelayCommand]
+    public void EditEquipmentUpgrade(EquipmentUpgradeImprovmentViewModel vm)
+    {
+        ShowUpgradeEditDialog(vm, false);
+    }
+
+    [RelayCommand]
+    public void RemoveEquipmentUpgrade(EquipmentUpgradeImprovmentViewModel vm)
+    {
+        Upgrades.Remove(vm);
     }
 }

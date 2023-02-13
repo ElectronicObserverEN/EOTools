@@ -12,5 +12,32 @@
 	ui:WindowHelper.UseModernWindowStyle="True"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
-	<Grid />
+	<StackPanel>
+		<StackPanel>
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Convert to " />
+				<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding AfterConversionEquipmentName}" />
+				<Button Command="{Binding ClearEquipmentCommand}" Content="Clear" />
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal">
+				<TextBlock Text="Level after upgrade" />
+				<ui:NumberBox
+					Maximum="10"
+					Minimum="0"
+					Value="{Binding ConversionViewModel.EquipmentLevelAfter}" />
+			</StackPanel>
+
+			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+				<Button
+					Margin="5"
+					Click="OnConfirmClick"
+					Content="Ok" />
+				<Button
+					Margin="5"
+					Click="OnCancelClick"
+					Content="Cancel" />
+			</StackPanel>
+		</StackPanel>
+	</StackPanel>
 </Window>
