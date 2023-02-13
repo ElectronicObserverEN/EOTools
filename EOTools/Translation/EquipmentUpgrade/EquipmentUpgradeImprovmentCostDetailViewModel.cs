@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EOTools.Models.EquipmentUpgrade;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -19,6 +18,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
     private int sliderImproveMatCost;
 
     public ObservableCollection<EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel> EquipmentsRequired { get; set; } = new();
+    public ObservableCollection<EquipmentUpgradeImprovmentCostUseItemRequirementViewModel> UseItemsRequired { get; set; } = new();
 
     public EquipmentUpgradeImprovmentCostDetail Model { get; set; }
 
@@ -37,6 +37,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
         SliderImproveMatCost = Model.SliderImproveMatCost;
 
         EquipmentsRequired = new(Model.EquipmentDetail.Select(eq => new EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel(eq)).ToList());
+        UseItemsRequired = new(Model.ConsumableDetail.Select(eq => new EquipmentUpgradeImprovmentCostUseItemRequirementViewModel(eq)).ToList());
     }
 
     public void SaveChanges()
@@ -52,6 +53,14 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
         {
             vm.SaveChanges();
             Model.EquipmentDetail.Add(vm.Model);
+        }
+
+        Model.ConsumableDetail = new();
+
+        foreach (EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm in UseItemsRequired)
+        {
+            vm.SaveChanges();
+            Model.ConsumableDetail.Add(vm.Model);
         }
     }
 
@@ -72,5 +81,24 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
     public void RemoveEquipmentRequirement(EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel vm)
     {
         EquipmentsRequired.Remove(vm);
+    }
+
+    [RelayCommand]
+    public void AddUseItemRequirement()
+    {
+        EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm = new(new());
+
+        vm.OpenEquipmentPicker();
+
+        if (vm.Id > 0)
+        {
+            UseItemsRequired.Add(vm);
+        }
+    }
+
+    [RelayCommand]
+    public void RemoveUseItemRequirement(EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm)
+    {
+        UseItemsRequired.Remove(vm);
     }
 }
