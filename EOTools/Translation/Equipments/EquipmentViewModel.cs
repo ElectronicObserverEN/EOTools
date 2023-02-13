@@ -2,6 +2,11 @@
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
+using EOTools.Translation.EquipmentUpgrade;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text.Json;
 
 namespace EOTools.Translation.Equipments;
 
@@ -18,7 +23,7 @@ public partial class EquipmentViewModel : ObservableObject
 
     public EquipmentModel Model { get; set; }
 
-    public EquipmentUpgradeViewModel Upgrade { get; set; }
+    public ObservableCollection<EquipmentUpgradeImprovmentViewModel> Upgrades { get; set; }
 
     public EquipmentViewModel(EquipmentModel model)
     {
@@ -28,9 +33,12 @@ public partial class EquipmentViewModel : ObservableObject
         NameJP = model.NameJP;
         ApiId = model.ApiId;
 
-        EquipmentUpgradeDataModel upgradeModel = model.UpgradeData is null ? new() : JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(model.UpgradeData);
+        List<EquipmentUpgradeImprovmentViewModel> upgrades = model.UpgradeData switch {
+            string => JsonSerializer.Deserialize<EquipmentUpgradeDataModel>(model.UpgradeData).Improvement.Select(upg => new EquipmentUpgradeImprovmentViewModel(upg)).ToList(),
+            _ => new()
+        };
 
-        Upgrade = new(upgradeModel);
+        Upgrades = new(upgrades);
     }
 
     public void SaveChanges()
@@ -38,5 +46,15 @@ public partial class EquipmentViewModel : ObservableObject
         Model.NameJP = NameJP;
         Model.NameEN = NameEN;
         Model.ApiId = ApiId;
+
+        EquipmentUpgradeDataModel upgrades = new()
+        {
+            EquipmentId = ApiId,
+            ConvertTo = new(),
+            Improvement = Upgrades.Select(upg => upg.Model).ToList(),
+            UpgradeFor = new(),
+        };
+
+        Model.UpgradeData = JsonSerializer.Serialize(upgrades);
     }
 }

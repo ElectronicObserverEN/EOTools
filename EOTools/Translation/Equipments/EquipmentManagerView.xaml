@@ -5,7 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:EOTools.Translation.Equipments"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	Title="Destination update"
+	Title="Equipment manager"
 	d:DataContext="{d:DesignInstance Type=local:EquipmentManagerViewModel}"
 	d:DesignHeight="720"
 	d:DesignWidth="1080"
@@ -36,6 +36,12 @@
 					Margin="5"
 					Command="{Binding ImportFromTranslationsCommand}"
 					Content="Import from translations and data"
+					IsEnabled="False" />
+
+				<Button
+					Margin="5"
+					Command="{Binding ImportUpgradeDataCommand}"
+					Content="Import upgrade data"
 					IsEnabled="False" />
 			</StackPanel>
 		</StackPanel>

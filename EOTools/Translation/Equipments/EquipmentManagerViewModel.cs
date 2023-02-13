@@ -2,13 +2,16 @@
 using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models;
+using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
 using ModernWpf.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EOTools.Translation.Equipments;
@@ -112,6 +115,28 @@ public partial class EquipmentManagerViewModel : ObservableObject
     }
 
     #region Data import and export stuff
+    public string EquipmentUpgradeFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "EquipmentUpgrades.json");
+
+    [RelayCommand]
+    public void ImportUpgradeData()
+    {
+        List<EquipmentUpgradeDataModel> upgrades = JsonHelper.ReadJson<List<EquipmentUpgradeDataModel>>(EquipmentUpgradeFilePath);
+
+        using EOToolsDbContext db = new();
+
+        foreach (EquipmentUpgradeDataModel model in upgrades)
+        {
+            EquipmentModel? eq = db.Equipments.Where(eq => eq.ApiId == model.EquipmentId).FirstOrDefault();
+
+            if (eq != null)
+            {
+                eq.UpgradeData = JsonSerializer.Serialize(model);
+            }
+        }
+
+        db.SaveChanges();
+    }
+
     [RelayCommand]
     public void ImportFromTranslations()
     {
