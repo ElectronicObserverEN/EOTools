@@ -14,6 +14,8 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     [ObservableProperty]
     private EquipmentUpgradeConversionViewModel? conversionViewModel;
 
+    public EquipmentUpgradeImprovmentCostViewModel CostViewModel { get; set; } = new(new());
+
     public string AfterConversionEquipmentName => ConversionViewModel?.Equipment?.NameEN ?? "Select an equipment";
 
     public EquipmentUpgradeImprovmentViewModel(EquipmentUpgradeImprovmentModel model)
@@ -25,13 +27,16 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     public void LoadFromModel()
     {
         ConversionViewModel = Model.ConversionData is null ? null : new(Model.ConversionData);
+        CostViewModel = new(Model.Costs);
     }
 
     public void SaveChanges()
     {
         ConversionViewModel?.SaveChanges();
+        CostViewModel.SaveChanges();
 
         Model.ConversionData = ConversionViewModel?.Model;
+        Model.Costs = CostViewModel.Model;
     }
 
     [RelayCommand]

@@ -15,18 +15,175 @@
 	<StackPanel>
 		<StackPanel>
 			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Convert to " />
-				<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding AfterConversionEquipmentName}" />
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					Text="Convert to " />
+				<Button
+					Margin="5"
+					Command="{Binding OpenEquipmentPickerCommand}"
+					Content="{Binding AfterConversionEquipmentName}" />
 				<Button Command="{Binding ClearEquipmentCommand}" Content="Clear" />
 			</StackPanel>
 
-			<StackPanel Orientation="Horizontal">
-				<TextBlock Text="Level after upgrade" />
+			<StackPanel Margin="5" Orientation="Horizontal">
+				<TextBlock
+					Margin="5"
+					VerticalAlignment="Center"
+					Text="Level after upgrade" />
 				<ui:NumberBox
 					Maximum="10"
 					Minimum="0"
 					Value="{Binding ConversionViewModel.EquipmentLevelAfter}" />
 			</StackPanel>
+
+			<StackPanel DataContext="{Binding CostViewModel}" Orientation="Vertical">
+				<StackPanel Orientation="Horizontal">
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Fuel" />
+						<ui:NumberBox Value="{Binding Fuel}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Ammo" />
+						<ui:NumberBox Value="{Binding Ammo}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Steel" />
+						<ui:NumberBox Value="{Binding Steel}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Bauxite" />
+						<ui:NumberBox Value="{Binding Bauxite}" />
+					</StackPanel>
+				</StackPanel>
+
+				<TextBlock Margin="5" Text="Cost 0 to 5" />
+
+				<StackPanel DataContext="{Binding Cost0To5ViewModel}" Orientation="Horizontal">
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="DevMats" />
+						<ui:NumberBox Value="{Binding DevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Screws" />
+						<ui:NumberBox Value="{Binding ImproveMatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+					</StackPanel>
+				</StackPanel>
+
+				<TextBlock Margin="5" Text="Cost 6 to 9" />
+
+				<StackPanel DataContext="{Binding Cost6To9ViewModel}" Orientation="Horizontal">
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="DevMats" />
+						<ui:NumberBox Value="{Binding DevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Screws" />
+						<ui:NumberBox Value="{Binding ImproveMatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+					</StackPanel>
+				</StackPanel>
+
+				<TextBlock Margin="5" Text="Cost Max" />
+
+				<StackPanel DataContext="{Binding CostMaxViewModel}" Orientation="Horizontal">
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="DevMats" />
+						<ui:NumberBox Value="{Binding DevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderDevmatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="Screws" />
+						<ui:NumberBox Value="{Binding ImproveMatCost}" />
+					</StackPanel>
+
+					<StackPanel Orientation="Horizontal">
+						<TextBlock
+							Margin="5"
+							VerticalAlignment="Center"
+							Text="With slider" />
+						<ui:NumberBox Value="{Binding SliderImproveMatCost}" />
+					</StackPanel>
+				</StackPanel>
+			</StackPanel>
+
 
 			<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 				<Button
