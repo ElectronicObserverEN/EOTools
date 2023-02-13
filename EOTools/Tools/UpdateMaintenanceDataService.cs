@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EOTools.Tools;
 
@@ -36,6 +37,33 @@ public class UpdateMaintenanceDataService
         JObject updateData = JsonHelper.ReadJsonObject(UpdateFilePath);
 
         // get last update : 
+        (UpdateModel? update, int updState) = GetMaintenanceState();
+
+        if (update is not null)
+        {
+            updateData["kancolle_mt"] = $"{update.UpdateDate.Add(update.UpdateStartTime):yyyy/MM/dd hh:mm:ss}";
+        }
+
+        updateData["event_state"] = updState;
+
+        new DatabaseSyncService().PushDatabaseChangesToGit();
+
+        JsonHelper.WriteJson(UpdateFilePath, updateData);
+
+        GitManager.Stage(UpdateFilePath);
+
+        string commitMessage = update switch
+        {
+            UpdateModel => $"Maintenance information - {update.Name}",
+            _ => "Clear maintenance information"
+        };
+
+        GitManager.CommitAndPush(commitMessage);
+    }
+
+    private (UpdateModel?, int) GetMaintenanceState()
+    {
+        // get last update : 
         using EOToolsDbContext db = new();
 
         UpdateModel? update = db.Updates
@@ -44,39 +72,30 @@ public class UpdateMaintenanceDataService
             .OrderBy(upd => upd.UpdateDate)
             .FirstOrDefault();
 
-        if (update is null) return;
-
-        updateData["kancolle_mt"] = $"{update.UpdateDate.Add(update.UpdateStartTime):yyyy/MM/dd hh:mm:ss}";
-
-        EventModel? eventStart = db.Events
-            .AsEnumerable()
-            .FirstOrDefault(ev => ev.StartOnUpdateId == update.Id);
+        if (update is null)
+        {
+            return (null, (int)MaintenanceState.None);
+        }
 
         EventModel? eventEnd = db.Events
             .AsEnumerable()
             .FirstOrDefault(ev => ev.EndOnUpdateId == update.Id);
 
-        updateData["event_state"] = (int)MaintenanceState.Regular;
-
         if (eventEnd != null)
         {
-            updateData["event_state"] = (int)MaintenanceState.EventEnd;
+            return new(update, (int)MaintenanceState.EventEnd);
         }
-        else if (eventStart != null)
+
+        EventModel? eventStart = db.Events
+            .AsEnumerable()
+            .FirstOrDefault(ev => ev.StartOnUpdateId == update.Id);
+
+        if (eventStart != null)
         {
-            updateData["event_state"] = (int)MaintenanceState.EventStart;
+            return new(update, (int)MaintenanceState.EventStart);
         }
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
-
-        JsonHelper.WriteJson(UpdateFilePath, updateData);
-
-        return;
-
-        GitManager.Stage(UpdateFilePath);
-
-        GitManager.CommitAndPush($"Maintenance information - {update.Name}");
-
+        return new(update, (int)MaintenanceState.Regular);
     }
 
     /// <summary>
