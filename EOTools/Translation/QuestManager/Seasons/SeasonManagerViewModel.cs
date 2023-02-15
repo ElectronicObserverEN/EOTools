@@ -27,7 +27,7 @@ public partial class SeasonManagerViewModel
     {
         SeasonListSorted.Clear();
 
-        List<SeasonViewModel> updates = SeasonList.OrderBy(update => update?.AddedOnUpdate?.UpdateDate).ToList();
+        List<SeasonViewModel> updates = SeasonList.OrderByDescending(update => update?.AddedOnUpdate?.UpdateDate).ToList();
 
         foreach (SeasonViewModel update in updates)
         {
@@ -111,5 +111,17 @@ public partial class SeasonManagerViewModel
         }
 
         db.SaveChanges();
+    }
+
+    [RelayCommand]
+    public void ManageQuests(SeasonViewModel vm)
+    {
+        QuestManagerViewModel questViewModel = new()
+        {
+            SeasonFilter = vm.Model
+        };
+        QuestManagerWindowView questView = new(questViewModel);
+
+        questView.ShowDialog();
     }
 }

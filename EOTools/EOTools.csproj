@@ -51,6 +51,9 @@
     <Compile Update="Translation\QuestManager\Quests\QuestEditView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\QuestManager\Quests\QuestManagerWindowView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\QuestManager\Quests\QuestManagerView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -26,7 +26,7 @@ public partial class UpdateManagerViewModel
     {
         UpdateListSorted.Clear();
 
-        List<UpdateViewModel> updates = UpdateList.OrderBy(update => update.UpdateDate).ToList();
+        List<UpdateViewModel> updates = UpdateList.OrderByDescending(update => update.UpdateDate).ToList();
 
         foreach (UpdateViewModel update in updates)
         {

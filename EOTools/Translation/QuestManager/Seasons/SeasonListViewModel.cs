@@ -21,6 +21,10 @@ public partial class SeasonListViewModel : ObservableObject
         SeasonList = new(db.Seasons
             .Select(Season => new SeasonViewModel(Season))
             .ToList());
+
+        SeasonList = SeasonList
+            .OrderByDescending(season => season?.AddedOnUpdate?.UpdateDate)
+            .ToList();
     }
 
     [RelayCommand]

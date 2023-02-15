@@ -21,6 +21,10 @@ public partial class UpdateListViewModel : ObservableObject
         UpdateList = new(db.Updates
             .Select(update => new UpdateViewModel(update))
             .ToList());
+
+        UpdateList = UpdateList
+            .OrderByDescending(update => update.UpdateDate)
+            .ToList();
     }
 
     [RelayCommand]

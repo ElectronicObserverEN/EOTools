@@ -3,13 +3,12 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Tools;
+using EOTools.Translation.QuestManager.Seasons;
 using ModernWpf.Controls;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +19,9 @@ public partial class QuestManagerViewModel : ObservableObject
 {
     public ObservableCollection<QuestViewModel> QuestListFiltered { get; set; } = new();
     public List<QuestViewModel> QuestList { get; set; }
+
+    [ObservableProperty]
+    private SeasonModel? seasonFilter;
 
     [ObservableProperty]
     private string filter = "";
@@ -40,6 +42,7 @@ public partial class QuestManagerViewModel : ObservableObject
     private void QuestManagerViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(Filter)) ReloadQuestList();
+        if (e.PropertyName == nameof(SeasonFilter)) ReloadQuestList();
     }
 
     public void ReloadQuestList()
@@ -47,6 +50,7 @@ public partial class QuestManagerViewModel : ObservableObject
         QuestListFiltered.Clear();
 
         List<QuestViewModel> quests = QuestList
+            .Where(quest => SeasonFilter is null || SeasonFilter.Id == quest.SeasonId)
             .Where(quest => string.IsNullOrEmpty(Filter) || quest.Code.ToLower().Contains(Filter.ToLower()) || quest.NameEN.ToLower().Contains(Filter.ToLower()) || quest.DescEN.ToLower().Contains(Filter.ToLower()))
             .ToList();
 
