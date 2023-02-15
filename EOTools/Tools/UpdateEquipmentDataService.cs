@@ -50,13 +50,13 @@ public class UpdateEquipmentDataService
                 translations.Add(model.NameJP, model.NameEN);
         }
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
+        // --- Stage & push
+        GitManager.Pull();
+
+        new DatabaseSyncService().StageDatabaseChangesToGit();
 
         JsonHelper.WriteJson(EquipmentTranslationsFilePath, toSerialize);
         JsonHelper.WriteJson(UpdateFilePath, updateJson);
-
-        // --- Stage & push
-        GitManager.Pull();
 
         GitManager.Stage(EquipmentTranslationsFilePath);
         GitManager.Stage(UpdateFilePath);
@@ -88,13 +88,13 @@ public class UpdateEquipmentDataService
             upgradesJson.Add(upgrade);
         }
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
+        // --- Stage & push
+        GitManager.Pull();
+
+        new DatabaseSyncService().StageDatabaseChangesToGit();
 
         JsonHelper.WriteJsonByOnlyIndentingXTimes(EquipmentUpgradesFilePath, upgradesJson, 4);
         JsonHelper.WriteJson(UpdateDataFilePath, updateJson);
-
-        // --- Stage & push
-        GitManager.Pull();
 
         GitManager.Stage(EquipmentUpgradesFilePath);
         GitManager.Stage(UpdateDataFilePath);

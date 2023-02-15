@@ -20,10 +20,8 @@ public class DatabaseSyncService
     private string SeasonsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Seasons.json");
     private string EquipmentFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Equipments.json");
 
-    public void PushDatabaseChangesToGit()
+    public void StageDatabaseChangesToGit()
     {
-        GitManager.Pull();
-
         using EOToolsDbContext db = new();
 
         JsonHelper.WriteJson(UpdatesFilePath, db.Updates.ToList());
@@ -37,9 +35,10 @@ public class DatabaseSyncService
         GitManager.Stage(QuestsFilePath);
         GitManager.Stage(SeasonsFilePath);
         GitManager.Stage(EquipmentFilePath);
-
-        GitManager.CommitAndPush($"Database update");
     }
+
+    public void PushDatabaseChangesToGit()
+        => GitManager.CommitAndPush($"Database update");
 
     public void PullDataBase()
     {

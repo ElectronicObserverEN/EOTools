@@ -42,7 +42,7 @@ public class UpdateMaintenanceDataService
 
         updateData["event_state"] = updState;
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
+        new DatabaseSyncService().StageDatabaseChangesToGit();
 
         JsonHelper.WriteJson(UpdateFilePath, updateData);
 

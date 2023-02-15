@@ -50,13 +50,13 @@ public class UpdateQuestDataService
             });
         }
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
+        // --- Stage & push
+        GitManager.Pull();
+
+        new DatabaseSyncService().StageDatabaseChangesToGit();
 
         JsonHelper.WriteJson(QuestsTranslationsFilePath, toSerialize);
         JsonHelper.WriteJson(UpdateFilePath, updateJson);
-
-        // --- Stage & push
-        GitManager.Pull();
 
         GitManager.Stage(QuestsTranslationsFilePath);
         GitManager.Stage(UpdateFilePath);
@@ -87,13 +87,13 @@ public class UpdateQuestDataService
             toSerialize.Add(JArray.Parse(_quest.Tracker));
         }
 
-        new DatabaseSyncService().PushDatabaseChangesToGit();
+        // --- Stage & push
+        GitManager.Pull();
+
+        new DatabaseSyncService().StageDatabaseChangesToGit();
 
         JsonHelper.WriteJsonByOnlyIndentingOnce(TrackersFilePath, toSerialize);
         JsonHelper.WriteJson(UpdateDataFilePath, updateJson);
-
-        // --- Stage & push
-        GitManager.Pull();
 
         GitManager.Stage(TrackersFilePath);
         GitManager.Stage(UpdateDataFilePath);

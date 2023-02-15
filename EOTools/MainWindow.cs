@@ -131,6 +131,8 @@ namespace EOTools
         private void PushDatabase(object sender, RoutedEventArgs e)
         {
             DatabaseSyncService service = new();
+            service.PullDataBase();
+            service.StageDatabaseChangesToGit();
             service.PushDatabaseChangesToGit();
         }
 
