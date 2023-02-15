@@ -1,48 +1,98 @@
 ﻿<Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EOTools.Translation"
-      xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" x:Class="EOTools.Translation.TranslationEquipForm"
-      mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="1080
-    "
-      Title="TranslationShip">
+	x:Class="EOTools.Translation.TranslationEquipForm"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="TranslationShip"
+	d:DesignHeight="720"
+	d:DesignWidth="1080     "
+	mc:Ignorable="d">
 
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
-            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" DockPanel.Dock="Left" Margin="10" Height="40"/>
-            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Left"  Margin="10" Height="40" Click="buttonExport_Click"/>
-        </DockPanel>
-        <DockPanel LastChildFill="False" DockPanel.Dock="Top" HorizontalAlignment="Left">
+	<DockPanel>
+		<DockPanel DockPanel.Dock="Top">
+			<Button
+				x:Name="buttonSelectFile"
+				Height="40"
+				Margin="10"
+				Click="buttonSelectFile_Click"
+				Content="Choose file"
+				DockPanel.Dock="Left" />
+			<Button
+				x:Name="buttonExport"
+				Height="40"
+				Margin="10"
+				Click="buttonExport_Click"
+				Content="Save and push to git"
+				DockPanel.Dock="Left" />
+		</DockPanel>
+		<DockPanel
+			HorizontalAlignment="Left"
+			DockPanel.Dock="Top"
+			LastChildFill="False">
 
-            <DockPanel LastChildFill="False">
-                <Button x:Name="buttonAddEquipment" Content="Add equipment"  DockPanel.Dock="Top" Margin="10" Height="40" Click="buttonAddQuestTL_Click"/>
-                <ListView x:Name="ListEquipment" ItemsSource="{Binding JsonEquip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="200" KeyUp="ListEquipment_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <Button x:Name="buttonAddEquType" Content="Add equ. type"  DockPanel.Dock="Top" Margin="10" Height="40" Click="buttonAddSuffix_Click" />
-                <ListView x:Name="ListEquipType" ItemsSource="{Binding JsonEquipType}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" KeyUp="ListEquipType_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-            </DockPanel>
-            <DockPanel LastChildFill="False" DockPanel.Dock="Left" Width="500" Margin="10">
-                <Label x:Name="labelJPName" Content="JP Name" DockPanel.Dock="Top" HorizontalAlignment="Left" Width="500"/>
-                <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" DockPanel.Dock="Top" Height="50" Width="500" Text="{Binding SelectedEquip.NameJP}"  HorizontalAlignment="Left"/>
-                <Label x:Name="labelENName" Content="EN Name" Width="500" DockPanel.Dock="Top" HorizontalAlignment="Left"/>
-                <TextBox x:Name="textBoxEnName" TextWrapping="Wrap" Width="500" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedEquip.NameEN}" HorizontalAlignment="Left"/>
-            </DockPanel>
-        </DockPanel>
-    </DockPanel>
+			<DockPanel LastChildFill="False">
+				<Button
+					x:Name="buttonAddEquType"
+					Height="40"
+					Margin="10"
+					Click="buttonAddSuffix_Click"
+					Content="Add equ. type"
+					DockPanel.Dock="Top" />
+				<ListView
+					x:Name="ListEquipType"
+					Width="auto"
+					DockPanel.Dock="Top"
+					ItemsSource="{Binding JsonEquipType}"
+					KeyUp="ListEquipType_KeyUp"
+					SelectionChanged="ListQuests_SelectionChanged">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP" />
+							<GridViewColumn
+								Width="400"
+								DisplayMemberBinding="{Binding NameEN}"
+								Header="Name EN" />
+						</GridView>
+					</ListView.View>
+				</ListView>
+			</DockPanel>
+			<DockPanel
+				Width="500"
+				Margin="10"
+				DockPanel.Dock="Left"
+				LastChildFill="False">
+				<Label
+					x:Name="labelJPName"
+					Width="500"
+					HorizontalAlignment="Left"
+					Content="JP Name"
+					DockPanel.Dock="Top" />
+				<TextBox
+					x:Name="textBoxJPName"
+					Width="500"
+					Height="50"
+					HorizontalAlignment="Left"
+					DockPanel.Dock="Top"
+					Text="{Binding SelectedEquip.NameJP}"
+					TextWrapping="Wrap" />
+				<Label
+					x:Name="labelENName"
+					Width="500"
+					HorizontalAlignment="Left"
+					Content="EN Name"
+					DockPanel.Dock="Top" />
+				<TextBox
+					x:Name="textBoxEnName"
+					Width="500"
+					Height="50"
+					HorizontalAlignment="Left"
+					DockPanel.Dock="Top"
+					Text="{Binding SelectedEquip.NameEN}"
+					TextWrapping="Wrap" />
+			</DockPanel>
+		</DockPanel>
+	</DockPanel>
 </Page>

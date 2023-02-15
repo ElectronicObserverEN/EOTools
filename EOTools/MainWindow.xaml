@@ -47,10 +47,6 @@
 					x:Name="MenuItemFitBonusUpdate"
 					Click="MenuItemFitBonusUpdate_Click"
 					Header="_Update fit bonuses" />
-				<MenuItem
-					x:Name="MenuItemEqUpgradeUpdate"
-					Click="MenuItemEqUpgradeUpdate_Click"
-					Header="_Update equipment upgrade data" />
 			</MenuItem>
 
 			<MenuItem Header="Manage data">

@@ -196,14 +196,6 @@ namespace EOTools.Translation
             StageAndPushFiles();
         }
 
-        private void ListEquipment_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Delete)
-            {
-                JsonEquip.Remove((EquipData)ListEquipment.SelectedItem);
-            }
-        }
-
         private void ListEquipType_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Delete)

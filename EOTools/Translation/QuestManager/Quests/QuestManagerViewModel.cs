@@ -301,8 +301,8 @@ public partial class QuestManagerViewModel : ObservableObject
 
                 Code = questKey.Name,
 
-                DescJP = questData.Value<string>("name_jp") ?? "",
-                NameJP = questData.Value<string>("desc_jp") ?? "",
+                NameJP = questData.Value<string>("name_jp") ?? "",
+                DescJP = questData.Value<string>("desc_jp") ?? "",
 
                 NameEN = questData.Value<string>("name_jp") ?? "",
                 DescEN = questData.Value<string>("desc_jp") ?? "",

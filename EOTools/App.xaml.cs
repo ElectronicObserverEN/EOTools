@@ -1,4 +1,6 @@
-﻿using ModernWpf.Controls;
+﻿using EOTools.DataBase;
+using Microsoft.EntityFrameworkCore;
+using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,6 +17,12 @@ namespace EOTools
   /// </summary>
   public partial class App : Application
   {
+        public App()
+        {
+            using EOToolsDbContext db = new();
+            db.Database.Migrate();
+        }
+
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Process unhandled exception
