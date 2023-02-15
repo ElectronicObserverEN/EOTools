@@ -15,24 +15,10 @@ namespace EOTools.Translation
     /// </summary>
     public partial class DestinationUpdateForm : Page, INotifyPropertyChanged
     {
-        private string FilePath
-        {
-            get
-            {
-                return AppSettings.DestinationFilePath;
-            }
-            set
-            {
-                AppSettings.DestinationFilePath = value;
-            }
-        }
-
-        private string UpdateFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "..", "update.json");
-
-        //private string NodeFilePath => Path.Combine(Path.GetDirectoryName(FilePath), "nodes.json");
+        private string FilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "destination.json");
+        private string UpdateFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "update.json");
 
         private JObject JsonDestinationData = new JObject();
-        //private JObject JsonNodeData = new JObject();
 
         private GitManager GitManager
         {
@@ -90,25 +76,6 @@ namespace EOTools.Translation
         protected void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        private void buttonSelectFile_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() != true) return;
-
-            // --- Load file
-            FilePath = openFileDialog.FileName;
-
-            try
-            {
-                LoadFile();
-            }
-            catch
-            {
-                MessageBox.Show("Error parsing Json");
-            }
         }
 
         private void buttonExport_Click(object sender, System.Windows.RoutedEventArgs e)

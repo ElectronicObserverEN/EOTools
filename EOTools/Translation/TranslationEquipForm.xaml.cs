@@ -16,17 +16,7 @@ namespace EOTools.Translation
     /// </summary>
     public partial class TranslationEquipForm : Page, INotifyPropertyChanged
     {
-        private string FilePath
-        {
-            get
-            {
-                return AppSettings.EquipmentTLFilePath;
-            }
-            set
-            {
-                AppSettings.EquipmentTLFilePath = value;
-            }
-        }
+        private string FilePath => UpdateEquipmentDataService.EquipmentTranslationsFilePath;
 
         private JObject JsonEquipData = new JObject();
 
@@ -126,25 +116,6 @@ namespace EOTools.Translation
         protected void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        private void buttonSelectFile_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() != true) return;
-
-            // --- Load file
-            FilePath = openFileDialog.FileName;
-
-            try
-            {
-                LoadFile();
-            }
-            catch
-            {
-                MessageBox.Show("Error parsing Json");
-            }
         }
 
         private void ListQuests_SelectionChanged(object sender, SelectionChangedEventArgs e)

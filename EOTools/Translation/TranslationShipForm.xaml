@@ -1,75 +1,165 @@
 ﻿<Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EOTools.Translation"
-      xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" x:Class="EOTools.Translation.TranslationShipForm"
-      mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="1080
-    "
-      Title="TranslationShip">
+	x:Class="EOTools.Translation.TranslationShipForm"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="TranslationShip"
+	d:DesignHeight="720"
+	d:DesignWidth="1080     "
+	mc:Ignorable="d">
 
-    <DockPanel>
-        <DockPanel LastChildFill="False" DockPanel.Dock="Top">
-            <Button x:Name="buttonSelectFile" Content="Choose file" Click="buttonSelectFile_Click" Width="100" DockPanel.Dock="Left" Margin="10" Height="40"/>
-            <Button x:Name="buttonExport" Content="Save and push to git"  DockPanel.Dock="Left"  Margin="10" Height="40" Click="buttonExport_Click"/>
-        </DockPanel>
-        <DockPanel LastChildFill="False" DockPanel.Dock="Top" >
+	<DockPanel>
+		<DockPanel DockPanel.Dock="Top" LastChildFill="False">
+			<Button
+				x:Name="buttonExport"
+				Height="40"
+				Margin="10"
+				Click="buttonExport_Click"
+				Content="Save and push to git"
+				DockPanel.Dock="Left" />
+		</DockPanel>
+		<DockPanel DockPanel.Dock="Top" LastChildFill="False">
 
-            <DockPanel Width="550">
-                <Button x:Name="buttonAddShip" Content="Add ship"  DockPanel.Dock="Top" Height="40" Click="buttonAddQuestTL_Click" Margin="10"/>
-                <ListView x:Name="ListShips" ItemsSource="{Binding JsonShip}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="500" KeyUp="ListShips_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+			<DockPanel Width="550">
+				<Button
+					x:Name="buttonAddShip"
+					Height="40"
+					Margin="10"
+					Click="buttonAddQuestTL_Click"
+					Content="Add ship"
+					DockPanel.Dock="Top" />
+				<ListView
+					x:Name="ListShips"
+					Width="auto"
+					Height="500"
+					DockPanel.Dock="Top"
+					ItemsSource="{Binding JsonShip}"
+					KeyUp="ListShips_KeyUp"
+					SelectionChanged="ListQuests_SelectionChanged">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP" />
+							<GridViewColumn
+								Width="400"
+								DisplayMemberBinding="{Binding NameEN}"
+								Header="Name EN" />
+						</GridView>
+					</ListView.View>
+				</ListView>
 
-                <Button x:Name="buttonAddSuffix" Content="Add suffix"  DockPanel.Dock="Top" Height="40" Click="buttonAddSuffix_Click" Margin="10" />
-                <ListView x:Name="ListSuffixe" ItemsSource="{Binding JsonSuffixe}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" KeyUp="ListSuffixe_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+				<Button
+					x:Name="buttonAddSuffix"
+					Height="40"
+					Margin="10"
+					Click="buttonAddSuffix_Click"
+					Content="Add suffix"
+					DockPanel.Dock="Top" />
+				<ListView
+					x:Name="ListSuffixe"
+					Width="auto"
+					ItemsSource="{Binding JsonSuffixe}"
+					KeyUp="ListSuffixe_KeyUp"
+					SelectionChanged="ListQuests_SelectionChanged">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP" />
+							<GridViewColumn
+								Width="400"
+								DisplayMemberBinding="{Binding NameEN}"
+								Header="Name EN" />
+						</GridView>
+					</ListView.View>
+				</ListView>
 
-            </DockPanel>
+			</DockPanel>
 
-            <DockPanel>
+			<DockPanel>
 
-                <Button x:Name="buttonAddClass" Content="Add class"  DockPanel.Dock="Top" Height="40" Click="buttonAddClass_Click" Margin="10" />
-                <ListView x:Name="ListClass" ItemsSource="{Binding JsonClass}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" Height="500" KeyUp="ListStype_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                
-                <Button x:Name="buttonAddSType" Content="Add stype"  DockPanel.Dock="Top" Height="40" Click="buttonAddSType_Click" Margin="10" />
-                <ListView x:Name="ListStype" ItemsSource="{Binding JsonStype}" Width="auto" SelectionChanged="ListQuests_SelectionChanged" DockPanel.Dock="Top" KeyUp="ListStype_KeyUp" >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP"/>
-                            <GridViewColumn DisplayMemberBinding="{Binding NameEN}" Header="Name EN" Width="400"/>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+				<Button
+					x:Name="buttonAddClass"
+					Height="40"
+					Margin="10"
+					Click="buttonAddClass_Click"
+					Content="Add class"
+					DockPanel.Dock="Top" />
+				<ListView
+					x:Name="ListClass"
+					Width="auto"
+					Height="500"
+					DockPanel.Dock="Top"
+					ItemsSource="{Binding JsonClass}"
+					KeyUp="ListStype_KeyUp"
+					SelectionChanged="ListQuests_SelectionChanged">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP" />
+							<GridViewColumn
+								Width="400"
+								DisplayMemberBinding="{Binding NameEN}"
+								Header="Name EN" />
+						</GridView>
+					</ListView.View>
+				</ListView>
 
-            </DockPanel>
-            
-            <DockPanel LastChildFill="False" DockPanel.Dock="Left" Margin="10">
-                <Label x:Name="labelJPName" Content="JP Name" Width="500" DockPanel.Dock="Top"/>
-                <TextBox x:Name="textBoxJPName" TextWrapping="Wrap" Width="500" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedShip.NameJP}"/>
-                <Label x:Name="labelENName" Content="EN Name" Width="500" DockPanel.Dock="Top"/>
-                <TextBox x:Name="textBoxEnName" TextWrapping="Wrap" Width="500" DockPanel.Dock="Top" Height="50" Text="{Binding SelectedShip.NameEN}"/>
-            </DockPanel>
-        </DockPanel>
-    </DockPanel>
+				<Button
+					x:Name="buttonAddSType"
+					Height="40"
+					Margin="10"
+					Click="buttonAddSType_Click"
+					Content="Add stype"
+					DockPanel.Dock="Top" />
+				<ListView
+					x:Name="ListStype"
+					Width="auto"
+					DockPanel.Dock="Top"
+					ItemsSource="{Binding JsonStype}"
+					KeyUp="ListStype_KeyUp"
+					SelectionChanged="ListQuests_SelectionChanged">
+					<ListView.View>
+						<GridView>
+							<GridViewColumn DisplayMemberBinding="{Binding NameJP}" Header="Name JP" />
+							<GridViewColumn
+								Width="400"
+								DisplayMemberBinding="{Binding NameEN}"
+								Header="Name EN" />
+						</GridView>
+					</ListView.View>
+				</ListView>
+
+			</DockPanel>
+
+			<DockPanel
+				Margin="10"
+				DockPanel.Dock="Left"
+				LastChildFill="False">
+				<Label
+					x:Name="labelJPName"
+					Width="500"
+					Content="JP Name"
+					DockPanel.Dock="Top" />
+				<TextBox
+					x:Name="textBoxJPName"
+					Width="500"
+					Height="50"
+					DockPanel.Dock="Top"
+					Text="{Binding SelectedShip.NameJP}"
+					TextWrapping="Wrap" />
+				<Label
+					x:Name="labelENName"
+					Width="500"
+					Content="EN Name"
+					DockPanel.Dock="Top" />
+				<TextBox
+					x:Name="textBoxEnName"
+					Width="500"
+					Height="50"
+					DockPanel.Dock="Top"
+					Text="{Binding SelectedShip.NameEN}"
+					TextWrapping="Wrap" />
+			</DockPanel>
+		</DockPanel>
+	</DockPanel>
 </Page>

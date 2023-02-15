@@ -170,7 +170,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
 
     private List<EquipData> LoadEquipmentTranslations()
     {
-        JObject translationsJson = JsonHelper.ReadJsonObject(AppSettings.EquipmentTLFilePath);
+        JObject translationsJson = JsonHelper.ReadJsonObject(UpdateEquipmentDataService.EquipmentTranslationsFilePath);
         JObject jsonEquipList = translationsJson["equipment"].Value<JObject>();
         List<EquipData> results = new();
 

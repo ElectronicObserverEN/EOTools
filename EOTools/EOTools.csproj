@@ -69,9 +69,6 @@
     <Compile Update="Translation\TranslationEquipForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Translation\QuestTrackerForm.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Translation\TranslationShipForm.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -98,10 +95,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Translation\TranslationEquipForm.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Translation\QuestTrackerForm.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

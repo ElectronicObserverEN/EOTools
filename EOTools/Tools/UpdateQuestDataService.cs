@@ -2,7 +2,6 @@
 using EOTools.Models;
 using EOTools.Translation.QuestManager.Quests;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,8 +14,8 @@ public class UpdateQuestDataService
 
     private string UpdateFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Translations", "en-US", "update.json");
     private string UpdateDataFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "update.json");
-    private string TrackersFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "QuestTrackers.json");
-    private string QuestsTranslationsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Translations", "en-US", "quest.json");
+    public static string TrackersFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "QuestTrackers.json");
+    public static string QuestsTranslationsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Translations", "en-US", "quest.json");
 
 
     public void UpdateQuestTranslations()

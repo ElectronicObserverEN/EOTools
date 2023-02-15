@@ -14,13 +14,6 @@
 	<DockPanel>
 		<DockPanel DockPanel.Dock="Top">
 			<Button
-				x:Name="buttonSelectFile"
-				Height="40"
-				Margin="10"
-				Click="buttonSelectFile_Click"
-				Content="Choose file"
-				DockPanel.Dock="Left" />
-			<Button
 				x:Name="buttonExport"
 				Height="40"
 				Margin="10"

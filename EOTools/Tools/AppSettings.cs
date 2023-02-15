@@ -8,49 +8,6 @@ namespace EOTools.Tools
     public static class AppSettings
     {
         #region Translations file paths
-        private static string questTLFilePath = "";
-        public static string QuestTLFilePath
-        {
-            get
-            {
-                return questTLFilePath;
-            }
-            set
-            {
-                questTLFilePath = value;
-                WriteSettings();
-            }
-        }
-
-
-        private static string questTrackerFilePath = "";
-        public static string QuestTrackerFilePath
-        {
-            get
-            {
-                return questTrackerFilePath;
-            }
-            set
-            {
-                questTrackerFilePath = value;
-                WriteSettings();
-            }
-        }
-
-        private static string destinationFilePath = "";
-        public static string DestinationFilePath
-        {
-            get
-            {
-                return destinationFilePath;
-            }
-            set
-            {
-                destinationFilePath = value;
-                WriteSettings();
-            }
-        }
-
         private static string electronicObserverDataFolderPath = "";
         public static string ElectronicObserverDataFolderPath
         {
@@ -61,35 +18,6 @@ namespace EOTools.Tools
             set
             {
                 electronicObserverDataFolderPath = value;
-                WriteSettings();
-            }
-        }
-
-
-        private static string equipmentTLFilePath = "";
-        public static string EquipmentTLFilePath
-        {
-            get
-            {
-                return equipmentTLFilePath;
-            }
-            set
-            {
-                equipmentTLFilePath = value;
-                WriteSettings();
-            }
-        }
-
-        private static string shipTLFilePath = "";
-        public static string ShipTLFilePath
-        {
-            get
-            {
-                return shipTLFilePath;
-            }
-            set
-            {
-                shipTLFilePath = value;
                 WriteSettings();
             }
         }
@@ -153,21 +81,6 @@ namespace EOTools.Tools
 
             JToken _value;
 
-            if (_jsonSettings.TryGetValue("QuestTLFilePath", out _value)) 
-            {
-                questTLFilePath = _value.ToString();
-            }
-
-            if (_jsonSettings.TryGetValue("EquipmentTLFilePath", out _value))
-            {
-                equipmentTLFilePath = _value.ToString();
-            }
-
-            if (_jsonSettings.TryGetValue("ShipTLFilePath", out _value))
-            {
-                shipTLFilePath = _value.ToString();
-            }
-
             if (_jsonSettings.TryGetValue("GetDataPath", out _value))
             {
                 kancolleEOAPIFolder = _value.ToString();
@@ -176,16 +89,6 @@ namespace EOTools.Tools
             if (_jsonSettings.TryGetValue("ShipIconFolder", out _value))
             {
                 shipIconFolder = _value.ToString();
-            }
-
-            if (_jsonSettings.TryGetValue("QuestTrackerFilePath", out _value))
-            {
-                questTrackerFilePath = _value.ToString();
-            }
-
-            if (_jsonSettings.TryGetValue("DestinationFilePath", out _value))
-            {
-                destinationFilePath = _value.ToString();
             }
 
             if (_jsonSettings.TryGetValue("ElectronicObserverDataFolderPath", out _value))
@@ -198,13 +101,8 @@ namespace EOTools.Tools
         {
             Dictionary<string, string> _jsonData = new Dictionary<string, string>();
 
-            _jsonData.Add("QuestTLFilePath", QuestTLFilePath);
-            _jsonData.Add("EquipmentTLFilePath", EquipmentTLFilePath);
-            _jsonData.Add("ShipTLFilePath", ShipTLFilePath);
             _jsonData.Add("GetDataPath", KancolleEOAPIFolder);
             _jsonData.Add("ShipIconFolder", ShipIconFolder);
-            _jsonData.Add("QuestTrackerFilePath", QuestTrackerFilePath);
-            _jsonData.Add("DestinationFilePath", DestinationFilePath);
             _jsonData.Add("ElectronicObserverDataFolderPath", ElectronicObserverDataFolderPath);
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);

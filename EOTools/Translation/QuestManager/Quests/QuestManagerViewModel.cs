@@ -228,7 +228,7 @@ public partial class QuestManagerViewModel : ObservableObject
 
     private List<QuestData> GetDataFromQuestsTranslations()
     {
-        JObject json = JsonHelper.ReadJsonObject(AppSettings.QuestTLFilePath);
+        JObject json = JsonHelper.ReadJsonObject(UpdateQuestDataService.QuestsTranslationsFilePath);
 
         List<QuestData> listOfQuests = new();
 
@@ -257,7 +257,7 @@ public partial class QuestManagerViewModel : ObservableObject
 
     private List<QuestTrackerData> GetTrackersData()
     {
-        JArray json = JsonHelper.ReadJsonArray(AppSettings.QuestTrackerFilePath);
+        JArray json = JsonHelper.ReadJsonArray(UpdateQuestDataService.TrackersFilePath);
 
         List<QuestTrackerData> trackers = new List<QuestTrackerData>();
 

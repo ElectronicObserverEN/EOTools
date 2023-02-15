@@ -31,12 +31,6 @@ namespace EOTools
             MainContentFrame.Content = new RPCManager();
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
-        {
-            // --- Open quest translation
-            MainContentFrame.Content = new TranslationQuestForm();
-        }
-
         private void MenuItemShipTranslation_Click(object sender, RoutedEventArgs e)
         {
             // --- Open quest translation
@@ -47,12 +41,6 @@ namespace EOTools
         {
             // --- Open equipment translation
             MainContentFrame.Content = new TranslationEquipForm();
-        }
-
-        private void ManageTrackers(object sender, RoutedEventArgs e)
-        {
-            // --- Open trackers
-            MainContentFrame.Content = new QuestTrackerForm();
         }
 
         private void MenuItemDestinationUpdate_Click(object sender, RoutedEventArgs e)
