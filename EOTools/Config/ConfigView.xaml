@@ -1,0 +1,73 @@
+﻿<Page
+	x:Class="EOTools.Config.ConfigView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Config"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="ConfigView"
+	d:DataContext="{d:DesignInstance local:ConfigViewModel}"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	mc:Ignorable="d">
+
+	<Page.Resources>
+		<Style TargetType="TextBlock">
+			<Setter Property="Foreground" Value="White" />
+		</Style>
+	</Page.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="Auto" />
+		</Grid.ColumnDefinitions>
+
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<TextBlock
+			Grid.Row="0"
+			Grid.Column="0"
+			VerticalAlignment="Center"
+			Text="Data repo path : " />
+
+		<Button
+			Grid.Row="0"
+			Grid.Column="1"
+			Margin="5"
+			Command="{Binding OpenDataFolderDialogCommand}"
+			Content="{Binding DataFolderDisplay}" />
+
+
+		<TextBlock
+			Grid.Row="1"
+			Grid.Column="0"
+			VerticalAlignment="Center"
+			Text="EO API folder : " />
+
+		<Button
+			Grid.Row="1"
+			Grid.Column="1"
+			Margin="5"
+			Command="{Binding OpenAPIFolderDialogCommand}"
+			Content="{Binding APIFolderDisplay}" />
+
+
+		<TextBlock
+			Grid.Row="2"
+			Grid.Column="0"
+			VerticalAlignment="Center"
+			Text="Ship icons repo : " />
+
+		<Button
+			Grid.Row="2"
+			Grid.Column="1"
+			Margin="5"
+			Command="{Binding OpenShipIconFolderDialogCommand}"
+			Content="{Binding IconFolderDisplay}" />
+	</Grid>
+</Page>

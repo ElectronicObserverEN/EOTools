@@ -1,4 +1,6 @@
-﻿using EOTools.RPCTools;
+﻿using EOTools.Config;
+using EOTools.DataBase;
+using EOTools.RPCTools;
 using EOTools.Tools;
 using EOTools.Translation;
 using EOTools.Translation.Equipments;
@@ -8,6 +10,7 @@ using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
+using Microsoft.EntityFrameworkCore;
 using System.Windows;
 
 namespace EOTools
@@ -21,7 +24,19 @@ namespace EOTools
         {
             InitializeComponent();
 
+            using EOToolsDbContext db = new();
+            db.Database.Migrate();
+
             AppSettings.LoadSettings();
+
+            if (string.IsNullOrEmpty(AppSettings.ElectronicObserverDataFolderPath))
+            {
+                AppSettings.ElectronicObserverDataFolderPath = AppSettings.OpenFolderDialog("Choose Data repo path");
+            }
+
+            if (string.IsNullOrEmpty(AppSettings.ElectronicObserverDataFolderPath))
+                App.Current.Shutdown();
+
             WindowState = WindowState.Maximized;
         }
 
@@ -100,6 +115,11 @@ namespace EOTools
         private void ManageEquipmentsClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new EquipmentManagerView();
+        }
+
+        private void ConfigClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new ConfigView();
         }
 
         private void UpdateMaintData(object sender, RoutedEventArgs e)

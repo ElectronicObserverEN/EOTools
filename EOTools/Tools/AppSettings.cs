@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
+using System.Windows.Forms;
 
 namespace EOTools.Tools
 {
@@ -75,6 +77,11 @@ namespace EOTools.Tools
 
         public static void LoadSettings()
         {
+            if (!File.Exists(SettingFileName))
+            {
+                WriteSettings();
+            }
+
             JObject _jsonSettings = JsonHelper.ReadJsonObject(SettingFileName);
 
             if (_jsonSettings is null) return;
@@ -107,5 +114,27 @@ namespace EOTools.Tools
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);
         }
+
+        #region Set setting values
+        public static string? OpenFolderDialog(string title)
+        {
+            // --- Load file
+            using (var dialog = new FolderBrowserDialog()
+            {
+                Description = title,
+                UseDescriptionForTitle = true
+            })
+            {
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    return dialog.SelectedPath;
+                }
+            }
+
+            return null;
+        }
+        #endregion
     }
 }

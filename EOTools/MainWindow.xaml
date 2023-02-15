@@ -61,6 +61,8 @@
 				<MenuItem Click="PushDatabase" Header="Force push database to git" />
 				<MenuItem Click="PullDatabase" Header="Force pull database from git (All changes will be lost)" />
 			</MenuItem>
+
+			<MenuItem Click="ConfigClick" Header="Configuration" />
 		</Menu>
 
 		<Frame
