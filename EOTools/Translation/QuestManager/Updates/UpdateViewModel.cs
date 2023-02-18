@@ -23,6 +23,12 @@ public partial class UpdateViewModel : ObservableObject
     [ObservableProperty]
     private bool wasLiveUpdate = false;
 
+    [ObservableProperty]
+    private string startTweet = "";
+
+    [ObservableProperty]
+    private string endTweet = "";
+
     public UpdateModel Model { get; private set; }
 
     public UpdateViewModel(UpdateModel update)
@@ -33,6 +39,8 @@ public partial class UpdateViewModel : ObservableObject
         WasLiveUpdate = update.WasLiveUpdate;
         UpdateStartTime = update.UpdateStartTime;
         UpdateEndTime = update.UpdateEndTime;
+        EndTweet = update.EndTweetLink;
+        StartTweet = update.StartTweetLink;
 
         Model = update;
     }
@@ -45,5 +53,7 @@ public partial class UpdateViewModel : ObservableObject
         Model.WasLiveUpdate = WasLiveUpdate;
         Model.UpdateStartTime = UpdateStartTime;
         Model.UpdateEndTime = UpdateEndTime;
+        Model.EndTweetLink = EndTweet;
+        Model.StartTweetLink = StartTweet;
     }
 }

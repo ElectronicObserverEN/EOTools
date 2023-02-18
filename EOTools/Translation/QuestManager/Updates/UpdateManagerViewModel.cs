@@ -66,6 +66,9 @@ public partial class UpdateManagerViewModel
             WasLiveUpdate = vm.WasLiveUpdate,
             UpdateStartTime = vm.UpdateStartTime,
             UpdateEndTime = vm.UpdateEndTime,
+
+            EndTweetLink = vm.EndTweet,
+            StartTweetLink = vm.StartTweet,
         });
 
         UpdateEditView view = new(vmEdit);
@@ -78,6 +81,8 @@ public partial class UpdateManagerViewModel
             vm.WasLiveUpdate = vmEdit.WasLiveUpdate;
             vm.UpdateStartTime = vmEdit.UpdateStartTime;
             vm.UpdateEndTime = vmEdit.UpdateEndTime;
+            vm.EndTweet = vmEdit.EndTweet;
+            vm.StartTweet = vmEdit.StartTweet;
 
             vm.SaveChanges();
             using EOToolsDbContext db = new();

@@ -1,18 +1,16 @@
-﻿using EOTools.Tools;
-using EOTools.Models;
+﻿using EOTools.Models;
+using EOTools.Tools;
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Linq;
-using System;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using System.Diagnostics;
 
 namespace EOTools.RPCTools
 {
@@ -66,7 +64,7 @@ namespace EOTools.RPCTools
             }
             catch (Exception _ex)
             {
-                MessageBox.Show("Error loading ship data : "+ _ex);
+                MessageBox.Show("Error loading ship data : " + _ex);
             }
         }
 
@@ -87,7 +85,7 @@ namespace EOTools.RPCTools
 
                 string _nameJP = _shipData["api_name"].ToString();
 
-                ShipData _newShip = new ShipData( _nameJP, "")
+                ShipData _newShip = new ShipData(_nameJP, "")
                 {
                     ShipId = _id
                 };
@@ -145,7 +143,7 @@ namespace EOTools.RPCTools
 
                     // --- Load temp icon
                     _ship.ShipIcon = _ship.GetTempShipIcon();
-                }));                
+                }));
             }
         }
 
@@ -216,7 +214,7 @@ namespace EOTools.RPCTools
         {
             var _dialog = new SaveFileDialog();
             _dialog.Title = "Select a Directory";
-            _dialog.Filter = "Directory|*.this.directory"; 
+            _dialog.Filter = "Directory|*.this.directory";
             _dialog.FileName = "select";
 
             if (_dialog.ShowDialog() != true) return;
@@ -250,6 +248,24 @@ namespace EOTools.RPCTools
 
             Process _process = new Process();
             _process.StartInfo = procInfo;
+            _process.Start();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            ShipData _ship = ListShipPicture.SelectedItem as ShipData;
+            string _imagePath = Path.Combine(AppSettings.ShipIconFolder, _ship.ShipId + "_temp.png");
+
+
+            ProcessStartInfo procInfo = new(_imagePath)
+            {
+                UseShellExecute = true,
+            };
+
+            Process _process = new()
+            {
+                StartInfo = procInfo,
+            };
             _process.Start();
         }
 

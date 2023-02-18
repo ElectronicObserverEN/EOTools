@@ -26,4 +26,10 @@ public class UpdateModel
 
     [JsonProperty("live_update")]
     public bool WasLiveUpdate { get; set; } = false;
+
+    [JsonProperty("maint_start_tweet")]
+    public string StartTweetLink { get; set; } = "";
+
+    [JsonProperty("maint_end_tweet")]
+    public string EndTweetLink { get; set; } = "";
 }

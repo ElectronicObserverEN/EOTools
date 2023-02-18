@@ -23,6 +23,8 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
@@ -59,10 +61,36 @@
 				Grid.Row="2"
 				Grid.Column="0"
 				Margin="5"
+				Text="Update start tweet" />
+
+			<TextBox
+				Grid.Row="2"
+				Grid.Column="1"
+				MinWidth="500"
+				Margin="5"
+				Text="{Binding StartTweet}" />
+
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				Margin="5"
+				Text="Update end tweet" />
+
+			<TextBox
+				Grid.Row="3"
+				Grid.Column="1"
+				MinWidth="500"
+				Margin="5"
+				Text="{Binding EndTweet}" />
+
+			<TextBlock
+				Grid.Row="4"
+				Grid.Column="0"
+				Margin="5"
 				Text="Date" />
 
 			<StackPanel
-				Grid.Row="2"
+				Grid.Row="4"
 				Grid.Column="1"
 				Orientation="Horizontal">
 

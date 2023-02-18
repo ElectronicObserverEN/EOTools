@@ -38,6 +38,16 @@ public class UpdateMaintenanceDataService
         if (update is not null)
         {
             updateData["kancolle_mt"] = $"{update.UpdateDate.Add(update.UpdateStartTime):yyyy/MM/dd hh:mm:ss}";
+
+            updateData["MaintInfoLink"] = string.IsNullOrEmpty(update.EndTweetLink) switch
+            {
+                true => string.IsNullOrEmpty(update.StartTweetLink) switch
+                {
+                    true => "https://twitter.com/KanColle_STAFF",
+                    false => update.StartTweetLink
+                },
+                false => update.EndTweetLink,
+            };
         }
 
         updateData["event_state"] = updState;

@@ -1,37 +1,81 @@
 ﻿<Page
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:EOTools.Translation"
-      xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json" x:Class="EOTools.RPCTools.RPCManager"
-      mc:Ignorable="d" 
-      d:DesignHeight="720" d:DesignWidth="1080
-    "
-      Title="RPC">
+	x:Class="EOTools.RPCTools.RPCManager"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Linq="clr-namespace:Newtonsoft.Json.Linq;assembly=Newtonsoft.Json"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="RPC"
+	d:DesignHeight="720"
+	d:DesignWidth="1080     "
+	mc:Ignorable="d">
 
-    <DockPanel>
-        <DockPanel DockPanel.Dock="Top">
-            <Button Content="Select getData.json file" DockPanel.Dock="Left" Margin="10" Height="40" Click="buttonSelectFile_Click"/>
-            <Button Content="Select ship icon repo" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click"/>
-            <Button Content="Edit picture" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click_1" />
-            <Button Content="Reload" DockPanel.Dock="Left" Margin="10" Height="40" Click="Button_Click_2"/>
-        </DockPanel>
-        <ListView x:Name="ListShipPicture" DockPanel.Dock="Top" HorizontalAlignment="Stretch" Height="auto"  Width="auto" ItemsSource="{Binding ShipList}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="5" HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Image Source="{Binding ShipIcon}" HorizontalAlignment="Center" VerticalAlignment="Top" Stretch="UniformToFill" Height="150"/>
-                        <TextBlock Text="{Binding NameJP}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+	<DockPanel>
+		<DockPanel DockPanel.Dock="Top">
+			<Button
+				Height="40"
+				Margin="10"
+				Click="buttonSelectFile_Click"
+				Content="Select getData.json file"
+				DockPanel.Dock="Left" />
+			<Button
+				Height="40"
+				Margin="10"
+				Click="Button_Click"
+				Content="Select ship icon repo"
+				DockPanel.Dock="Left" />
+			<Button
+				Height="40"
+				Margin="10"
+				Click="Button_Click_1"
+				Content="Edit picture"
+				DockPanel.Dock="Left" />
+			<Button
+				Height="40"
+				Margin="10"
+				Click="Button_Click_3"
+				Content="Open picture"
+				DockPanel.Dock="Left" />
+			<Button
+				Height="40"
+				Margin="10"
+				Click="Button_Click_2"
+				Content="Reload"
+				DockPanel.Dock="Left" />
+		</DockPanel>
+		<ListView
+			x:Name="ListShipPicture"
+			Width="auto"
+			Height="auto"
+			HorizontalAlignment="Stretch"
+			DockPanel.Dock="Top"
+			ItemsSource="{Binding ShipList}">
+			<ItemsControl.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid HorizontalAlignment="Stretch" Columns="5" />
+				</ItemsPanelTemplate>
+			</ItemsControl.ItemsPanel>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<StackPanel
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch"
+						Orientation="Vertical">
+						<Image
+							Height="150"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Top"
+							Source="{Binding ShipIcon}"
+							Stretch="UniformToFill" />
+						<TextBlock
+							HorizontalAlignment="Center"
+							VerticalAlignment="Bottom"
+							Text="{Binding NameJP}" />
+					</StackPanel>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
 
-    </DockPanel>
+	</DockPanel>
 </Page>
