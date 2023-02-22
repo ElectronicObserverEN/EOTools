@@ -74,6 +74,7 @@ public class UpdateMaintenanceDataService
 
         UpdateModel? update = db.Updates
             .AsEnumerable()
+            .Where(upd => upd.WasLiveUpdate is false)
             .Where(upd => UpdateInProgress(upd) || UpdateIsComing(upd))
             .OrderBy(upd => upd.UpdateDate)
             .FirstOrDefault();
@@ -96,8 +97,9 @@ public class UpdateMaintenanceDataService
             .AsEnumerable()
             .FirstOrDefault(ev => ev.StartOnUpdateId == update.Id);
 
-        if (eventStart != null)
+        if (eventStart != null && UpdateInProgress(update) && update.UpdateEndTime is TimeSpan end)
         {
+            update.UpdateStartTime = end;
             return new(update, (int)MaintenanceState.EventStart);
         }
 
