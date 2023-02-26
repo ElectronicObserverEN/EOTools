@@ -75,7 +75,7 @@ public class UpdateMaintenanceDataService
         UpdateModel? update = db.Updates
             .AsEnumerable()
             .Where(upd => upd.WasLiveUpdate is false)
-            .Where(upd => UpdateInProgress(upd) || UpdateIsComing(upd))
+            .Where(upd => upd.UpdateInProgress() || upd.UpdateIsComing())
             .OrderBy(upd => upd.UpdateDate)
             .FirstOrDefault();
 
@@ -97,50 +97,12 @@ public class UpdateMaintenanceDataService
             .AsEnumerable()
             .FirstOrDefault(ev => ev.StartOnUpdateId == update.Id);
 
-        if (eventStart != null && UpdateInProgress(update) && update.UpdateEndTime is TimeSpan end)
+        if (eventStart != null && update.UpdateInProgress() && update.UpdateEndTime is TimeSpan end)
         {
             update.UpdateStartTime = end;
             return new(update, (int)MaintenanceState.EventStart);
         }
 
         return new(update, (int)MaintenanceState.Regular);
-    }
-
-    /// <summary>
-    /// Returns true if update is coming
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    private bool UpdateIsComing(UpdateModel model)
-    {
-        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
-        DateTime start = model.UpdateDate.Date.Add(model.UpdateStartTime);
-
-        // Update has started ?
-        return start > dateNowJST;
-    }
-
-    /// <summary>
-    /// Returns true if update is in progress
-    /// </summary>
-    /// <param name="model"></param>
-    /// <returns></returns>
-    private bool UpdateInProgress(UpdateModel model)
-    {
-        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
-        DateTime start = model.UpdateDate.Date.Add(model.UpdateStartTime);
-
-        // Update has started and no end time => update in progress
-        if (start < dateNowJST && model.UpdateEndTime is null) return true;
-
-        // Update has started and end time => update could be in progress
-        if (start < dateNowJST && model.UpdateEndTime is TimeSpan endTime)
-        {
-            DateTime end = model.UpdateDate.Date.Add(endTime);
-
-            // End didn't happen yet => Update is in progress
-            if (end > dateNowJST) return true;
-        }
-        return false;
     }
 }

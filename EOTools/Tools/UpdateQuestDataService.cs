@@ -1,10 +1,12 @@
 ﻿using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Translation.QuestManager.Quests;
+using EOTools.Translation.QuestManager.Updates;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EOTools.Tools;
 
@@ -34,7 +36,7 @@ public class UpdateQuestDataService
         using EOToolsDbContext db = new();
         List<QuestModel> questlist = db.Quests
             .AsEnumerable()
-            .Where(quest => quest.RemovedOnUpdateId is null)
+            .Where(quest => !quest.HasQuestEnded())
             .OrderBy(quest => quest.ApiId)
             .ToList();
 
@@ -77,7 +79,7 @@ public class UpdateQuestDataService
         using EOToolsDbContext db = new();
         List<QuestModel> questlist = db.Quests
             .AsEnumerable()
-            .Where(quest => quest.RemovedOnUpdateId is null)
+            .Where(quest => !quest.HasQuestEnded())
             .Where(quest => !string.IsNullOrEmpty(quest.Tracker))
             .OrderBy(quest => quest.ApiId)
             .ToList();

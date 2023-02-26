@@ -3,6 +3,7 @@ using EOTools.Translation.QuestManager.Updates;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+using EOTools.DataBase;
 
 namespace EOTools.Translation.QuestManager.Quests
 {
@@ -44,6 +45,25 @@ namespace EOTools.Translation.QuestManager.Quests
 
         [JsonProperty("tracker")]
         public string Tracker { get; set; } = "";
+
+        public bool HasQuestEnded()
+        {
+            if (RemovedOnUpdateId is null) return false;
+
+            return IsQuestEndUpdateStarted();
+        }
+
+        private bool IsQuestEndUpdateStarted()
+        {
+            if (RemovedOnUpdateId is null) return false;
+
+            using EOToolsDbContext db = new();
+            UpdateModel? update = db.Updates.Find(RemovedOnUpdateId);
+
+            if (update is null) return false;
+
+            return !update.UpdateIsComing() || update.UpdateInProgress();
+        }
     }
 }
 
