@@ -15,6 +15,9 @@ namespace EOTools.Config
         [ObservableProperty]
         private string shipIconFolder = "";
 
+        [ObservableProperty]
+        private bool disablePush = false;
+
         public string DataFolderDisplay => string.IsNullOrEmpty(ElectronicObserverDataFolderPath) ? "Select a folder" : ElectronicObserverDataFolderPath;
         public string APIFolderDisplay => string.IsNullOrEmpty(KancolleEOAPIFolder) ? "Select a folder" : KancolleEOAPIFolder;
         public string IconFolderDisplay => string.IsNullOrEmpty(ShipIconFolder) ? "Select a folder" : ShipIconFolder;
@@ -24,6 +27,7 @@ namespace EOTools.Config
             ElectronicObserverDataFolderPath = AppSettings.ElectronicObserverDataFolderPath;
             KancolleEOAPIFolder = AppSettings.KancolleEOAPIFolder;
             ShipIconFolder = AppSettings.ShipIconFolder;
+            DisablePush = AppSettings.DisablePush;
 
             PropertyChanged += ConfigViewModel_PropertyChanged;
         }
@@ -46,7 +50,10 @@ namespace EOTools.Config
                 AppSettings.ShipIconFolder = ShipIconFolder;
                 OnPropertyChanged(nameof(IconFolderDisplay));
             }
-
+            if (e.PropertyName is nameof(DisablePush))
+            {
+                AppSettings.DisablePush = DisablePush;
+            }
         }
 
         [RelayCommand]

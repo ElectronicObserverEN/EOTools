@@ -71,6 +71,20 @@ namespace EOTools.Tools
             }
         }
 
+        private static bool disablePush = false;
+        public static bool DisablePush
+        {
+            get
+            {
+                return disablePush;
+            }
+            set
+            {
+                disablePush = value;
+                WriteSettings();
+            }
+        }
+
         #endregion
 
         private const string SettingFileName = @"Config.json";
@@ -102,15 +116,22 @@ namespace EOTools.Tools
             {
                 electronicObserverDataFolderPath = _value.ToString();
             }
+
+            if (_jsonSettings.TryGetValue("DisablePush", out _value))
+            {
+                disablePush = (bool)_value;
+            }
         }
 
         public static void WriteSettings()
         {
-            Dictionary<string, string> _jsonData = new Dictionary<string, string>();
-
-            _jsonData.Add("GetDataPath", KancolleEOAPIFolder);
-            _jsonData.Add("ShipIconFolder", ShipIconFolder);
-            _jsonData.Add("ElectronicObserverDataFolderPath", ElectronicObserverDataFolderPath);
+            Dictionary<string, object> _jsonData = new Dictionary<string, object>
+            {
+                { "GetDataPath", KancolleEOAPIFolder },
+                { "ShipIconFolder", ShipIconFolder },
+                { "ElectronicObserverDataFolderPath", ElectronicObserverDataFolderPath },
+                { "DisablePush", DisablePush }
+            };
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);
         }

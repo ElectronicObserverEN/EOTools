@@ -14,6 +14,8 @@ namespace EOTools.Tools
 
         public void Stage(string _file)
         {
+            if (AppSettings.DisablePush) return;
+
             string strCmdText;
 
             strCmdText = $"/C git stage \"{_file}\"";
@@ -52,6 +54,8 @@ namespace EOTools.Tools
 
         public void CommitAndPush(string _commitDesc)
         {
+            if (AppSettings.DisablePush) return;
+
             string strCmdText;
 
             strCmdText = $"/C git commit -m \"{_commitDesc}\"";

@@ -27,6 +27,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<TextBlock
@@ -69,5 +70,12 @@
 			Margin="5"
 			Command="{Binding OpenShipIconFolderDialogCommand}"
 			Content="{Binding IconFolderDisplay}" />
+
+		<CheckBox
+			Grid.Row="3"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Content="Disable push"
+			IsChecked="{Binding DisablePush}" />
 	</Grid>
 </Page>
