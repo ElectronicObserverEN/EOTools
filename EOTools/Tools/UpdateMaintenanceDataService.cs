@@ -37,7 +37,7 @@ public class UpdateMaintenanceDataService
 
         if (update is not null)
         {
-            updateData["kancolle_mt"] = $"{update.UpdateDate.Add(update.UpdateStartTime):yyyy/MM/dd hh:mm:ss}";
+            updateData["kancolle_mt"] = $"{update.UpdateDate.Date.Add(update.UpdateStartTime):yyyy/MM/dd HH:mm:ss}";
 
             updateData["MaintInfoLink"] = string.IsNullOrEmpty(update.EndTweetLink) switch
             {

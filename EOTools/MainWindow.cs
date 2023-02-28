@@ -140,7 +140,7 @@ namespace EOTools
         private void PullDatabase(object sender, RoutedEventArgs e)
         {
             DatabaseSyncService service = new();
-            service.PullDataBase();
+            service.PullAndRestoreDataBase();
         }
 
     }

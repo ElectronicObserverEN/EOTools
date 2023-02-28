@@ -43,6 +43,11 @@ public class DatabaseSyncService
     public void PullDataBase()
     {
         GitManager.Pull();
+    }
+
+    public void PullAndRestoreDataBase()
+    {
+        GitManager.Pull();
 
         using EOToolsDbContext db = new();
 

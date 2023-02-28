@@ -1,12 +1,10 @@
 ﻿using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Translation.QuestManager.Quests;
-using EOTools.Translation.QuestManager.Updates;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EOTools.Tools;
 
