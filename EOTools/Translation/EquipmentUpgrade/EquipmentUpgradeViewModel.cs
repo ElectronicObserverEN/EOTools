@@ -83,4 +83,10 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     {
         Helpers.Add(new(new()));
     }
+
+    [RelayCommand]
+    private void RemoveHelpers(EquipmentUpgradeHelpersViewModel vm)
+    {
+        Helpers.Remove(vm);
+    }
 }

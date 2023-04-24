@@ -63,6 +63,7 @@ public partial class EventManagerViewModel
             Name = vm.Name,
             StartOnUpdateId = vm.StartOnUpdateId,
             EndOnUpdateId = vm.EndOnUpdateId,
+            ApiId = vm.ApiId,
         });
 
         EventEditView view = new(vmEdit);
@@ -72,6 +73,7 @@ public partial class EventManagerViewModel
             vm.Name = vmEdit.Name;
             vm.StartOnUpdateId = vmEdit.StartOnUpdateId;
             vm.EndOnUpdateId = vmEdit.EndOnUpdateId;
+            vm.ApiId = vmEdit.ApiId;
 
             vm.SaveChanges();
 

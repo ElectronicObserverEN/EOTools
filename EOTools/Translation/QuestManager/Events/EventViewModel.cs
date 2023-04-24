@@ -41,6 +41,7 @@ public partial class EventViewModel : ObservableObject
         Name = Event.Name;
         EndOnUpdateId = Event.EndOnUpdateId;
         StartOnUpdateId = Event.StartOnUpdateId;
+        ApiId = Event.ApiId;
 
         Model = Event;
 
@@ -56,10 +57,9 @@ public partial class EventViewModel : ObservableObject
     public void SaveChanges()
     {
         Model.Name = Name;
-
         Model.StartOnUpdateId = StartOnUpdateId;
-
         Model.EndOnUpdateId = EndOnUpdateId;
+        Model.ApiId = ApiId;
     }
 
     [RelayCommand]

@@ -12,6 +12,11 @@
 	ui:WindowHelper.UseModernWindowStyle="True"
 	SizeToContent="WidthAndHeight"
 	mc:Ignorable="d">
+
+	<Window.Resources>
+		<local:EquipmentUpgradeImprovmentViewModelProxy x:Key="Proxy" DataContext="{Binding}" />
+	</Window.Resources>
+
 	<StackPanel>
 		<StackPanel Orientation="Horizontal">
 			<StackPanel Orientation="Vertical">
@@ -324,11 +329,17 @@
 					<ListView.ItemTemplate>
 						<DataTemplate>
 							<StackPanel>
+								<Button
+									Command="{Binding DataContext.RemoveHelpersCommand, Source={StaticResource Proxy}}"
+									CommandParameter="{Binding}"
+									Content="Remove" />
+
 								<StackPanel Margin="5" Orientation="Horizontal">
 									<TextBlock VerticalAlignment="Center" Text="Ships : " />
 									<ui:NumberBox Value="{Binding ShipId}" />
 									<Button Command="{Binding AddShipIdCommand}" Content="Add" />
 								</StackPanel>
+
 								<ListView ItemsSource="{Binding Ships}">
 									<ListView.ItemsPanel>
 										<ItemsPanelTemplate>
