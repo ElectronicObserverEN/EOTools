@@ -5,6 +5,9 @@ namespace EOTools.Models.EquipmentUpgrade;
 
 public class EquipmentUpgradeImprovmentCostDetail
 {
+    [JsonIgnore]
+    public int Id { get; set; }
+
     /// <summary>
     /// Devmat cost
     /// </summary>

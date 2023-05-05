@@ -1,10 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using EOTools.DataBase;
 using EOTools.Models;
-using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
 using EOTools.Translation.EquipmentUpgrade;
-using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,11 +33,12 @@ public partial class EquipmentViewModel : ObservableObject
         NameJP = model.NameJP;
         ApiId = model.ApiId;
 
-        List<EquipmentUpgradeImprovmentViewModel> upgrades = model.UpgradeData switch
-        {
-            string => JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(model.UpgradeData).Improvement.Select(upg => new EquipmentUpgradeImprovmentViewModel(upg)).ToList(),
-            _ => new()
-        };
+        List<EquipmentUpgradeImprovmentViewModel> upgrades =
+            EquipmentUpgradesService.Instance.AllUpgradeModel
+            .Where(upg => upg.EquipmentId == ApiId)
+            .SelectMany(equ => equ.Improvement)
+            .Select(upg => new EquipmentUpgradeImprovmentViewModel(upg, new()))
+            .ToList();
 
         Upgrades = new(upgrades);
     }
@@ -49,23 +49,21 @@ public partial class EquipmentViewModel : ObservableObject
         Model.NameEN = NameEN;
         Model.ApiId = ApiId;
 
-        EquipmentUpgradeDataModel upgrades = new()
-        {
-            EquipmentId = ApiId,
-            ConvertTo = new(),
-            Improvement = Upgrades.Select(upg => upg.Model).ToList(),
-            UpgradeFor = new(),
-        };
+        /*using EOToolsDbContext db = new();
 
-        Model.UpgradeData = JToken.FromObject(upgrades).ToString()
-                    .Replace("\r\n", "")
-                    .Replace(" ", "");
+        foreach (EquipmentUpgradeImprovmentViewModel upg in Upgrades)
+        {
+            db.Update(upg.Model);
+        }
+
+        db.SaveChanges();*/
     }
 
 
     private void ShowUpgradeEditDialog(EquipmentUpgradeImprovmentViewModel vm, bool newEntity)
     {
-        EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model);
+        using EOToolsDbContext db = new();
+        EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model, db);
 
         EquipmentUpgradeEditView view = new(vmEdit);
 
@@ -78,14 +76,18 @@ public partial class EquipmentViewModel : ObservableObject
             if (newEntity)
             {
                 Upgrades.Add(vm);
+                db.Add(vm.Model);
             }
+
+            db.SaveChanges();
+            EquipmentUpgradesService.Instance.ReloadList();
         }
     }
 
     [RelayCommand]
     public void ShowAddEquipmentUpgradeDialog()
     {
-        EquipmentUpgradeImprovmentViewModel vm = new(new());
+        EquipmentUpgradeImprovmentViewModel vm = new(new(), new());
         ShowUpgradeEditDialog(vm, true);
     }
 

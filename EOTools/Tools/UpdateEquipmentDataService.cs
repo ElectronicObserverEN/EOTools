@@ -83,8 +83,7 @@ public class UpdateEquipmentDataService
 
         foreach (EquipmentModel equipmentModel in equipments)
         {
-            EquipmentUpgradeDataModel upgrade = JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(equipmentModel.UpgradeData);
-            upgrade.EquipmentId = equipmentModel.ApiId;
+            EquipmentUpgradeDataModel upgrade = EquipmentUpgradesService.Instance.AllUpgradeModel.First(upg => upg.EquipmentId == equipmentModel.ApiId);
             upgradesJson.Add(upgrade);
         }
 

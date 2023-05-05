@@ -1,10 +1,13 @@
 ﻿using EOTools.Models;
+using EOTools.Models.EquipmentUpgrade;
 using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
+using System.Collections.Generic;
 
 namespace EOTools.DataBase
 {
@@ -15,6 +18,7 @@ namespace EOTools.DataBase
         public DbSet<SeasonModel> Seasons { get; set; }
         public DbSet<EventModel> Events { get; set; }
         public DbSet<EquipmentModel> Equipments { get; set; }
+        public DbSet<EquipmentUpgradeDataModel> EquipmentUpgrades { get; set; }
 
         public string DbPath { get; }
 
@@ -29,5 +33,48 @@ namespace EOTools.DataBase
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder.UseSqlite($"Data Source={DbPath}");
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder
+                .Entity<EquipmentUpgradeImprovmentModel>()
+                .HasOne(e => e.ConversionData)
+                .WithOne(e => e.ImprovmentModel)
+                .OnDelete(DeleteBehavior.ClientCascade)
+                .HasForeignKey(nameof(EquipmentUpgradeConversionModel), nameof(EquipmentUpgradeConversionModel.ImprovmentModelId));
+
+            /*modelBuilder
+                .Entity<EquipmentUpgradeImprovmentCost>()
+                .HasOne(e => e.Cost0To5)
+                .WithOne(e => e.EquipmentUpgradeImprovmentCost)
+                .OnDelete(DeleteBehavior.ClientCascade)
+                .HasForeignKey<EquipmentUpgradeImprovmentCostDetail0To5>(e => e.EquipmentUpgradeImprovmentCostId);
+
+            modelBuilder
+                .Entity<EquipmentUpgradeImprovmentCost>()
+                .HasOne(e => e.Cost6To9)
+                .WithOne(e => e.EquipmentUpgradeImprovmentCost)
+                .OnDelete(DeleteBehavior.ClientCascade)
+                .HasForeignKey<EquipmentUpgradeImprovmentCostDetail6To9>(e => e.EquipmentUpgradeImprovmentCostId);
+
+            modelBuilder
+                .Entity<EquipmentUpgradeImprovmentCost>()
+                .HasOne(e => e.CostMax)
+                .WithOne(e => e.EquipmentUpgradeImprovmentCost)
+                .OnDelete(DeleteBehavior.ClientCascade)
+                .HasForeignKey<EquipmentUpgradeImprovmentCostDetailMax>(e => e.EquipmentUpgradeImprovmentCostId);*/
+        }
+        /*
+        public override EntityEntry<TEntity> Remove<TEntity>(TEntity entity)
+        {
+            if (entity is EquipmentUpgradeImprovmentCost cost)
+            {
+                Remove(cost.Cost0To5);
+                Remove(cost.Cost6To9);
+                if (cost.CostMax is not null) Remove(cost.CostMax);
+            }
+
+            return base.Remove(entity);
+        }*/
     }
 }

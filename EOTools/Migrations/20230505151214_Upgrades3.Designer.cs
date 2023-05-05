@@ -3,6 +3,7 @@ using System;
 using EOTools.DataBase;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EOTools.Migrations
 {
     [DbContext(typeof(EOToolsDbContext))]
-    partial class EOToolsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230505151214_Upgrades3")]
+    partial class Upgrades3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.2");
@@ -54,13 +57,7 @@ namespace EOTools.Migrations
                     b.Property<int>("IdEquipmentAfter")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ImprovmentModelId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("ImprovmentModelId")
-                        .IsUnique();
 
                     b.ToTable("EquipmentUpgradeConversionModel");
                 });
@@ -227,6 +224,9 @@ namespace EOTools.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ConversionDataId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CostsId")
                         .HasColumnType("INTEGER");
 
@@ -234,6 +234,8 @@ namespace EOTools.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ConversionDataId");
 
                     b.HasIndex("CostsId");
 
@@ -376,17 +378,6 @@ namespace EOTools.Migrations
                     b.ToTable("Updates");
                 });
 
-            modelBuilder.Entity("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeConversionModel", b =>
-                {
-                    b.HasOne("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeImprovmentModel", "ImprovmentModel")
-                        .WithOne("ConversionData")
-                        .HasForeignKey("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeConversionModel", "ImprovmentModelId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("ImprovmentModel");
-                });
-
             modelBuilder.Entity("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeHelpersDayModel", b =>
                 {
                     b.HasOne("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeHelpersModel", null)
@@ -446,6 +437,10 @@ namespace EOTools.Migrations
 
             modelBuilder.Entity("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeImprovmentModel", b =>
                 {
+                    b.HasOne("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeConversionModel", "ConversionData")
+                        .WithMany()
+                        .HasForeignKey("ConversionDataId");
+
                     b.HasOne("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeImprovmentCost", "Costs")
                         .WithMany()
                         .HasForeignKey("CostsId")
@@ -455,6 +450,8 @@ namespace EOTools.Migrations
                     b.HasOne("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeDataModel", null)
                         .WithMany("Improvement")
                         .HasForeignKey("EquipmentUpgradeDataModelId");
+
+                    b.Navigation("ConversionData");
 
                     b.Navigation("Costs");
                 });
@@ -480,8 +477,6 @@ namespace EOTools.Migrations
 
             modelBuilder.Entity("EOTools.Models.EquipmentUpgrade.EquipmentUpgradeImprovmentModel", b =>
                 {
-                    b.Navigation("ConversionData");
-
                     b.Navigation("Helpers");
                 });
 #pragma warning restore 612, 618

@@ -4,6 +4,9 @@ namespace EOTools.Models.EquipmentUpgrade;
 
 public class EquipmentUpgradeImprovmentCost
 {
+    [JsonIgnore]
+    public int Id { get; set; }
+
     [JsonProperty("fuel")]
     public int Fuel { get; set; }
 

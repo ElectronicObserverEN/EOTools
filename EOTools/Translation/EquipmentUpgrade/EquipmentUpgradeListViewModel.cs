@@ -145,7 +145,7 @@ public partial class EquipmentUpgradeListViewModel
                 ParseUpgradeTo(source, equipment);
 
                 // Used by
-                equipment.UpgradeFor = source.UpgradeFor;
+                //equipment.UpgradeFor = source.UpgradeFor;
             }
 
             JsonHelper.WriteJsonByOnlyIndentingXTimes(EquipmentUpgradeFilePath, EquipmentUpgrades, 4, true);
@@ -178,7 +178,6 @@ public partial class EquipmentUpgradeListViewModel
             foreach (List<int> sourceImprovment in source.UpgradeTo)
             {
                 EquipmentUpgradeConversionModel conversion = new();
-                equipment.ConvertTo.Add(conversion);
 
                 // [0] = equipment id
                 conversion.IdEquipmentAfter = sourceImprovment[0];
@@ -196,7 +195,6 @@ public partial class EquipmentUpgradeListViewModel
             foreach (EquipmentUpgradeSourceDataImprovement sourceImprovment in wiki.Improvement)
             {
                 EquipmentUpgradeImprovmentModel improvment = new();
-                equipment.Improvement.Add(improvment);
 
                 // Conversion possible ?
                 ParseImprovmentParseConversion(sourceImprovment, improvment);
@@ -260,17 +258,17 @@ public partial class EquipmentUpgradeListViewModel
                 if (equipmentDetailSource[0].Type == JTokenType.Integer)
                 {
                     // [0] = required equipment ID
-                    equipmentDetail.Id = equipmentDetailSource[0].Value<int>();
+                    equipmentDetail.ItemId = equipmentDetailSource[0].Value<int>();
 
-                    if (equipmentDetail.Id > 0)
+                    if (equipmentDetail.ItemId > 0)
                         costDetail.EquipmentDetail.Add(equipmentDetail);
                 }
                 else if (equipmentDetailSource[0].Type == JTokenType.String)
                 {
                     // [0] = required equipment ID
-                    equipmentDetail.Id = int.Parse(equipmentDetailSource[0].Value<string>().Replace("consumable_", ""));
+                    equipmentDetail.ItemId = int.Parse(equipmentDetailSource[0].Value<string>().Replace("consumable_", ""));
 
-                    if (equipmentDetail.Id > 0)
+                    if (equipmentDetail.ItemId > 0)
                         costDetail.ConsumableDetail.Add(equipmentDetail);
                 }
 
@@ -282,7 +280,7 @@ public partial class EquipmentUpgradeListViewModel
             costDetail.EquipmentDetail.Add(equipmentDetail);
 
             // [0] = required equipment ID
-            equipmentDetail.Id = (int)value5;
+            equipmentDetail.ItemId = (int)value5;
 
             // [1] = required equipment count
             equipmentDetail.Count = (int)value6;
@@ -294,7 +292,7 @@ public partial class EquipmentUpgradeListViewModel
             costDetail.EquipmentDetail.Add(equipmentDetail);
 
             // [0] = required equipment ID
-            equipmentDetail.Id = requiredEquipment;
+            equipmentDetail.ItemId = requiredEquipment;
 
             // [1] = required equipment count
             equipmentDetail.Count = 1;
@@ -316,10 +314,10 @@ public partial class EquipmentUpgradeListViewModel
 
                 for (DayOfWeek day = DayOfWeek.Sunday; day <= DayOfWeek.Saturday; day++)
                 {
-                    if (days[(int)day].Value<bool>() is true) helpers.CanHelpOnDays.Add(day);
+                    //if (days[(int)day].Value<bool>() is true) helpers.CanHelpOnDays.Add(day);
                 }
 
-                helpers.ShipIds = ships.Select(shipId => (int)shipId).ToList();
+                //helpers.ShipIds = ships.Select(shipId => (int)shipId).ToList();
                 improvment.Helpers.Add(helpers);
             }
             else

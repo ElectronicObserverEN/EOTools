@@ -29,13 +29,13 @@ public partial class EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel
 
     public void LoadFromModel()
     {
-        Id = Model.Id;
+        Id = Model.ItemId;
         Count = Model.Count;
     }
 
     public void SaveChanges()
     {
-        Model.Id = Equipment.ApiId;
+        Model.ItemId = Equipment.ApiId;
         Model.Count = Count;
     }
 

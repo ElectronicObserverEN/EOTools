@@ -4,6 +4,8 @@ using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
+using EOTools.Translation.EquipmentUpgrade;
+using Microsoft.EntityFrameworkCore;
 using ModernWpf.Controls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,15 +22,31 @@ public partial class EquipmentManagerViewModel : ObservableObject
 {
     public ObservableCollection<EquipmentViewModel> EquipmentList { get; set; } = new();
 
+    [ObservableProperty]
+    private string filter = "";
+
     public EquipmentManagerViewModel()
     {
+        ReloadEquipmentList();
+
+        PropertyChanged += EquipmentManagerViewModel_PropertyChanged;
+    }
+
+    private void EquipmentManagerViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName is not nameof(Filter)) return;
+
         ReloadEquipmentList();
     }
 
     private void ReloadEquipmentList()
     {
         using EOToolsDbContext db = new();
-        EquipmentList = new(db.Equipments.Select(model => new EquipmentViewModel(model)).ToList());
+
+        IEnumerable<EquipmentViewModel> allEquips = db.Equipments.Select(model => new EquipmentViewModel(model));
+        string upperCaseFilter = Filter.ToUpperInvariant();
+        EquipmentList = new(allEquips.Where(eq => string.IsNullOrEmpty(upperCaseFilter) || eq.Model.NameEN.ToUpperInvariant().Contains(upperCaseFilter) || eq.Model.NameJP.ToUpperInvariant().Contains(upperCaseFilter)));
+        OnPropertyChanged(nameof(EquipmentList));
     }
 
     private void AddNewEquipment(EquipmentModel model)
@@ -194,12 +212,107 @@ public partial class EquipmentManagerViewModel : ObservableObject
         service.UpdateEquipmentTranslations();
     }
 
+    private void ConvertJsonToDb()
+    {
+        using EOToolsDbContext db = new();
+
+        List<EquipmentUpgradeImprovmentCostDetail> costs = new();
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.Cost0To5));
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.Cost6To9));
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.CostMax)
+            .Where(costDetail => costDetail != null)
+            .Cast<EquipmentUpgradeImprovmentCostDetail>());
+
+        db.RemoveRange(costs.SelectMany(cost => cost.ConsumableDetail));
+        db.SaveChanges();
+
+        db.RemoveRange(costs.SelectMany(cost => cost.EquipmentDetail));
+        db.SaveChanges();
+
+        db.RemoveRange(db.EquipmentUpgrades.SelectMany(up => up.Improvement).SelectMany(imp => imp.Helpers));
+        db.SaveChanges();
+
+        db.RemoveRange(db.EquipmentUpgrades.SelectMany(up => up.Improvement).Select(imp => imp.ConversionData).Where(conv => conv != null).Cast<EquipmentUpgradeConversionModel>());
+        db.SaveChanges();
+
+        db.RemoveRange(db.EquipmentUpgrades.SelectMany(up => up.Improvement));
+        db.SaveChanges();
+
+        db.RemoveRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs));
+        db.SaveChanges();
+        costs = new();
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.Cost0To5));
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.Cost6To9));
+
+        costs.AddRange(db.EquipmentUpgrades
+            .SelectMany(up => up.Improvement)
+            .Select(imp => imp.Costs)
+            .Select(cost => cost.CostMax)
+            .Where(costDetail => costDetail != null)
+            .Cast<EquipmentUpgradeImprovmentCostDetail>());
+
+        db.RemoveRange(costs);
+        db.SaveChanges();
+
+        db.EquipmentUpgrades.RemoveRange(db.EquipmentUpgrades);
+        db.SaveChanges();
+
+        foreach (EquipmentModel equipment in db.Equipments)
+        {
+            if (equipment.UpgradeData is null)
+            {
+                db.EquipmentUpgrades.Add(new()
+                {
+                    EquipmentId = equipment.ApiId,
+                });
+            }
+            else
+            {
+                EquipmentUpgradeDataModel model = JsonHelper.ReadJsonFromString<EquipmentUpgradeDataModel>(equipment.UpgradeData);
+
+                List<EquipmentUpgradeHelpersModel> helpers = model.Improvement.SelectMany(m => m.Helpers).ToList();
+
+                foreach (EquipmentUpgradeHelpersModel helper in helpers)
+                {
+                    helper.CanHelpOnDays = helper.CanHelpOnDaysList.Select(m => new EquipmentUpgradeHelpersDayModel() { Day = m }).ToList();
+                    helper.ShipIds = helper.ShipIdsList.Select(m => new EquipmentUpgradeHelpersShipModel() { ShipId = m }).ToList();
+                }
+
+                db.EquipmentUpgrades.Add(model);
+            }
+        }
+
+        db.SaveChanges();
+    }
+
     [RelayCommand]
     public void UpdateUpgrades()
     {
         UpdateEquipmentDataService service = new();
         service.UpdateEquipmentUpgrades();
     }
-    
+
     #endregion
 }

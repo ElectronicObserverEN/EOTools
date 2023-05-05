@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using EOTools.DataBase;
 using EOTools.Models.EquipmentUpgrade;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,18 @@ public partial class EquipmentUpgradeHelpersViewModel
 
     public DayOfWeek Day { get; set; }
 
-    public ObservableCollection<int> Ships { get; set; } = new();
-    public ObservableCollection<DayOfWeek> CanHelpOnDays { get; set; } = new();
+    public ObservableCollection<EquipmentUpgradeHelpersShipModel> Ships { get; set; } = new();
+    public ObservableCollection<EquipmentUpgradeHelpersDayModel> CanHelpOnDays { get; set; } = new();
 
     public EquipmentUpgradeHelpersModel Model { get; set; }
 
     public List<DayOfWeek> Days => Enum.GetValues<DayOfWeek>().ToList();
 
-    public EquipmentUpgradeHelpersViewModel(EquipmentUpgradeHelpersModel model)
+    private EOToolsDbContext DbContext { get; } = new();
+
+    public EquipmentUpgradeHelpersViewModel(EquipmentUpgradeHelpersModel model, EOToolsDbContext db)
     {
+        DbContext = db;
         Model = model;
 
         LoadFromModel();
@@ -43,24 +47,30 @@ public partial class EquipmentUpgradeHelpersViewModel
     [RelayCommand]
     public void AddShipId()
     {
-        Ships.Add(ShipId);
+        EquipmentUpgradeHelpersShipModel model = new();
+        Ships.Add(model);
+        DbContext.Add(model);
     }
 
     [RelayCommand]
     public void AddDay()
     {
-        CanHelpOnDays.Add(Day);
+        EquipmentUpgradeHelpersDayModel model = new();
+        CanHelpOnDays.Add(model);
+        DbContext.Add(model);
     }
 
     [RelayCommand]
-    public void RemoveShipId(int id)
+    public void RemoveShipId(EquipmentUpgradeHelpersShipModel id)
     {
         Ships.Remove(id);
+        DbContext.Remove(id);
     }
 
     [RelayCommand]
-    public void RemoveDay(DayOfWeek day)
+    public void RemoveDay(EquipmentUpgradeHelpersDayModel day)
     {
         CanHelpOnDays.Remove(day);
+        DbContext.Remove(day);
     }
 }

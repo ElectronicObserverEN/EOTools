@@ -5,6 +5,9 @@ namespace EOTools.Models.EquipmentUpgrade
 {
     public class EquipmentUpgradeImprovmentModel
     {
+        [JsonIgnore]
+        public int Id { get; set; }
+
         [JsonProperty("convert")]
         public EquipmentUpgradeConversionModel? ConversionData { get; set; }
 

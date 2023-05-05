@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools.EquipmentPicker;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -21,8 +22,11 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
 
     public string AfterConversionEquipmentName => ConversionViewModel?.Equipment?.NameEN ?? "Select an equipment";
 
-    public EquipmentUpgradeImprovmentViewModel(EquipmentUpgradeImprovmentModel model)
+    private EOToolsDbContext DbContext { get; } = new();
+
+    public EquipmentUpgradeImprovmentViewModel(EquipmentUpgradeImprovmentModel model, EOToolsDbContext db)
     {
+        DbContext = db;
         Model = model;
         LoadFromModel();
     }
@@ -31,7 +35,7 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     {
         ConversionViewModel = Model.ConversionData is null ? null : new(Model.ConversionData);
         CostViewModel = new(Model.Costs);
-        Helpers = new(Model.Helpers.Select(model => new EquipmentUpgradeHelpersViewModel(model)));
+        Helpers = new(Model.Helpers.Select(model => new EquipmentUpgradeHelpersViewModel(model, DbContext)));
     }
 
     public void SaveChanges()
@@ -81,12 +85,15 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     [RelayCommand]
     private void AddHelpers()
     {
-        Helpers.Add(new(new()));
+        EquipmentUpgradeHelpersModel model = new();
+        Helpers.Add(new(model, DbContext));
+        DbContext.Add(model);
     }
 
     [RelayCommand]
     private void RemoveHelpers(EquipmentUpgradeHelpersViewModel vm)
     {
         Helpers.Remove(vm);
+        DbContext.Remove(vm.Model);
     }
 }

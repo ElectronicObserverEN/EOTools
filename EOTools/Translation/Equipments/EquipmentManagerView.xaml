@@ -25,6 +25,10 @@
 		<StackPanel Grid.Row="0" Orientation="Vertical">
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
 				<Button Command="{Binding ShowAddEquipmentDialogCommand}" Content="Add" />
+				<TextBox
+					Width="500"
+					Margin="5,0"
+					Text="{Binding Filter}" />
 			</StackPanel>
 
 			<StackPanel Grid.Row="0" Orientation="Horizontal">
