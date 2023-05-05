@@ -73,19 +73,11 @@ public class UpdateEquipmentDataService
         updateJson["EquipmentUpgrades"] = version;
 
         using EOToolsDbContext db = new();
-        List<EquipmentModel> equipments = db.Equipments
+        List<EquipmentUpgradeDataModel> upgradesJson = EquipmentUpgradesService.Instance.AllUpgradeModel
             .AsEnumerable()
-            .OrderBy(eq => eq.ApiId)
-            .Where(eq => !string.IsNullOrEmpty(eq.UpgradeData))
+            .OrderBy(eq => eq.EquipmentId)
+            .Where(eq => eq.UpgradeFor.Any() || eq.Improvement.Any())
             .ToList();
-
-        List<EquipmentUpgradeDataModel> upgradesJson = new();
-
-        foreach (EquipmentModel equipmentModel in equipments)
-        {
-            EquipmentUpgradeDataModel upgrade = EquipmentUpgradesService.Instance.AllUpgradeModel.First(upg => upg.EquipmentId == equipmentModel.ApiId);
-            upgradesJson.Add(upgrade);
-        }
 
         // --- Stage & push
         GitManager.Pull();

@@ -15,10 +15,4 @@ public class EquipmentModel
 
     [JsonProperty("name_en")]
     public string NameEN { get; set; } = "";
-
-    /// <summary>
-    /// Stored as json for now
-    /// </summary>
-    [JsonProperty("upgrade_data")]
-    public string? UpgradeData { get; set; }
 }

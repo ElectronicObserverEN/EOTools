@@ -149,9 +149,9 @@ public partial class EquipmentManagerViewModel : ObservableObject
 
             if (eq != null)
             {
-                eq.UpgradeData = model.ToString()
+                /*eq.UpgradeData = model.ToString()
                     .Replace("\r\n", "")
-                    .Replace(" ", "");
+                    .Replace(" ", "");*/
             }
         }
 
@@ -281,7 +281,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
 
         foreach (EquipmentModel equipment in db.Equipments)
         {
-            if (equipment.UpgradeData is null)
+            /*if (equipment.UpgradeData is null)
             {
                 db.EquipmentUpgrades.Add(new()
                 {
@@ -301,7 +301,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
                 }
 
                 db.EquipmentUpgrades.Add(model);
-            }
+            }*/
         }
 
         db.SaveChanges();
