@@ -47,7 +47,10 @@ public partial class EquipmentUpgradeHelpersViewModel
     [RelayCommand]
     public void AddShipId()
     {
-        EquipmentUpgradeHelpersShipModel model = new();
+        EquipmentUpgradeHelpersShipModel model = new()
+        {
+            ShipId = ShipId
+        };
         Ships.Add(model);
         DbContext.Add(model);
     }
@@ -55,7 +58,10 @@ public partial class EquipmentUpgradeHelpersViewModel
     [RelayCommand]
     public void AddDay()
     {
-        EquipmentUpgradeHelpersDayModel model = new();
+        EquipmentUpgradeHelpersDayModel model = new()
+        {
+            Day = Day
+        };
         CanHelpOnDays.Add(model);
         DbContext.Add(model);
     }

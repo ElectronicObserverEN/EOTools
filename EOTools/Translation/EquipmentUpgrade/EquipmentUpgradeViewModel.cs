@@ -51,6 +51,11 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
         Model.ConversionData = ConversionViewModel?.Model;
         Model.Costs = CostViewModel.Model;
         Model.Helpers = Helpers.Select(vm => vm.Model).ToList();
+
+        foreach (var helper in Model.Helpers)
+        {
+            helper.Improvment = Model;
+        }
     }
 
     [RelayCommand]

@@ -4,6 +4,8 @@ using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Tools;
 using EOTools.Translation.EquipmentUpgrade;
+using ModernWpf.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -65,23 +67,51 @@ public partial class EquipmentViewModel : ObservableObject
         using EOToolsDbContext db = new();
         EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model, db);
 
-        EquipmentUpgradeEditView view = new(vmEdit);
+        bool saved = false;
+        bool canceled = false;
 
-        if (view.ShowDialog() == true)
+        while (!saved && !canceled)
         {
-            vmEdit.SaveChanges();
-            vm.Model = vmEdit.Model;
-            vm.LoadFromModel();
+            EquipmentUpgradeEditView view = new(vmEdit);
 
-            if (newEntity)
+            if (view.ShowDialog() == true)
             {
-                Upgrades.Add(vm);
-                db.Add(vm.Model);
-            }
+                vmEdit.SaveChanges();
+                vm.Model = vmEdit.Model;
+                vm.LoadFromModel();
 
-            db.SaveChanges();
-            EquipmentUpgradesService.Instance.ReloadList();
+                if (newEntity)
+                {
+                    Upgrades.Add(vm);
+                    db.Add(vm.Model);
+                }
+
+                try
+                {
+                    db.SaveChanges();
+                    saved = true;
+                }
+                catch (Exception ex)
+                {
+                    while (ex.InnerException != null)
+                    {
+                        ex = ex.InnerException;
+                    }
+
+                    ContentDialog errorDialog = new ContentDialog();
+                    errorDialog.Content = $"{ex.Message}\n\n\n\n{ex.StackTrace}";
+                    errorDialog.CloseButtonText = "Close";
+
+                    errorDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                canceled = true;
+            }
         }
+
+        EquipmentUpgradesService.Instance.ReloadList();
     }
 
     [RelayCommand]

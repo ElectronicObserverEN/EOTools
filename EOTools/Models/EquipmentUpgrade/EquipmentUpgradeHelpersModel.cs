@@ -9,6 +9,12 @@ namespace EOTools.Models.EquipmentUpgrade
     public class EquipmentUpgradeHelpersModel
     {
         [JsonIgnore]
+        public int EquipmentUpgradeImprovmentModelId { get; set; }
+
+        [JsonIgnore]
+        public EquipmentUpgradeImprovmentModel Improvment { get; set; }
+
+        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

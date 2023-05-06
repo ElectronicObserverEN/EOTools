@@ -43,6 +43,13 @@ namespace EOTools.DataBase
                 .OnDelete(DeleteBehavior.ClientCascade)
                 .HasForeignKey(nameof(EquipmentUpgradeConversionModel), nameof(EquipmentUpgradeConversionModel.ImprovmentModelId));
 
+            modelBuilder
+                .Entity<EquipmentUpgradeImprovmentModel>()
+                .HasMany(e => e.Helpers)
+                .WithOne(e => e.Improvment)
+                .OnDelete(DeleteBehavior.ClientCascade)
+                .HasForeignKey(nameof(EquipmentUpgradeHelpersModel.EquipmentUpgradeImprovmentModelId));
+
             /*modelBuilder
                 .Entity<EquipmentUpgradeImprovmentCost>()
                 .HasOne(e => e.Cost0To5)
