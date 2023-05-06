@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models.EquipmentUpgrade;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,6 +53,7 @@ public partial class EquipmentUpgradeHelpersViewModel
             ShipId = ShipId
         };
         Ships.Add(model);
+        DbContext.Entry(Model).State = EntityState.Modified;
         DbContext.Add(model);
     }
 
@@ -63,6 +65,7 @@ public partial class EquipmentUpgradeHelpersViewModel
             Day = Day
         };
         CanHelpOnDays.Add(model);
+        DbContext.Entry(Model).State = EntityState.Modified;
         DbContext.Add(model);
     }
 
