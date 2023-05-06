@@ -52,8 +52,15 @@ public partial class EquipmentUpgradeHelpersViewModel
         {
             ShipId = ShipId
         };
+
         Ships.Add(model);
-        DbContext.Entry(Model).State = EntityState.Modified;
+
+        DbContext.Entry(Model).State = DbContext.Entry(Model).State switch
+        {
+            EntityState.Unchanged or EntityState.Detached => EntityState.Modified,
+            _ => DbContext.Entry(Model).State
+        };
+
         DbContext.Add(model);
     }
 
@@ -64,8 +71,15 @@ public partial class EquipmentUpgradeHelpersViewModel
         {
             Day = Day
         };
+
         CanHelpOnDays.Add(model);
-        DbContext.Entry(Model).State = EntityState.Modified;
+
+        DbContext.Entry(Model).State = DbContext.Entry(Model).State switch
+        {
+            EntityState.Unchanged or EntityState.Detached => EntityState.Modified,
+            _ => DbContext.Entry(Model).State
+        };
+
         DbContext.Add(model);
     }
 
