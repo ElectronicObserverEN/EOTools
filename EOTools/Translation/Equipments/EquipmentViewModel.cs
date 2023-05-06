@@ -130,6 +130,10 @@ public partial class EquipmentViewModel : ObservableObject
     [RelayCommand]
     public void RemoveEquipmentUpgrade(EquipmentUpgradeImprovmentViewModel vm)
     {
+        using EOToolsDbContext db = new();
+        db.Remove(vm.Model);
+        db.SaveChanges();
         Upgrades.Remove(vm);
+        EquipmentUpgradesService.Instance.ReloadList();
     }
 }
