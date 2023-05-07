@@ -51,6 +51,11 @@
 					Command="{Binding ImportUpgradeDataCommand}"
 					Content="Import upgrade data"
 					IsEnabled="False" />
+
+				<Button
+					Margin="5"
+					Command="{Binding OpenEquipmentUpgradeCheckerCommand}"
+					Content="Check upgrade data" />
 			</StackPanel>
 		</StackPanel>
 

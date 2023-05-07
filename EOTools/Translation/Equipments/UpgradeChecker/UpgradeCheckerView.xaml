@@ -1,0 +1,51 @@
+﻿<Window
+	x:Class="EOTools.Translation.Equipments.UpgradeChecker.UpgradeCheckerView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Translation.Equipments.UpgradeChecker"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="http://schemas.modernwpf.com/2019"
+	Title="Upgrade checks"
+	Width="800"
+	Height="450"
+	d:DataContext="{d:DesignInstance local:UpgradeCheckerViewModel}"
+	ui:WindowHelper.UseModernWindowStyle="True"
+	mc:Ignorable="d">
+
+	<Window.DataContext>
+		<local:UpgradeCheckerViewModel />
+	</Window.DataContext>
+
+	<StackPanel>
+		<DataGrid
+			AutoGenerateColumns="False"
+			CanUserAddRows="False"
+			CanUserDeleteRows="False"
+			IsReadOnly="True"
+			ItemsSource="{Binding TooManyUpgradePerShipList}"
+			SelectedItem="{Binding SelectedIssue}"
+			SelectionMode="Single">
+			<DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Ship.NameEN}" Header="Ship" />
+				<DataGridTextColumn Binding="{Binding Message}" Header="Issue" />
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Button Content="{Binding SelectedIssue.Ship.NameEN}" IsEnabled="False" />
+
+		<DataGrid
+			AutoGenerateColumns="False"
+			CanUserAddRows="False"
+			CanUserDeleteRows="False"
+			IsReadOnly="True"
+			ItemsSource="{Binding UpgradesForSelectedShip}"
+			SelectionMode="Single">
+			<DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding ShipModel.NameEN}" Header="Ship" />
+				<DataGridTextColumn Binding="{Binding DayString}" Header="Day" />
+				<DataGridTextColumn Binding="{Binding ImprovmentsString}" Header="Upgrades" />
+			</DataGrid.Columns>
+		</DataGrid>
+	</StackPanel>
+</Window>

@@ -4,6 +4,7 @@ using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
+using EOTools.Translation.Equipments.UpgradeChecker;
 using EOTools.Translation.EquipmentUpgrade;
 using Microsoft.EntityFrameworkCore;
 using ModernWpf.Controls;
@@ -314,5 +315,11 @@ public partial class EquipmentManagerViewModel : ObservableObject
         service.UpdateEquipmentUpgrades();
     }
 
+    [RelayCommand]
+    public void OpenEquipmentUpgradeChecker()
+    {
+        UpgradeCheckerView view = new UpgradeCheckerView();
+        view.Show();
+    }
     #endregion
 }
