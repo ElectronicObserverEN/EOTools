@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.Tools.Translations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EOTools.Models.Ships;
 
@@ -15,5 +16,6 @@ public class ShipModel
 
     public string GetNameEN() => Ioc.Default.GetRequiredService<ShipTranslationService>().Name(NameJP, ApiId);
 
+    [NotMapped]
     public bool IsFriendly => ApiId < 1500;
 }

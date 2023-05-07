@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models;
+using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
 using EOTools.Translation.EquipmentUpgrade;
 using ModernWpf.Controls;
@@ -84,6 +85,20 @@ public partial class EquipmentViewModel : ObservableObject
                 {
                     Upgrades.Add(vm);
                     db.Add(vm.Model);
+
+                    EquipmentUpgradeDataModel? model = db.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
+
+                    if (model is not null)
+                    {
+                        model = new EquipmentUpgradeDataModel()
+                        {
+                            EquipmentId = ApiId
+                        };
+
+                        db.Add(model);
+                    }
+
+                    model.Improvement.Add(vm.Model);
                 }
 
                 try
@@ -117,7 +132,8 @@ public partial class EquipmentViewModel : ObservableObject
     [RelayCommand]
     public void ShowAddEquipmentUpgradeDialog()
     {
-        EquipmentUpgradeImprovmentViewModel vm = new(new(), new());
+        EquipmentUpgradeImprovmentModel model = new();
+        EquipmentUpgradeImprovmentViewModel vm = new(model, new());
         ShowUpgradeEditDialog(vm, true);
     }
 
