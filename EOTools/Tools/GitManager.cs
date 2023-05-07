@@ -24,7 +24,8 @@ namespace EOTools.Tools
             {
                 WorkingDirectory = WorkingDir,
                 FileName = "CMD.exe",
-                Arguments = strCmdText
+                Arguments = strCmdText,
+                CreateNoWindow = true,
             }).WaitForExit();
         }
 

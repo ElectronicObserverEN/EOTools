@@ -1,5 +1,6 @@
 ﻿using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
+using EOTools.Models.Ships;
 using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
@@ -18,6 +19,7 @@ namespace EOTools.DataBase
         public DbSet<SeasonModel> Seasons { get; set; }
         public DbSet<EventModel> Events { get; set; }
         public DbSet<EquipmentModel> Equipments { get; set; }
+        public DbSet<ShipModel> Ships { get; set; }
         public DbSet<EquipmentUpgradeDataModel> EquipmentUpgrades { get; set; }
 
         public string DbPath { get; }

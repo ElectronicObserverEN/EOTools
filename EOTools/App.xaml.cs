@@ -1,6 +1,9 @@
-﻿using EOTools.DataBase;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.DataBase;
 using EOTools.Tools;
+using EOTools.Tools.Translations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ModernWpf.Controls;
 using System;
 using System.Collections.Generic;
@@ -38,6 +41,17 @@ namespace EOTools
 
             // Prevent default unhandled exception processing
             e.Handled = true;
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            ServiceProvider services = new ServiceCollection()
+                .AddSingleton<ShipTranslationService>()
+                .BuildServiceProvider();
+
+            Ioc.Default.ConfigureServices(services);
+
+            base.OnStartup(e);
         }
     }
 }

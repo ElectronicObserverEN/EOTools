@@ -10,6 +10,7 @@ using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
+using EOTools.Translation.Ships;
 using Microsoft.EntityFrameworkCore;
 using System.Windows;
 
@@ -115,6 +116,11 @@ namespace EOTools
         private void ManageEquipmentsClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new EquipmentManagerView();
+        }
+
+        private void ManageShipsClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new ShipManagerView();
         }
 
         private void ConfigClick(object sender, RoutedEventArgs e)

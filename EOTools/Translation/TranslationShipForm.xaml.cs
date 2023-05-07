@@ -1,6 +1,5 @@
-﻿using EOTools.Tools;
-using Microsoft.Win32;
-using EOTools.Models;
+﻿using EOTools.Models;
+using EOTools.Tools;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

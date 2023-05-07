@@ -1,5 +1,6 @@
 ﻿using EOTools.DataBase;
 using EOTools.Models;
+using EOTools.Models.Ships;
 using EOTools.Translation.QuestManager.Events;
 using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
@@ -19,6 +20,7 @@ public class DatabaseSyncService
     private string QuestsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Quests.json");
     private string SeasonsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Seasons.json");
     private string EquipmentFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Equipments.json");
+    private string ShipFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Ships.json");
 
     public void StageDatabaseChangesToGit()
     {
@@ -29,12 +31,14 @@ public class DatabaseSyncService
         JsonHelper.WriteJson(SeasonsFilePath, db.Seasons.ToList());
         JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
         JsonHelper.WriteJson(EquipmentFilePath, db.Equipments.ToList());
+        JsonHelper.WriteJson(ShipFilePath, db.Ships.ToList());
 
         GitManager.Stage(UpdatesFilePath);
         GitManager.Stage(EventsFilePath);
         GitManager.Stage(QuestsFilePath);
         GitManager.Stage(SeasonsFilePath);
         GitManager.Stage(EquipmentFilePath);
+        GitManager.Stage(ShipFilePath);
     }
 
     public void PushDatabaseChangesToGit()
@@ -56,6 +60,7 @@ public class DatabaseSyncService
         db.RemoveRange(db.Events);
         db.RemoveRange(db.Updates);
         db.RemoveRange(db.Equipments);
+        db.RemoveRange(db.Ships);
 
         // rebuild db
         db.Updates.AddRange(JsonHelper.ReadJson<List<UpdateModel>>(UpdatesFilePath));
@@ -63,6 +68,7 @@ public class DatabaseSyncService
         db.Seasons.AddRange(JsonHelper.ReadJson<List<SeasonModel>>(SeasonsFilePath));
         db.Quests.AddRange(JsonHelper.ReadJson<List<QuestModel>>(QuestsFilePath));
         db.Equipments.AddRange(JsonHelper.ReadJson<List<EquipmentModel>>(EquipmentFilePath));
+        db.Ships.AddRange(JsonHelper.ReadJson<List<ShipModel>>(ShipFilePath));
 
         db.SaveChanges();
     }

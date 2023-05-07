@@ -56,6 +56,7 @@
 				<Separator />
 				<MenuItem Click="ManageQuestsClick" Header="Manage quests" />
 				<MenuItem Click="ManageEquipmentsClick" Header="Manage equipments" />
+				<MenuItem Click="ManageShipsClick" Header="Manage ships" />
 				<Separator />
 				<MenuItem Click="UpdateMaintData" Header="Update maint data" />
 				<MenuItem Click="PushDatabase" Header="Force push database to git" />
