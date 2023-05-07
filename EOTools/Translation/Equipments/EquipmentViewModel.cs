@@ -97,6 +97,10 @@ public partial class EquipmentViewModel : ObservableObject
 
                         db.Add(model);
                     }
+                    else
+                    {
+                        db.Attach(model);
+                    }
 
                     model.Improvement.Add(vm.Model);
                 }
