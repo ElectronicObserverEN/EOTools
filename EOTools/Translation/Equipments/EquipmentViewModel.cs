@@ -88,7 +88,7 @@ public partial class EquipmentViewModel : ObservableObject
 
                     EquipmentUpgradeDataModel? model = db.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
 
-                    if (model is not null)
+                    if (model is null)
                     {
                         model = new EquipmentUpgradeDataModel()
                         {
