@@ -14,4 +14,6 @@ public class ShipModel
     public int ApiId { get; set; }
 
     public string GetNameEN() => Ioc.Default.GetRequiredService<ShipTranslationService>().Name(NameJP, ApiId);
+
+    public bool IsFriendly => ApiId < 1500;
 }

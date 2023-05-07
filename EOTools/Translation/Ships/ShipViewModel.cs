@@ -35,4 +35,6 @@ public partial class ShipViewModel : ObservableObject
         Model.NameJP = NameJP;
         Model.ApiId = ApiId;
     }
+
+    public bool IsFriendly => Model.IsFriendly;
 }

@@ -32,7 +32,10 @@
 			</DataGrid.Columns>
 		</DataGrid>
 
-		<Button Content="{Binding SelectedIssue.Ship.NameEN}" IsEnabled="False" />
+		<Button
+			Command="{Binding OpenShipSelectionCommand}"
+			Content="{Binding SelectedShipString}"
+			IsEnabled="True" />
 
 		<DataGrid
 			AutoGenerateColumns="False"
