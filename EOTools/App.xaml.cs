@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.DataBase;
 using EOTools.Tools;
+using EOTools.Tools.CurrentDeck;
 using EOTools.Tools.Translations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,6 +48,7 @@ namespace EOTools
         {
             ServiceProvider services = new ServiceCollection()
                 .AddSingleton<ShipTranslationService>()
+                .AddSingleton<CurrentDeckService>()
                 .BuildServiceProvider();
 
             Ioc.Default.ConfigureServices(services);

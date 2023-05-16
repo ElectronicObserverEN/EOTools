@@ -85,6 +85,20 @@ namespace EOTools.Tools
             }
         }
 
+        private static string eoDbPath = "";
+        public static string EoDbPath
+        {
+            get
+            {
+                return eoDbPath;
+            }
+            set
+            {
+                eoDbPath = value;
+                WriteSettings();
+            }
+        }
+
         #endregion
 
         private const string SettingFileName = @"Config.json";
@@ -121,6 +135,11 @@ namespace EOTools.Tools
             {
                 disablePush = (bool)_value;
             }
+
+            if (_jsonSettings.TryGetValue("EoDbPath", out _value))
+            {
+                eoDbPath = (string)_value;
+            }
         }
 
         public static void WriteSettings()
@@ -130,7 +149,8 @@ namespace EOTools.Tools
                 { "GetDataPath", KancolleEOAPIFolder },
                 { "ShipIconFolder", ShipIconFolder },
                 { "ElectronicObserverDataFolderPath", ElectronicObserverDataFolderPath },
-                { "DisablePush", DisablePush }
+                { "DisablePush", DisablePush },
+                { "EoDbPath", EoDbPath }
             };
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);
@@ -151,6 +171,27 @@ namespace EOTools.Tools
                 if (result == DialogResult.OK)
                 {
                     return dialog.SelectedPath;
+                }
+            }
+
+            return null;
+        }
+
+        public static string? OpenFileDialog(string title, string extension)
+        {
+            // --- Load file
+            using (var dialog = new System.Windows.Forms.OpenFileDialog()
+            {
+                Title = title,
+                CheckFileExists = true,
+                DefaultExt = extension
+            })
+            {
+                DialogResult result = dialog.ShowDialog();
+
+                if (result == DialogResult.OK)
+                {
+                    return dialog.FileName;
                 }
             }
 

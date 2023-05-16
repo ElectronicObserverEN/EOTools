@@ -2,14 +2,13 @@
 
 namespace EOTools.Translation.Equipments.UpgradeChecker;
 
-public class TooManyUpgradePerShipViewModel
+public class TooManyUpgradePerShipViewModel : UpgradeIssueViewModel
 {
-    public ShipModel Ship { get; set; }
+    public override string Message => "Too many upgrades for this ship";
 
-    public string Message => "Too many upgrades for this ship";
-
-    public TooManyUpgradePerShipViewModel(ShipModel ship)
+    public TooManyUpgradePerShipViewModel(ShipModel ship) : base(ship)
     {
-        Ship = ship;
+
     }
+
 }

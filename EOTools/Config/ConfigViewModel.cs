@@ -16,11 +16,15 @@ namespace EOTools.Config
         private string shipIconFolder = "";
 
         [ObservableProperty]
+        private string eoDatabaseFile = "";
+
+        [ObservableProperty]
         private bool disablePush = false;
 
         public string DataFolderDisplay => string.IsNullOrEmpty(ElectronicObserverDataFolderPath) ? "Select a folder" : ElectronicObserverDataFolderPath;
         public string APIFolderDisplay => string.IsNullOrEmpty(KancolleEOAPIFolder) ? "Select a folder" : KancolleEOAPIFolder;
         public string IconFolderDisplay => string.IsNullOrEmpty(ShipIconFolder) ? "Select a folder" : ShipIconFolder;
+        public string EoDatabaseDisplay => string.IsNullOrEmpty(EoDatabaseFile) ? "Select a file" : EoDatabaseFile;
 
         public ConfigViewModel()
         {
@@ -28,6 +32,7 @@ namespace EOTools.Config
             KancolleEOAPIFolder = AppSettings.KancolleEOAPIFolder;
             ShipIconFolder = AppSettings.ShipIconFolder;
             DisablePush = AppSettings.DisablePush;
+            EoDatabaseFile = AppSettings.EoDbPath;
 
             PropertyChanged += ConfigViewModel_PropertyChanged;
         }
@@ -54,6 +59,11 @@ namespace EOTools.Config
             {
                 AppSettings.DisablePush = DisablePush;
             }
+            if (e.PropertyName is nameof(EoDatabaseFile))
+            {
+                AppSettings.EoDbPath = EoDatabaseFile;
+                OnPropertyChanged(nameof(EoDatabaseDisplay));
+            }
         }
 
         [RelayCommand]
@@ -67,6 +77,10 @@ namespace EOTools.Config
         [RelayCommand]
         private void OpenShipIconFolderDialog()
             => ShipIconFolder = AppSettings.OpenFolderDialog("Select ship icons folder") ?? ShipIconFolder;
+
+        [RelayCommand]
+        private void OpenEoDatabaseDialog()
+            => EoDatabaseFile = AppSettings.OpenFileDialog("Select EO database", ".db") ?? EoDatabaseFile;
 
     }
 }

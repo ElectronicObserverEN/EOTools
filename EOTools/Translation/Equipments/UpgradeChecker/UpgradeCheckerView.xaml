@@ -18,10 +18,18 @@
 	</Window.DataContext>
 
 	<StackPanel>
+		<StackPanel Orientation="Vertical">
+			<CheckBox Content="Auto checker running" IsChecked="{Binding UpgradeCheckerIsRunning}" />
+			<TextBlock
+				Margin="5"
+				VerticalAlignment="Center"
+				Text="{Binding UpgradeCheckerStatus}" />
+		</StackPanel>
+
 		<DataGrid
 			AutoGenerateColumns="False"
 			CanUserAddRows="False"
-			CanUserDeleteRows="False"
+			CanUserDeleteRows="True"
 			IsReadOnly="True"
 			ItemsSource="{Binding TooManyUpgradePerShipList}"
 			SelectedItem="{Binding SelectedIssue}"
