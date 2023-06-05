@@ -87,7 +87,7 @@ public partial class EquipmentUpgradeHelpersViewModel
     public void RemoveShipId(EquipmentUpgradeHelpersShipViewModel id)
     {
         Ships.Remove(id);
-        DbContext.Remove(id);
+        DbContext.Remove(id.Model);
     }
 
     [RelayCommand]
