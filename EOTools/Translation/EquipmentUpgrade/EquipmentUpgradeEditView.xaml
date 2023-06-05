@@ -353,7 +353,7 @@
 												<Button
 													Command="{Binding DataContext.RemoveShipIdCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}"
 													CommandParameter="{Binding}"
-													Content="{Binding ShipId}" />
+													Content="{Binding ShipModel.NameEN}" />
 											</DataTemplate>
 										</ListView.ItemTemplate>
 									</ListView>

@@ -15,7 +15,7 @@ public partial class EquipmentUpgradeHelpersViewModel
 
     public DayOfWeek Day { get; set; }
 
-    public ObservableCollection<EquipmentUpgradeHelpersShipModel> Ships { get; set; } = new();
+    public ObservableCollection<EquipmentUpgradeHelpersShipViewModel> Ships { get; set; } = new();
     public ObservableCollection<EquipmentUpgradeHelpersDayModel> CanHelpOnDays { get; set; } = new();
 
     public EquipmentUpgradeHelpersModel Model { get; set; }
@@ -34,14 +34,14 @@ public partial class EquipmentUpgradeHelpersViewModel
 
     public void LoadFromModel()
     {
-        Ships = new(Model.ShipIds);
+        Ships = new(Model.ShipIds.Select(model => new EquipmentUpgradeHelpersShipViewModel(model, DbContext)));
         CanHelpOnDays = new(Model.CanHelpOnDays);
     }
 
     public void SaveChanges()
     {
         Model.CanHelpOnDays = CanHelpOnDays.ToList();
-        Model.ShipIds = Ships.ToList();
+        Model.ShipIds = Ships.Select(vm => vm.Model).ToList();
     }
 
 
@@ -53,7 +53,7 @@ public partial class EquipmentUpgradeHelpersViewModel
             ShipId = ShipId
         };
 
-        Ships.Add(model);
+        Ships.Add(new EquipmentUpgradeHelpersShipViewModel(model, DbContext));
 
         DbContext.Entry(Model).State = DbContext.Entry(Model).State switch
         {
@@ -84,7 +84,7 @@ public partial class EquipmentUpgradeHelpersViewModel
     }
 
     [RelayCommand]
-    public void RemoveShipId(EquipmentUpgradeHelpersShipModel id)
+    public void RemoveShipId(EquipmentUpgradeHelpersShipViewModel id)
     {
         Ships.Remove(id);
         DbContext.Remove(id);

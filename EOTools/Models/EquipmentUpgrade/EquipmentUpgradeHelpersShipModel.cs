@@ -1,5 +1,4 @@
-﻿
-namespace EOTools.Models.EquipmentUpgrade;
+﻿namespace EOTools.Models.EquipmentUpgrade;
 
 public class EquipmentUpgradeHelpersShipModel
 {

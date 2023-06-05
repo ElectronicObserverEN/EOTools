@@ -36,6 +36,7 @@
 			SelectionMode="Single">
 			<DataGrid.Columns>
 				<DataGridTextColumn Binding="{Binding Ship.NameEN}" Header="Ship" />
+				<DataGridTextColumn Binding="{Binding Ship.ApiId}" Header="Id" />
 				<DataGridTextColumn Binding="{Binding Message}" Header="Issue" />
 			</DataGrid.Columns>
 		</DataGrid>
