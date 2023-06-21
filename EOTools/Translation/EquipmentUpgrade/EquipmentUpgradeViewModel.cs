@@ -16,7 +16,7 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     [ObservableProperty]
     private EquipmentUpgradeConversionViewModel? conversionViewModel;
 
-    public EquipmentUpgradeImprovmentCostViewModel CostViewModel { get; set; } = new(new());
+    public EquipmentUpgradeImprovmentCostViewModel CostViewModel { get; set; } 
 
     public ObservableCollection<EquipmentUpgradeHelpersViewModel> Helpers { get; set; } = new();
 
@@ -28,13 +28,14 @@ public partial class EquipmentUpgradeImprovmentViewModel : ObservableObject
     {
         DbContext = db;
         Model = model;
+
         LoadFromModel();
     }
 
     public void LoadFromModel()
     {
         ConversionViewModel = Model.ConversionData is null ? null : new(Model.ConversionData);
-        CostViewModel = new(Model.Costs);
+        CostViewModel = new(Model.Costs, DbContext);
         Helpers = new(Model.Helpers.Select(model => new EquipmentUpgradeHelpersViewModel(model, DbContext)));
     }
 

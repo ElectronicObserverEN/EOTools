@@ -86,4 +86,5 @@ namespace EOTools.DataBase
             return base.Remove(entity);
         }*/
     }
+
 }

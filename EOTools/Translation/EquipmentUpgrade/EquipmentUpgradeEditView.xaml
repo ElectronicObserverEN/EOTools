@@ -286,11 +286,26 @@
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<StackPanel>
+												<Button
+													Margin="5"
+													Command="{Binding DataContext.CostMaxViewModel.RemoveEquipmentRequirementCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel, AncestorLevel=2}}"
+													CommandParameter="{Binding}"
+													Content="Remove" />
+											</StackPanel>
+										</DataTemplate>
+									</DataGridTemplateColumn.CellTemplate>
+								</DataGridTemplateColumn>
+
+								<DataGridTemplateColumn Header="Equipment">
+									<DataGridTemplateColumn.CellTemplate>
+										<DataTemplate>
+											<StackPanel>
 												<Button Command="{Binding OpenEquipmentPickerCommand}" Content="{Binding Equipment.NameEN}" />
 											</StackPanel>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
+
 
 								<DataGridTextColumn Binding="{Binding Count}" Header="Count required" />
 							</DataGrid.Columns>

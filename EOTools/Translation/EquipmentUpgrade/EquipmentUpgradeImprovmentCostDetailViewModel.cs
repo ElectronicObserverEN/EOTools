@@ -1,8 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using EOTools.Models.EquipmentUpgrade;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
 using System.Linq;
+using EOTools.DataBase;
 
 namespace EOTools.Translation.EquipmentUpgrade;
 
@@ -17,13 +19,16 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
     [ObservableProperty]
     private int sliderImproveMatCost;
 
+    private DbContext DbContext { get; }
+
     public ObservableCollection<EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel> EquipmentsRequired { get; set; } = new();
     public ObservableCollection<EquipmentUpgradeImprovmentCostUseItemRequirementViewModel> UseItemsRequired { get; set; } = new();
 
     public EquipmentUpgradeImprovmentCostDetail Model { get; set; }
 
-    public EquipmentUpgradeImprovmentCostDetailViewModel(EquipmentUpgradeImprovmentCostDetail model)
+    public EquipmentUpgradeImprovmentCostDetailViewModel(EquipmentUpgradeImprovmentCostDetail model, DbContext db)
     {
+        DbContext = db;
         Model = model;
 
         LoadFromModel();
@@ -46,21 +51,48 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
         Model.SliderDevmatCost = SliderDevmatCost;
         Model.ImproveMatCost = ImproveMatCost;
         Model.SliderImproveMatCost = SliderImproveMatCost;
-
-        Model.EquipmentDetail = new();
-
+        
         foreach (EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel vm in EquipmentsRequired)
         {
             vm.SaveChanges();
-            Model.EquipmentDetail.Add(vm.Model);
+
+            if (!Model.EquipmentDetail.Contains(vm.Model))
+            {
+                DbContext.Add(vm.Model);
+                Model.EquipmentDetail.Add(vm.Model);
+            }
+            else
+            {
+            }
         }
-
-        Model.ConsumableDetail = new();
-
+        
         foreach (EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm in UseItemsRequired)
         {
             vm.SaveChanges();
-            Model.ConsumableDetail.Add(vm.Model);
+
+            if (!Model.ConsumableDetail.Contains(vm.Model))
+            {
+                DbContext.Add(vm.Model);
+                Model.ConsumableDetail.Add(vm.Model);
+            }
+            else
+            {
+            }
+        }
+    }
+
+    public void SetEntityAsModified()
+    {
+        DbContext.SetEntityAsModified(Model);
+
+        foreach (EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel vm in EquipmentsRequired)
+        {
+            DbContext.SetEntityAsModified(vm.Model);
+        }
+
+        foreach (EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm in UseItemsRequired)
+        {
+            DbContext.SetEntityAsModified(vm.Model);
         }
     }
 
@@ -73,6 +105,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
 
         if (vm.Id > 0)
         {
+            DbContext.Add(vm.Model);
             EquipmentsRequired.Add(vm);
         }
     }
@@ -80,6 +113,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
     [RelayCommand]
     public void RemoveEquipmentRequirement(EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel vm)
     {
+        DbContext.Remove(vm.Model);
         EquipmentsRequired.Remove(vm);
     }
 
@@ -92,6 +126,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
 
         if (vm.Id > 0)
         {
+            DbContext.Add(vm.Model);
             UseItemsRequired.Add(vm);
         }
     }
@@ -99,6 +134,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
     [RelayCommand]
     public void RemoveUseItemRequirement(EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm)
     {
+        DbContext.Remove(vm.Model);
         UseItemsRequired.Remove(vm);
     }
 }
