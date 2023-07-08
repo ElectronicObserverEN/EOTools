@@ -56,10 +56,8 @@ public partial class EquipmentUpgradeImprovmentCostViewModel : ObservableObject
         Model.Bauxite = Bauxite;
 
         Cost0To5ViewModel.SaveChanges();
-        Cost0To5ViewModel.SetEntityAsModified();
 
         Cost6To9ViewModel.SaveChanges();
-        Cost6To9ViewModel.SetEntityAsModified();
 
         CostMaxViewModel.SaveChanges();
 
@@ -71,11 +69,6 @@ public partial class EquipmentUpgradeImprovmentCostViewModel : ObservableObject
         {
             Model.CostMax = CostMaxViewModel.Model;
             DbContext.Add(CostMaxViewModel.Model);
-            DbContext.SetEntityAsModified(Model);
-        }
-        else
-        {
-            CostMaxViewModel.SetEntityAsModified();
         }
     }
 }

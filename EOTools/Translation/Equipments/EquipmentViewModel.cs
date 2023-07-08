@@ -40,7 +40,7 @@ public partial class EquipmentViewModel : ObservableObject
             EquipmentUpgradesService.Instance.AllUpgradeModel
             .Where(upg => upg.EquipmentId == ApiId)
             .SelectMany(equ => equ.Improvement)
-            .Select(upg => new EquipmentUpgradeImprovmentViewModel(upg, new()))
+            .Select(upg => new EquipmentUpgradeImprovmentViewModel(upg, EquipmentUpgradesService.Instance.DbContext))
             .ToList();
 
         Upgrades = new(upgrades);
@@ -65,8 +65,7 @@ public partial class EquipmentViewModel : ObservableObject
 
     private void ShowUpgradeEditDialog(EquipmentUpgradeImprovmentViewModel vm, bool newEntity)
     {
-        using EOToolsDbContext db = new();
-        EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model, db);
+        EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model, EquipmentUpgradesService.Instance.DbContext);
 
         bool saved = false;
         bool canceled = false;
@@ -84,9 +83,9 @@ public partial class EquipmentViewModel : ObservableObject
                 if (newEntity)
                 {
                     Upgrades.Add(vm);
-                    db.Add(vm.Model);
+                    EquipmentUpgradesService.Instance.DbContext.Add(vm.Model);
 
-                    EquipmentUpgradeDataModel? model = db.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
+                    EquipmentUpgradeDataModel? model = EquipmentUpgradesService.Instance.DbContext.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
 
                     if (model is null)
                     {
@@ -95,11 +94,11 @@ public partial class EquipmentViewModel : ObservableObject
                             EquipmentId = ApiId
                         };
 
-                        db.Add(model);
+                        EquipmentUpgradesService.Instance.DbContext.Add(model);
                     }
                     else
                     {
-                        db.Attach(model);
+                        EquipmentUpgradesService.Instance.DbContext.Attach(model);
                     }
 
                     model.Improvement.Add(vm.Model);
@@ -107,7 +106,7 @@ public partial class EquipmentViewModel : ObservableObject
 
                 try
                 {
-                    db.SaveChanges();
+                    EquipmentUpgradesService.Instance.DbContext.SaveChanges();
                     saved = true;
                 }
                 catch (Exception ex)
@@ -137,7 +136,7 @@ public partial class EquipmentViewModel : ObservableObject
     public void ShowAddEquipmentUpgradeDialog()
     {
         EquipmentUpgradeImprovmentModel model = new();
-        EquipmentUpgradeImprovmentViewModel vm = new(model, new());
+        EquipmentUpgradeImprovmentViewModel vm = new(model, EquipmentUpgradesService.Instance.DbContext);
         ShowUpgradeEditDialog(vm, true);
     }
 

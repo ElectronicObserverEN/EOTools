@@ -25,11 +25,11 @@ public class EquipmentUpgradesService
         ReloadList();
     }
 
+    public EOToolsDbContext DbContext { get; set; } = new();
+
     public void ReloadList()
     {
-        using EOToolsDbContext db = new();
-
-        AllUpgradeModel = db.EquipmentUpgrades
+        AllUpgradeModel = DbContext.EquipmentUpgrades
             .Include("Improvement.ConversionData")
             .Include("Improvement.Helpers.CanHelpOnDays")
             .Include("Improvement.Helpers.ShipIds")

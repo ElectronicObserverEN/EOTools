@@ -80,22 +80,7 @@ public partial class EquipmentUpgradeImprovmentCostDetailViewModel : ObservableO
             }
         }
     }
-
-    public void SetEntityAsModified()
-    {
-        DbContext.SetEntityAsModified(Model);
-
-        foreach (EquipmentUpgradeImprovmentCostEquipmentRequirementViewModel vm in EquipmentsRequired)
-        {
-            DbContext.SetEntityAsModified(vm.Model);
-        }
-
-        foreach (EquipmentUpgradeImprovmentCostUseItemRequirementViewModel vm in UseItemsRequired)
-        {
-            DbContext.SetEntityAsModified(vm.Model);
-        }
-    }
-
+    
     [RelayCommand]
     public void AddEquipmentRequirement()
     {
