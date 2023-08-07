@@ -66,14 +66,18 @@ public partial class UpdateViewModel : ObservableObject
         StringBuilder timestamp = new StringBuilder();
 
         // Times are in JST, need to convert back to UTC
-        DateTimeOffset start = UpdateDate.Add(UpdateStartTime).AddHours(-8);
+        DateTime start = UpdateDate.Add(UpdateStartTime);
+        TimeZoneInfo japaneseTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
+        DateTimeOffset startUtcTime = TimeZoneInfo.ConvertTimeToUtc(start, japaneseTimeZone);
 
-        timestamp.AppendLine($"Maintenance starts on <t:{start.ToUnixTimeSeconds()}:F> (<t:{start.ToUnixTimeSeconds()}:R>)");
+        timestamp.AppendLine($"Maintenance starts on <t:{startUtcTime.ToUnixTimeSeconds()}:F> (<t:{startUtcTime.ToUnixTimeSeconds()}:R>)");
 
         if (UpdateEndTime is { } updateEnd)
         {
-            DateTimeOffset end = UpdateDate.Add(updateEnd).AddHours(-8);
-            timestamp.AppendLine($"Maintenance should end on <t:{end.ToUnixTimeSeconds()}:F> (<t:{end.ToUnixTimeSeconds()}:R>)");
+            DateTime end = UpdateDate.Add(updateEnd);
+            DateTimeOffset endUtcTime = TimeZoneInfo.ConvertTimeToUtc(end, japaneseTimeZone);
+
+            timestamp.AppendLine($"Maintenance should end on <t:{endUtcTime.ToUnixTimeSeconds()}:F> (<t:{endUtcTime.ToUnixTimeSeconds()}:R>)");
         }
 
         Clipboard.SetText(timestamp.ToString());

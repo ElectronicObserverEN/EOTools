@@ -45,13 +45,25 @@ public partial class QuestManagerViewModel : ObservableObject
         if (e.PropertyName == nameof(SeasonFilter)) ReloadQuestList();
     }
 
+    private bool QuestMatchesFilter(QuestViewModel quest)
+    {
+        if (string.IsNullOrEmpty(Filter)) return true;
+        if (quest.Code.ToLower().Contains(Filter.ToLower())) return true;
+        if (quest.NameEN.ToLower().Contains(Filter.ToLower())) return true;
+        if (quest.DescEN.ToLower().Contains(Filter.ToLower())) return true;
+        if (quest.NameJP.ToLower().Contains(Filter.ToLower())) return true;
+        if (quest.DescJP.ToLower().Contains(Filter.ToLower())) return true;
+
+        return false;
+    }
+
     public void ReloadQuestList()
     {
         QuestListFiltered.Clear();
 
         List<QuestViewModel> quests = QuestList
             .Where(quest => SeasonFilter is null || SeasonFilter.Id == quest.SeasonId)
-            .Where(quest => string.IsNullOrEmpty(Filter) || quest.Code.ToLower().Contains(Filter.ToLower()) || quest.NameEN.ToLower().Contains(Filter.ToLower()) || quest.DescEN.ToLower().Contains(Filter.ToLower()))
+            .Where(QuestMatchesFilter)
             .ToList();
 
         foreach (QuestViewModel quest in quests)
