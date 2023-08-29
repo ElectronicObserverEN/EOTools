@@ -207,6 +207,23 @@ namespace EOTools.Translation
                         });
                     }
                 }
+
+                JArray areas = (JArray)_mapApi["api_data"]["api_mst_maparea"];
+
+                foreach (JObject area in areas)
+                {
+                    string areaName = area.Value<string>("api_name");
+                    string worldId = area.Value<string>("api_id");
+
+                    if (!_translations.Contains(areaName))
+                    {
+                        MapTranslationData.Add(new MapTranslationModel()
+                        {
+                            NameJP = areaName,
+                            NameTranslated = $"World {worldId}",
+                        });
+                    }
+                }
             }
 
             // --- Fleets unstranslated : 

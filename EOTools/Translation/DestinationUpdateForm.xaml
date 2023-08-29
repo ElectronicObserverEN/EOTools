@@ -19,7 +19,15 @@
 				Margin="10"
 				HorizontalAlignment="Center"
 				Click="buttonUpdate_Click"
-				Content="Update file"
+				Content="Update from kc wiki"
+				DockPanel.Dock="Top" />
+			<Button
+				x:Name="buttonUpdate2"
+				Height="49"
+				Margin="10"
+				HorizontalAlignment="Center"
+				Click="buttonUpdate2_Click"
+				Content="Update from KC3 kai"
 				DockPanel.Dock="Top" />
 			<Button
 				x:Name="buttonExport"

@@ -112,6 +112,8 @@ public partial class ShipManagerViewModel : ObservableObject
     {
         using EOToolsDbContext db = new();
         db.Remove(vm.Model);
+        Ships.Remove(vm);
+        ReloadShipList();
     }
 
     [RelayCommand]

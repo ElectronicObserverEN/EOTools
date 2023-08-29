@@ -99,6 +99,34 @@ namespace EOTools.Translation
             StageAndPushFiles();
         }
 
+        private void buttonUpdate2_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                JObject wikiData = JsonHelper.ReadJsonFromUrl("https://raw.githubusercontent.com/KC3Kai/KC3Kai/master/src/data/edges.json") as JObject;
+                if (wikiData is null) return;
+
+                // --- Convert to EO data
+                JsonDestinationData = new();
+                
+                // --- Add version property
+                JsonDestinationData.Add("version", Version);
+
+                foreach (JProperty property in wikiData.Properties())
+                {
+                    JsonDestinationData.Add(property.Name, property.Value);
+                }
+
+                MessageBox.Show("Data updated");
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
         private void buttonUpdate_Click(object sender, RoutedEventArgs e)
         {
             try
