@@ -112,6 +112,7 @@ public partial class ShipManagerViewModel : ObservableObject
     {
         using EOToolsDbContext db = new();
         db.Remove(vm.Model);
+        db.SaveChanges();
         Ships.Remove(vm);
         ReloadShipList();
     }

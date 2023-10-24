@@ -21,6 +21,12 @@ namespace EOTools.Config
         [ObservableProperty]
         private bool disablePush = false;
 
+        [ObservableProperty]
+        private string electronicObserverApiUrl = "";
+
+        [ObservableProperty]
+        private string electronicObserverApiKey = "";
+
         public string DataFolderDisplay => string.IsNullOrEmpty(ElectronicObserverDataFolderPath) ? "Select a folder" : ElectronicObserverDataFolderPath;
         public string APIFolderDisplay => string.IsNullOrEmpty(KancolleEOAPIFolder) ? "Select a folder" : KancolleEOAPIFolder;
         public string IconFolderDisplay => string.IsNullOrEmpty(ShipIconFolder) ? "Select a folder" : ShipIconFolder;
@@ -33,36 +39,42 @@ namespace EOTools.Config
             ShipIconFolder = AppSettings.ShipIconFolder;
             DisablePush = AppSettings.DisablePush;
             EoDatabaseFile = AppSettings.EoDbPath;
+            ElectronicObserverApiUrl = AppSettings.ElectronicObserverApiUrl;
+            electronicObserverApiKey = AppSettings.ElectronicObserverApiKey;
 
             PropertyChanged += ConfigViewModel_PropertyChanged;
         }
 
         private void ConfigViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            // Save changes
-            if (e.PropertyName is nameof(ElectronicObserverDataFolderPath))
+            switch (e.PropertyName)
             {
-                AppSettings.ElectronicObserverDataFolderPath = ElectronicObserverDataFolderPath;
-                OnPropertyChanged(nameof(DataFolderDisplay));
-            }
-            if (e.PropertyName is nameof(KancolleEOAPIFolder))
-            {
-                AppSettings.KancolleEOAPIFolder = KancolleEOAPIFolder;
-                OnPropertyChanged(nameof(APIFolderDisplay));
-            }
-            if (e.PropertyName is nameof(ShipIconFolder))
-            {
-                AppSettings.ShipIconFolder = ShipIconFolder;
-                OnPropertyChanged(nameof(IconFolderDisplay));
-            }
-            if (e.PropertyName is nameof(DisablePush))
-            {
-                AppSettings.DisablePush = DisablePush;
-            }
-            if (e.PropertyName is nameof(EoDatabaseFile))
-            {
-                AppSettings.EoDbPath = EoDatabaseFile;
-                OnPropertyChanged(nameof(EoDatabaseDisplay));
+                // Save changes
+                case nameof(ElectronicObserverDataFolderPath):
+                    AppSettings.ElectronicObserverDataFolderPath = ElectronicObserverDataFolderPath;
+                    OnPropertyChanged(nameof(DataFolderDisplay));
+                    break;
+                case nameof(KancolleEOAPIFolder):
+                    AppSettings.KancolleEOAPIFolder = KancolleEOAPIFolder;
+                    OnPropertyChanged(nameof(APIFolderDisplay));
+                    break;
+                case nameof(ShipIconFolder):
+                    AppSettings.ShipIconFolder = ShipIconFolder;
+                    OnPropertyChanged(nameof(IconFolderDisplay));
+                    break;
+                case nameof(DisablePush):
+                    AppSettings.DisablePush = DisablePush;
+                    break;
+                case nameof(EoDatabaseFile):
+                    AppSettings.EoDbPath = EoDatabaseFile;
+                    OnPropertyChanged(nameof(EoDatabaseDisplay));
+                    break;
+                case nameof(ElectronicObserverApiUrl):
+                    AppSettings.ElectronicObserverApiUrl = ElectronicObserverApiUrl;
+                    break;
+                case nameof(ElectronicObserverApiKey):
+                    AppSettings.ElectronicObserverApiKey = ElectronicObserverApiKey;
+                    break;
             }
         }
 
