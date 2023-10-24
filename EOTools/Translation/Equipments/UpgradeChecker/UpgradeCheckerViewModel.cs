@@ -2,9 +2,9 @@
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
+using EOTools.ElectronicObserverApi.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Models.KancolleApi.EquipmentRemodel;
-using EOTools.Models.KancolleApi.Port;
 using EOTools.Models.Ships;
 using EOTools.Tools;
 using EOTools.Tools.CurrentDeck;
@@ -14,7 +14,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Threading;
+using EOTools.ElectronicObserverApi;
+using System.Threading;
 
 namespace EOTools.Translation.Equipments.UpgradeChecker;
 
@@ -79,8 +82,72 @@ public partial class UpgradeCheckerViewModel : ObservableObject
     {
         TooManyUpgradePerShipList = new(UpgradesPerShip
             .Where(upg => upg.Days.Any(day => day.Improvments.Count > 3))
-            .Select(upg => new TooManyUpgradePerShipViewModel(upg.ShipModel))
-            .Cast<UpgradeIssueViewModel>());
+            .Select(upg => new TooManyUpgradePerShipViewModel(upg.ShipModel)));
+
+        // Load issues from API in the background
+        App.Current?.Dispatcher?.InvokeAsync(LoadIssuesFromApi);
+    }
+
+    private async Task LoadIssuesFromApi()
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(AppSettings.ElectronicObserverApiUrl)) return;
+            ElectronicObserverApiService api = Ioc.Default.GetRequiredService<ElectronicObserverApiService>();
+
+            List<UserReportedEquipmentUpgradeIssueModel>? issues = new();
+
+                issues = await api.GetJson<List<UserReportedEquipmentUpgradeIssueModel>?>("EquipmentUpgradeIssues?issueState=1");
+
+            if (issues is null) return;
+
+            // TODO : check if issue already fixed
+            // TODO : Group remaining issues
+
+            List<UpgradeIssueViewModel> issuesViewModels = new();
+
+            await using EOToolsDbContext db = new();
+
+            // Parse issues into "proper types"
+            foreach (UserReportedEquipmentUpgradeIssueModel issue in issues)
+            {
+                foreach (int actualEquipmentId in issue.ActualUpgrades)
+                {
+                    if (!issue.ExpectedUpgrades.Contains(actualEquipmentId))
+                    {
+                        ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
+                        issuesViewModels.Add(new MissingEquipmentUpgradeViewModel(shipModel)
+                        {
+                            Day = issue.Day,
+                            EquipmentId = actualEquipmentId,
+                        });
+                    }
+                }
+
+                foreach (int expectedEquipmentId in issue.ExpectedUpgrades)
+                {
+                    if (!issue.ActualUpgrades.Contains(expectedEquipmentId))
+                    {
+                        ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
+                        issuesViewModels.Add(new EquipmentCantBeUpgradedViewModel(shipModel)
+                        {
+                            Day = issue.Day,
+                            EquipmentId = expectedEquipmentId,
+                        });
+                    }
+                }
+            }
+
+            App.Current?.Dispatcher?.Invoke(() =>
+            {
+                issuesViewModels = MergesIssues(issuesViewModels);
+                issuesViewModels.ForEach(issue => TooManyUpgradePerShipList.Add(issue));
+            });
+        }
+        catch (Exception ex)
+        {
+            await App.ShowErrorMessage(ex);
+        }
     }
 
     private List<UpgradeDataPerDayAndShipViewModel> GetUpgradesPerShip(ShipModel ship)

@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using EOTools.ElectronicObserverApi;
 
 namespace EOTools.Tools
 {
@@ -105,6 +107,7 @@ namespace EOTools.Tools
             {
                 _electronicObserverApiUrl = value;
                 WriteSettings();
+                Ioc.Default.GetRequiredService<ElectronicObserverApiService>().Initialize();
             }
         }
 
@@ -116,6 +119,7 @@ namespace EOTools.Tools
             {
                 _electronicObserverApiKey = value;
                 WriteSettings();
+                Ioc.Default.GetRequiredService<ElectronicObserverApiService>().Initialize();
             }
         }
         #endregion
@@ -170,7 +174,7 @@ namespace EOTools.Tools
                 _electronicObserverApiKey = (string)_value;
             }
         }
-
+        
         public static void WriteSettings()
         {
             Dictionary<string, object> _jsonData = new Dictionary<string, object>
