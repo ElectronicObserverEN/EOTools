@@ -1,4 +1,6 @@
-﻿using EOTools.Models.Ships;
+﻿using System.Collections.Generic;
+using EOTools.ElectronicObserverApi.Models;
+using EOTools.Models.Ships;
 
 namespace EOTools.Translation.Equipments.UpgradeChecker;
 
@@ -8,7 +10,9 @@ public abstract class UpgradeIssueViewModel
 
     public abstract string Message { get; }
 
-    public UpgradeIssueViewModel(ShipModel ship)
+    public List<UserReportedEquipmentUpgradeIssueModel> UserReportedIssues { get; set; } = new();
+
+    protected UpgradeIssueViewModel(ShipModel ship)
     {
         Ship = ship;
     }

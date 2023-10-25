@@ -7,8 +7,8 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="Upgrade checks"
-	Width="800"
-	Height="450"
+	Width="1000"
+	Height="650"
 	d:DataContext="{d:DesignInstance local:UpgradeCheckerViewModel}"
 	ui:WindowHelper.UseModernWindowStyle="True"
 	mc:Ignorable="d">
@@ -38,6 +38,16 @@
 				<DataGridTextColumn Binding="{Binding Ship.NameEN}" Header="Ship" />
 				<DataGridTextColumn Binding="{Binding Ship.ApiId}" Header="Id" />
 				<DataGridTextColumn Binding="{Binding Message}" Header="Issue" />
+				<DataGridTemplateColumn Header="">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button
+								Command="{Binding DataContext.SetIssuesAsFixedCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+								CommandParameter="{Binding}"
+								Content="Fixed" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 

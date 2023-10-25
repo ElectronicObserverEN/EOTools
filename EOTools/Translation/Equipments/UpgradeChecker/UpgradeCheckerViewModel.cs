@@ -17,7 +17,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using EOTools.ElectronicObserverApi;
-using System.Threading;
 
 namespace EOTools.Translation.Equipments.UpgradeChecker;
 
@@ -67,7 +66,7 @@ public partial class UpgradeCheckerViewModel : ObservableObject
     {
         if (e.PropertyName is not nameof(SelectedIssue)) return;
 
-        SelectedShip = SelectedIssue.Ship;
+        SelectedShip = SelectedIssue?.Ship;
     }
 
     private void UpgradeCheckerViewModel_PropertyChanged2(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -100,44 +99,17 @@ public partial class UpgradeCheckerViewModel : ObservableObject
                 issues = await api.GetJson<List<UserReportedEquipmentUpgradeIssueModel>?>("EquipmentUpgradeIssues?issueState=1");
 
             if (issues is null) return;
-
-            // TODO : check if issue already fixed
-            // TODO : Group remaining issues
-
+            
             List<UpgradeIssueViewModel> issuesViewModels = new();
 
             await using EOToolsDbContext db = new();
 
-            // Parse issues into "proper types"
             foreach (UserReportedEquipmentUpgradeIssueModel issue in issues)
             {
-                foreach (int actualEquipmentId in issue.ActualUpgrades)
-                {
-                    if (!issue.ExpectedUpgrades.Contains(actualEquipmentId))
-                    {
-                        ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
-                        issuesViewModels.Add(new MissingEquipmentUpgradeViewModel(shipModel)
-                        {
-                            Day = issue.Day,
-                            EquipmentId = actualEquipmentId,
-                        });
-                    }
-                }
-
-                foreach (int expectedEquipmentId in issue.ExpectedUpgrades)
-                {
-                    if (!issue.ActualUpgrades.Contains(expectedEquipmentId))
-                    {
-                        ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
-                        issuesViewModels.Add(new EquipmentCantBeUpgradedViewModel(shipModel)
-                        {
-                            Day = issue.Day,
-                            EquipmentId = expectedEquipmentId,
-                        });
-                    }
-                }
+                // Parse issues into "proper types"
+                ConvertUserReportedIssueToTypedIssue(issue, db, issuesViewModels);
             }
-
+            
             App.Current?.Dispatcher?.Invoke(() =>
             {
                 issuesViewModels = MergesIssues(issuesViewModels);
@@ -147,6 +119,37 @@ public partial class UpgradeCheckerViewModel : ObservableObject
         catch (Exception ex)
         {
             await App.ShowErrorMessage(ex);
+        }
+    }
+
+    private void ConvertUserReportedIssueToTypedIssue(UserReportedEquipmentUpgradeIssueModel issue, EOToolsDbContext db, List<UpgradeIssueViewModel> issuesViewModels)
+    {
+        foreach (int actualEquipmentId in issue.ActualUpgrades)
+        {
+            if (!issue.ExpectedUpgrades.Contains(actualEquipmentId))
+            {
+                ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
+                issuesViewModels.Add(new MissingEquipmentUpgradeViewModel(shipModel)
+                {
+                    Day = issue.Day,
+                    EquipmentId = actualEquipmentId,
+                    UserReportedIssues = new() { issue }
+                });
+            }
+        }
+
+        foreach (int expectedEquipmentId in issue.ExpectedUpgrades)
+        {
+            if (!issue.ActualUpgrades.Contains(expectedEquipmentId))
+            {
+                ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
+                issuesViewModels.Add(new EquipmentCantBeUpgradedViewModel(shipModel)
+                {
+                    Day = issue.Day,
+                    EquipmentId = expectedEquipmentId,
+                    UserReportedIssues = new() { issue }
+                });
+            }
         }
     }
 
@@ -171,6 +174,31 @@ public partial class UpgradeCheckerViewModel : ObservableObject
             SelectedShip = vm.PickedShip;
         }
     }
+    
+    [RelayCommand]
+    private async Task SetIssuesAsFixed(UpgradeIssueViewModel issue)
+    {
+        if (string.IsNullOrEmpty(AppSettings.ElectronicObserverApiUrl)) return;
+        ElectronicObserverApiService api = Ioc.Default.GetRequiredService<ElectronicObserverApiService>();
+
+        List<UserReportedEquipmentUpgradeIssueModel> list = issue.UserReportedIssues.ToList();
+
+        foreach (UserReportedEquipmentUpgradeIssueModel userReportedIssue in list)
+        {
+            // is the issue actually solved ?
+            if (!TooManyUpgradePerShipList.Any(issueVm => issueVm.Equals(issue) is false && issueVm.UserReportedIssues.Contains(userReportedIssue)))
+            {
+                if (!await api.Put($"EquipmentUpgradeIssues/{userReportedIssue.Id}/closeIssue"))
+                {
+                    return;
+                }
+            }
+
+            issue.UserReportedIssues.Remove(userReportedIssue);
+        }
+
+        TooManyUpgradePerShipList.Remove(issue);
+    }
 
     private void CheckUpgradeFromApi(object? sender, EventArgs e)
     {
@@ -192,8 +220,24 @@ public partial class UpgradeCheckerViewModel : ObservableObject
 
     private List<UpgradeIssueViewModel> MergesIssues(List<UpgradeIssueViewModel> issues)
     {
+        List<UpgradeIssueViewModel> newIssues = new List<UpgradeIssueViewModel>();
+
         // only return missing issues
-        return issues.Where(issue => !TooManyUpgradePerShipList.Contains(issue)).ToList();
+        foreach (UpgradeIssueViewModel issue in issues)
+        {
+            UpgradeIssueViewModel? similarIssue = TooManyUpgradePerShipList.FirstOrDefault(issue.Equals);
+
+            if (similarIssue is null)
+            {
+                newIssues.Add(issue);
+            }
+            else
+            {
+                similarIssue.UserReportedIssues.AddRange(issue.UserReportedIssues);
+            }
+        }
+
+        return newIssues;
     }
 
     private List<UpgradeIssueViewModel> GetIssuesFromApiFile()

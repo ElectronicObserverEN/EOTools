@@ -29,6 +29,21 @@ public class ElectronicObserverApiService
     public async Task<T?> GetJson<T>(string url)
     {
         return await Client.GetFromJsonAsync<T>(url).ConfigureAwait(false);
-    } 
+    }
+
+    public async Task<bool> Put(string url)
+    {
+        try
+        {
+            HttpResponseMessage response = await Client.PutAsync(url, null);
+            response.EnsureSuccessStatusCode();
+            return true;
+        }
+        catch (HttpRequestException ex)
+        {
+            await App.ShowErrorMessage(ex);
+            return false;
+        }
+    }
 }
 
