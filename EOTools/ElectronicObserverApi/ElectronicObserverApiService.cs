@@ -22,8 +22,12 @@ public class ElectronicObserverApiService
     public void Initialize()
     {
         Client.BaseAddress = new Uri(AppSettings.ElectronicObserverApiUrl);
+
+        var authenticationString = $"{AppSettings.ElectronicObserverApiKey}:";
+        var base64EncodedAuthenticationString = Convert.ToBase64String(Encoding.ASCII.GetBytes(authenticationString));
+
         Client.DefaultRequestHeaders.Clear();
-        Client.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", AppSettings.ElectronicObserverApiKey);
+        Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64EncodedAuthenticationString);
     }
 
     public async Task<T?> GetJson<T>(string url)
