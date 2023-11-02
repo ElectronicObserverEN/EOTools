@@ -126,7 +126,7 @@ public partial class UpgradeCheckerViewModel : ObservableObject
     {
         foreach (int actualEquipmentId in issue.ActualUpgrades)
         {
-            if (!issue.ExpectedUpgrades.Contains(actualEquipmentId))
+            if (!issue.ExpectedUpgrades.Contains(actualEquipmentId) && !IsBaseUpgradeEquipment(actualEquipmentId))
             {
                 ShipModel shipModel = db.Ships.First(ship => ship.ApiId == issue.HelperId);
                 issuesViewModels.Add(new MissingEquipmentUpgradeViewModel(shipModel)
