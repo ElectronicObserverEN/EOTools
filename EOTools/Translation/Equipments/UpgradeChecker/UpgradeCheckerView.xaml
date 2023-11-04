@@ -17,8 +17,15 @@
 		<local:UpgradeCheckerViewModel />
 	</Window.DataContext>
 
-	<StackPanel>
-		<StackPanel Orientation="Vertical">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" MinHeight="200" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" MinHeight="200" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Orientation="Vertical">
 			<CheckBox Content="Auto checker running" IsChecked="{Binding UpgradeCheckerIsRunning}" />
 			<TextBlock
 				Margin="5"
@@ -27,6 +34,7 @@
 		</StackPanel>
 
 		<DataGrid
+			Grid.Row="1"
 			AutoGenerateColumns="False"
 			CanUserAddRows="False"
 			CanUserDeleteRows="True"
@@ -52,11 +60,13 @@
 		</DataGrid>
 
 		<Button
+			Grid.Row="2"
 			Command="{Binding OpenShipSelectionCommand}"
 			Content="{Binding SelectedShipString}"
 			IsEnabled="True" />
 
 		<DataGrid
+			Grid.Row="3"
 			AutoGenerateColumns="False"
 			CanUserAddRows="False"
 			CanUserDeleteRows="False"
@@ -69,5 +79,5 @@
 				<DataGridTextColumn Binding="{Binding ImprovmentsString}" Header="Upgrades" />
 			</DataGrid.Columns>
 		</DataGrid>
-	</StackPanel>
+	</Grid>
 </Window>
