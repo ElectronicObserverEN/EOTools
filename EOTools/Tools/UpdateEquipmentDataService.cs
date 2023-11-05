@@ -1,10 +1,12 @@
-﻿using EOTools.DataBase;
+﻿using System;
+using EOTools.DataBase;
 using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using EOTools.Extensions;
 
 namespace EOTools.Tools;
 
@@ -72,7 +74,8 @@ public class UpdateEquipmentDataService
         int version = updateJson.Value<int>("EquipmentUpgrades") + 1;
         updateJson["EquipmentUpgrades"] = version;
 
-        using EOToolsDbContext db = new();
+        CleanUpDbBeforePush();
+
         List<EquipmentUpgradeDataModel> upgradesJson = EquipmentUpgradesService.Instance.AllUpgradeModel
             .AsEnumerable()
             .OrderBy(eq => eq.EquipmentId)
@@ -91,5 +94,47 @@ public class UpdateEquipmentDataService
         GitManager.Stage(UpdateDataFilePath);
 
         GitManager.CommitAndPush($"Equipment upgrades - {version}");
+    }
+
+    private void CleanUpDbBeforePush()
+    {
+        // Noticed duplicate entries for some equipments ...
+        List<EquipmentUpgradeDataModel> duplicates = EquipmentUpgradesService.Instance.AllUpgradeModel
+            .Where(elementInList =>
+                EquipmentUpgradesService.Instance.AllUpgradeModel.Count(element =>
+                    elementInList.EquipmentId == element.EquipmentId) > 1)
+            .ToList();
+
+        if (duplicates.Count > 0)
+        {
+            // do the cleanup
+            foreach (IGrouping<int, EquipmentUpgradeDataModel> model in duplicates.GroupBy(upgrade => upgrade.EquipmentId))
+            {
+                EquipmentUpgradeDataModel? firstUpgrade = model.FirstOrDefault(upg => upg.Improvement.Any());
+                if (firstUpgrade is null) firstUpgrade = model.First();
+
+                // delete everything but the "first upgrade"
+                foreach (EquipmentUpgradeDataModel upg in model)
+                {
+                    if (upg != firstUpgrade)
+                    {
+                        EquipmentUpgradesService.Instance.DbContext.Remove(upg);
+                        EquipmentUpgradesService.Instance.AllUpgradeModel.Remove(upg);
+                    }
+                }
+            }
+            
+            // Then do another check
+            duplicates = EquipmentUpgradesService.Instance.AllUpgradeModel
+                .Where(elementInList =>
+                    EquipmentUpgradesService.Instance.AllUpgradeModel.Count(element =>
+                        elementInList.EquipmentId == element.EquipmentId) > 1)
+                .ToList();
+
+            if (duplicates.Count > 0)
+            {
+                throw new Exception($"Duplicate entries found for equipment {duplicates[0].GetEquipmentString()}");
+            }
+        }
     }
 }

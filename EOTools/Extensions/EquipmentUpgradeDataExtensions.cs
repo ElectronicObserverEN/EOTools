@@ -1,6 +1,5 @@
 ﻿using EOTools.DataBase;
 using EOTools.Models.EquipmentUpgrade;
-using EOTools.Translation.Equipments.UpgradeChecker;
 using System.Linq;
 
 namespace EOTools.Extensions;
