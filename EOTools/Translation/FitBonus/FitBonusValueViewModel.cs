@@ -1,18 +1,13 @@
 ﻿using EOTools.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace EOTools.Translation.FitBonus
 {
     public class FitBonusValueViewModel
     {
-        public FitBonusValueModel Model { get; set; }
+        public FitBonusValueModel? Model { get; set; }
 
-        public FitBonusValueViewModel(FitBonusValueModel model)
+        public FitBonusValueViewModel(FitBonusValueModel? model)
         {
             Model = model;
         }

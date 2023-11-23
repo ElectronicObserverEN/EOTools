@@ -1,27 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
-using EOTools.DataBase;
-using EOTools.Tools;
+using EOTools.ElectronicObserverApi;
 using EOTools.Tools.CurrentDeck;
 using EOTools.Tools.Translations;
-using Microsoft.EntityFrameworkCore;
+using EOTools.Translation.FitBonus;
 using Microsoft.Extensions.DependencyInjection;
 using ModernWpf.Controls;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using EOTools.ElectronicObserverApi;
 
 namespace EOTools
 {
-  /// <summary>
-  /// Interaction logic for App.xaml
-  /// </summary>
-  public partial class App : Application
+    /// <summary>
+    /// Interaction logic for App.xaml
+    /// </summary>
+    public partial class App : Application
   {
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
@@ -54,6 +48,7 @@ namespace EOTools
                 .AddSingleton<ShipTranslationService>()
                 .AddSingleton<CurrentDeckService>()
                 .AddSingleton<ElectronicObserverApiService>()
+                .AddSingleton<FitBonusManager>()
                 .BuildServiceProvider();
 
             Ioc.Default.ConfigureServices(services);

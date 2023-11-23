@@ -1,98 +1,50 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using EOTools.Models;
-using EOTools.Tools;
-using Newtonsoft.Json.Linq;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
+using EOTools.DataBase;
+using EOTools.Tools.EquipmentPicker;
 
-namespace EOTools.Translation.FitBonus
+namespace EOTools.Translation.FitBonus;
+
+public partial class FitBonusListViewModel : ObservableObject
 {
-    public partial class FitBonusListViewModel
+    public string SelectedEquipmentName => SelectedEquipment switch
     {
-        private GitManager GitManager
+        {} id => DbContext.Equipments.FirstOrDefault(eq => eq.ApiId == id)?.NameEN ?? "Select an equipment",
+        _ => "Select an equipment",
+    };
+
+    private int? SelectedEquipment { get; set; }
+
+    private EOToolsDbContext DbContext { get; } = new();
+
+    public FitBonusManager BonusManager { get; }
+
+    [ObservableProperty]
+    private List<FitBonusPerEquipmentViewModel> _fitBonuses = new();
+
+    public FitBonusListViewModel()
+    {
+        BonusManager = Ioc.Default.GetRequiredService<FitBonusManager>();
+    }
+
+    [RelayCommand]
+    private void OpenEquipmentPicker()
+    {
+        EquipmentPickerViewModel vm = new(DbContext.Equipments.ToList());
+
+        EquipmentDataPickerView picker = new(vm);
+
+        if (picker.ShowDialog() == true && vm.SelectedEquipment != null)
         {
-            get
-            {
-                return new GitManager(ElectronicObserverDataFolderPath);
-            }
-        }
-
-        private string ElectronicObserverDataFolderPath
-        {
-            get
-            {
-                return AppSettings.ElectronicObserverDataFolderPath;
-            }
-            set
-            {
-                AppSettings.ElectronicObserverDataFolderPath = value;
-                LoadFile();
-            }
-        }
-
-        public string FitBonusFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Data", "FitBonuses.json");
-        public string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "update.json");
-
-        public ObservableCollection<FitBonusPerEquipmentViewModel> FitBonuses { get; set; } = new ObservableCollection<FitBonusPerEquipmentViewModel>();
-
-
-        public FitBonusListViewModel()
-        {
-            if (!string.IsNullOrEmpty(ElectronicObserverDataFolderPath) && File.Exists(FitBonusFilePath))
-            {
-                LoadFile();
-            }
-        }
-
-        public void LoadFile()
-        {
-            FitBonuses.Clear();
-
-            List<FitBonusPerEquipmentModel> list = JsonHelper.ReadJson<List<FitBonusPerEquipmentModel>>(FitBonusFilePath);
-
-            foreach (FitBonusPerEquipmentModel model in list)
-            {
-                FitBonuses.Add(new FitBonusPerEquipmentViewModel(model));
-            }
-        }
-
-        [RelayCommand]
-        public void OpenDataFolderChoice()
-        {
-            // --- Load file
-            using (var dialog = new FolderBrowserDialog())
-            {
-                DialogResult result = dialog.ShowDialog();
-
-                if (result == DialogResult.OK)
-                {
-                    ElectronicObserverDataFolderPath = dialog.SelectedPath;
-                }
-            }
-        }
-
-        [RelayCommand]
-        public void SaveFileThenPush()
-        {
-            JsonHelper.WriteJsonByOnlyIndentingXTimes(FitBonusFilePath, FitBonuses.Select(vm => vm.Model), 4, true);
-
-            // --- Change update.json too
-            JObject update = JsonHelper.ReadJsonObject(UpdateFilePath);
-
-            JToken fitBonusUpdateVersion = update["FitBonuses"];
-            int version = fitBonusUpdateVersion.Value<int>() + 1;
-            update["FitBonuses"] = version;
-
-            JsonHelper.WriteJson(UpdateFilePath, update);
-
-            GitManager.Stage(FitBonusFilePath);
-
-            GitManager.Stage(UpdateFilePath);
-
-            GitManager.CommitAndPush($"Fit bonuses - {version}");
+            SelectedEquipment = vm.SelectedEquipment.ApiId;
+            OnPropertyChanged(nameof(SelectedEquipmentName));
+            FitBonuses = BonusManager.FitBonuses
+                .Where(fit => fit.Model.EquipmentIds?.Contains(SelectedEquipment) is true)
+                .ToList();
         }
     }
 }
+

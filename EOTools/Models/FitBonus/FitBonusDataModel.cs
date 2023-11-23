@@ -55,19 +55,19 @@ namespace EOTools.Models
         /// If NumberOfEquipmentsRequiredAfterOtherFilters or EquipmentRequired or EquipmentTypesRequired, bonus is applied only once
         /// </summary>
         [JsonProperty("bonus")]
-        public FitBonusValueModel Bonuses { get; set; } = null;
+        public FitBonusValueModel? Bonuses { get; set; } = null;
 
         /// <summary>
         /// Bonuses to apply if ship had a radar with LOS >= 5
         /// </summary>
         [JsonProperty("bonusSR")]
-        public FitBonusValueModel BonusesIfLOSRadar { get; set; } = null;
+        public FitBonusValueModel? BonusesIfLOSRadar { get; set; } = null;
 
         /// <summary>
         /// Bonuses to apply if ship had a radar with AA >= 2
         /// </summary>
         [JsonProperty("bonusAR")]
-        public FitBonusValueModel BonusesIfAirRadar { get; set; } = null;
+        public FitBonusValueModel? BonusesIfAirRadar { get; set; } = null;
 
     }
 }
