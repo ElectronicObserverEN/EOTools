@@ -13,6 +13,7 @@ using System.Linq;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.Models.FitBonus;
 using EOTools.Translation.FitBonus;
+using EOTools.Translation.Equipments.UpgradeChecker;
 
 namespace EOTools.Translation.Equipments;
 
@@ -153,7 +154,6 @@ public partial class EquipmentViewModel : ObservableObject
         {
             vmEdit.SaveChanges();
             vm.Model = vmEdit.Model;
-            //vm.LoadFromModel();
 
             if (newEntity)
             {
@@ -211,5 +211,11 @@ public partial class EquipmentViewModel : ObservableObject
         FitBonusPerEquipmentModel model = new();
         FitBonusPerEquipmentViewModel vm = new(model);
         ShowFitBonusEditDialog(vm, true);
+    }
+
+    [RelayCommand]
+    public void EditFitBonus(FitBonusPerEquipmentViewModel vm)
+    {
+        ShowFitBonusEditDialog(vm, false);
     }
 }

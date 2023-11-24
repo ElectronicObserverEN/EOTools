@@ -5,9 +5,10 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:EOTools.Translation.FitBonus"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ships="clr-namespace:EOTools.Models.Ships"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="FitBonusEditView"
-	d:DataContext="{d:DesignInstance Type=local:FitBonusListViewModel}"
+	d:DataContext="{d:DesignInstance Type=local:FitBonusPerEquipmentViewModel}"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
 	ui:WindowHelper.UseModernWindowStyle="True"
@@ -16,11 +17,18 @@
 
 	<Window.Resources>
 
-		<DataTemplate x:Key="ElementListTemplate" DataType="x:int">
+		<DataTemplate x:Key="ElementListTemplate">
 			<Button
 				Margin="5,0,0,0"
 				VerticalAlignment="Center"
 				Content="{Binding}" />
+		</DataTemplate>
+
+		<DataTemplate x:Key="ShipTemplate" DataType="{x:Type ships:ShipModel}">
+			<Button
+				Margin="5,0,0,0"
+				VerticalAlignment="Center"
+				Content="{Binding NameEN}" />
 		</DataTemplate>
 
 		<DataTemplate x:Key="FitBonusData" DataType="local:FitBonusDataViewModel">
@@ -46,7 +54,7 @@
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Margin="10" VerticalAlignment="Center">Ship ids (exact remodel)</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.ShipMasterIds}">
+							<ui:ItemsRepeater ItemTemplate="{StaticResource ShipTemplate}" ItemsSource="{Binding ShipsMasterIds}">
 
 								<ui:ItemsRepeater.Layout>
 									<ui:StackLayout Orientation="Horizontal" />
@@ -57,7 +65,7 @@
 
 						<StackPanel Orientation="Horizontal">
 							<TextBlock Margin="10" VerticalAlignment="Center">Ship ids (Any remodel)</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.ShipIds}">
+							<ui:ItemsRepeater ItemTemplate="{StaticResource ShipTemplate}" ItemsSource="{Binding ShipsIds}">
 
 								<ui:ItemsRepeater.Layout>
 									<ui:StackLayout Orientation="Horizontal" />
@@ -88,7 +96,7 @@
 								Width="40"
 								VerticalAlignment="Center"
 								ValidationMode="Disabled"
-								Value="{Binding NumberOfEquipmentsRequired}" />
+								Value="{Binding Model.NumberOfEquipmentsRequired}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
@@ -104,7 +112,7 @@
 								Width="40"
 								VerticalAlignment="Center"
 								ValidationMode="Disabled"
-								Value="{Binding NumberOfEquipmentTypesRequired}" />
+								Value="{Binding Model.NumberOfEquipmentTypesRequired}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
@@ -122,7 +130,7 @@
 								Width="40"
 								VerticalAlignment="Center"
 								ValidationMode="Disabled"
-								Value="{Binding NumberOfEquipmentsRequiredAfterOtherFilters}" />
+								Value="{Binding Model.NumberOfEquipmentsRequiredAfterOtherFilters}" />
 						</StackPanel>
 
 						<CheckBox Content="Display bonuses ?" IsChecked="{Binding DisplayBonus}" />
@@ -151,85 +159,17 @@
 				</Border>
 			</Grid>
 		</DataTemplate>
-
-		<DataTemplate x:Key="FitBonusPerEquipmentElement">
-
-			<Border
-				Margin="10"
-				Padding="10"
-				BorderBrush="White"
-				BorderThickness="1"
-				CornerRadius="10">
-				<StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Margin="10" VerticalAlignment="Center">Equipment ids</TextBlock>
-						<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.EquipmentIds}">
-							<ui:ItemsRepeater.Layout>
-								<ui:StackLayout Orientation="Horizontal" />
-							</ui:ItemsRepeater.Layout>
-						</ui:ItemsRepeater>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<TextBlock Margin="10" VerticalAlignment="Center">Equipment types</TextBlock>
-						<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.EquipmentTypes}">
-							<ui:ItemsRepeater.Layout>
-								<ui:StackLayout Orientation="Horizontal" />
-							</ui:ItemsRepeater.Layout>
-						</ui:ItemsRepeater>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal">
-						<ui:ItemsRepeater ItemTemplate="{StaticResource FitBonusData}" ItemsSource="{Binding FitBonusDataList}">
-							<ui:ItemsRepeater.Layout>
-								<ui:StackLayout Orientation="Horizontal" />
-							</ui:ItemsRepeater.Layout>
-						</ui:ItemsRepeater>
-					</StackPanel>
-
-				</StackPanel>
-
-			</Border>
-		</DataTemplate>
 	</Window.Resources>
 
 	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
-		</Grid.RowDefinitions>
-
-		<StackPanel Grid.Row="0" Orientation="Horizontal">
-			<Button
-				Height="40"
-				Margin="10"
-				Command="{Binding BonusManager.OpenDataFolderChoiceCommand}"
-				Content="Choose EO data path"
-				DockPanel.Dock="Left" />
-
-			<Button
-				Height="40"
-				Margin="10"
-				Command="{Binding BonusManager.SaveFileThenPushCommand}"
-				Content="Save and push to git"
-				DockPanel.Dock="Left" />
-
-			<Button
-				Height="40"
-				Margin="10"
-				Command="{Binding OpenEquipmentPickerCommand}"
-				Content="{Binding SelectedEquipmentName}"
-				DockPanel.Dock="Left" />
-		</StackPanel>
-		<ScrollViewer Grid.Row="1">
-			<Grid>
-				<ui:ListView
-					IsSelectionEnabled="False"
-					ItemTemplate="{StaticResource FitBonusPerEquipmentElement}"
-					ItemsSource="{Binding FitBonuses}" />
-			</Grid>
+		<ScrollViewer>
+			<StackPanel Orientation="Horizontal">
+				<ui:ItemsRepeater ItemTemplate="{StaticResource FitBonusData}" ItemsSource="{Binding FitBonusDataList}">
+					<ui:ItemsRepeater.Layout>
+						<ui:StackLayout Orientation="Horizontal" />
+					</ui:ItemsRepeater.Layout>
+				</ui:ItemsRepeater>
+			</StackPanel>
 		</ScrollViewer>
-
 	</Grid>
 </Window>

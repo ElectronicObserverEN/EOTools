@@ -34,6 +34,7 @@ namespace EOTools.Translation.FitBonus
         public FitBonusValueViewModel? BonusesIfLOSRadarViewModel { get; set; }
 
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
+        public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
 
         private EOToolsDbContext Database { get; } = Ioc.Default.GetRequiredService<EOToolsDbContext>();
 
@@ -62,6 +63,12 @@ namespace EOTools.Translation.FitBonus
             ShipsIds = model.ShipIds switch
             {
                 {} ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
+                _ => new()
+            };
+
+            ShipsMasterIds = model.ShipMasterIds switch
+            {
+                { } ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
                 _ => new()
             };
 
@@ -136,6 +143,12 @@ namespace EOTools.Translation.FitBonus
             Model.ShipIds = ShipsIds switch
             {
                 not null => ShipsIds.Select(s => s.ApiId).ToList(),
+                _ => null
+            };
+
+            Model.ShipMasterIds = ShipsMasterIds switch
+            {
+                not null => ShipsMasterIds.Select(s => s.ApiId).ToList(),
                 _ => null
             };
         }

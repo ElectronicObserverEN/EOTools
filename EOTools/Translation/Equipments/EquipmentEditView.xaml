@@ -125,7 +125,13 @@
 						<DataGridTemplateColumn>
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<StackPanel Orientation="Horizontal" />
+									<StackPanel Orientation="Horizontal">
+										<Button
+											Margin="5,0,5,0"
+											Command="{Binding DataContext.EditFitBonusCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:EquipmentEditView}}"
+											CommandParameter="{Binding}"
+											Content="Edit" />
+									</StackPanel>
 								</DataTemplate>
 							</DataGridTemplateColumn.CellTemplate>
 						</DataGridTemplateColumn>

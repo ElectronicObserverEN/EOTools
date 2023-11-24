@@ -12,7 +12,7 @@ namespace EOTools.Models.FitBonus
         /// Master id = exact id of the ship
         /// </summary>
         [JsonProperty("shipX")]
-        public List<int?>? ShipMasterIds { get; set; } = null;
+        public List<int>? ShipMasterIds { get; set; } = null;
 
         /// <summary>
         /// Base id of the ship (minimum remodel), bonus applies to all of the ship forms
