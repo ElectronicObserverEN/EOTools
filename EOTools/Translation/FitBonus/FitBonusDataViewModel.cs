@@ -3,9 +3,11 @@ using System.Linq;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models.FitBonus;
 using EOTools.Models.Ships;
+using EOTools.Tools.ShipPicker;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -18,20 +20,22 @@ namespace EOTools.Translation.FitBonus
         public int NumberOfEquipmentTypesRequired { get; set; }
 
         public int NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }*/
-           
+
         public int EquipmentLevel { get; set; }
 
-        public Visibility BonusVisibility => BonusViewModel is null ? Visibility.Collapsed : Visibility.Visible;
-        public Visibility BonusAirRadarVisibility => BonusesIfAirRadarViewModel is null ? Visibility.Collapsed : Visibility.Visible;
-        public Visibility BonusLosRadarVisibility => BonusesIfLOSRadarViewModel is null ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility BonusVisibility => DisplayBonus ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility BonusAirRadarVisibility => DisplayBonusAirRadar ? Visibility.Visible : Visibility.Collapsed;
+
+        public Visibility BonusLosRadarVisibility => DisplayBonusLosRadar ? Visibility.Visible : Visibility.Collapsed;
 
         [ObservableProperty] private bool _displayBonus = false;
         [ObservableProperty] private bool _displayBonusAirRadar = false;
         [ObservableProperty] private bool _displayBonusLosRadar = false;
 
-        public FitBonusValueViewModel? BonusViewModel { get; set; }
-        public FitBonusValueViewModel? BonusesIfAirRadarViewModel { get; set; }
-        public FitBonusValueViewModel? BonusesIfLOSRadarViewModel { get; set; }
+        public FitBonusValueViewModel BonusViewModel { get; set; }
+        public FitBonusValueViewModel BonusesIfAirRadarViewModel { get; set; }
+        public FitBonusValueViewModel BonusesIfLOSRadarViewModel { get; set; }
 
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
         public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
@@ -45,24 +49,24 @@ namespace EOTools.Translation.FitBonus
             BonusViewModel = Model.Bonuses switch
             {
                 { } => new(Model.Bonuses),
-                _ => null
+                _ => new(new()),
             };
 
             BonusesIfAirRadarViewModel = Model.BonusesIfAirRadar switch
             {
                 { } => new(Model.BonusesIfAirRadar),
-                _ => null
+                _ => new(new()),
             };
 
             BonusesIfLOSRadarViewModel = Model.BonusesIfLOSRadar switch
             {
                 { } => new(Model.BonusesIfLOSRadar),
-                _ => null
+                _ => new(new()),
             };
 
             ShipsIds = model.ShipIds switch
             {
-                {} ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
+                { } ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
                 _ => new()
             };
 
@@ -80,33 +84,24 @@ namespace EOTools.Translation.FitBonus
             {
                 if (args.PropertyName is nameof(DisplayBonus))
                 {
-                    BonusViewModel = DisplayBonus switch
-                    {
-                        true => new FitBonusValueViewModel(new FitBonusValueModel()),
-                        _ => null
-                    };
+                    BonusViewModel.Model = new();
+                    BonusViewModel.LoadFromModel();
 
                     OnPropertyChanged(nameof(BonusVisibility));
                 }
 
                 if (args.PropertyName is nameof(DisplayBonusAirRadar))
                 {
-                    BonusesIfAirRadarViewModel = DisplayBonusAirRadar switch
-                    {
-                        true => new FitBonusValueViewModel(new FitBonusValueModel()),
-                        _ => null
-                    };
+                    BonusesIfAirRadarViewModel.Model = new();
+                    BonusesIfAirRadarViewModel.LoadFromModel();
 
                     OnPropertyChanged(nameof(BonusAirRadarVisibility));
                 }
 
                 if (args.PropertyName is nameof(DisplayBonusLosRadar))
                 {
-                    BonusesIfLOSRadarViewModel = DisplayBonusLosRadar switch
-                    {
-                        true => new FitBonusValueViewModel(new FitBonusValueModel()),
-                        _ => null
-                    };
+                    BonusesIfLOSRadarViewModel.Model = new();
+                    BonusesIfLOSRadarViewModel.LoadFromModel();
 
                     OnPropertyChanged(nameof(BonusLosRadarVisibility));
                 }
@@ -115,22 +110,34 @@ namespace EOTools.Translation.FitBonus
 
         public void SaveChanges()
         {
-            if (BonusViewModel is not null)
+            if (DisplayBonus)
             {
                 BonusViewModel.SaveChanges();
                 Model.Bonuses = BonusViewModel.Model;
             }
+            else
+            {
+                Model.Bonuses = null;
+            }
 
-            if (BonusesIfAirRadarViewModel is not null)
+            if (DisplayBonusAirRadar)
             {
                 BonusesIfAirRadarViewModel.SaveChanges();
                 Model.BonusesIfAirRadar = BonusesIfAirRadarViewModel.Model;
             }
+            else
+            {
+                Model.BonusesIfAirRadar = null;
+            }
 
-            if (BonusesIfLOSRadarViewModel is not null)
+            if (DisplayBonusLosRadar)
             {
                 BonusesIfLOSRadarViewModel.SaveChanges();
                 Model.BonusesIfLOSRadar = BonusesIfLOSRadarViewModel.Model;
+            }
+            else
+            {
+                Model.BonusesIfLOSRadar = null;
             }
 
 
@@ -142,15 +149,39 @@ namespace EOTools.Translation.FitBonus
 
             Model.ShipIds = ShipsIds switch
             {
-                not null => ShipsIds.Select(s => s.ApiId).ToList(),
+                { Count: > 0 } => ShipsIds.Select(s => s.ApiId).ToList(),
                 _ => null
             };
 
             Model.ShipMasterIds = ShipsMasterIds switch
             {
-                not null => ShipsMasterIds.Select(s => s.ApiId).ToList(),
+                { Count: > 0 } => ShipsMasterIds.Select(s => s.ApiId).ToList(),
                 _ => null
             };
+        }
+
+        [RelayCommand]
+        private void AddShipMasterId()
+        {
+            ShipPickerViewModel vm = new();
+            ShipDataPickerView picker = new(vm);
+
+            if (picker.ShowDialog() is not true) return;
+            if (vm.SelectedShip is null) return;
+
+            ShipsMasterIds.Add(vm.SelectedShip);
+        }
+
+        [RelayCommand]
+        private void AddShipId()
+        {
+            ShipPickerViewModel vm = new();
+            ShipDataPickerView picker = new(vm);
+
+            if (picker.ShowDialog() is not true) return;
+            if (vm.SelectedShip is null) return;
+
+            ShipsIds.Add(vm.SelectedShip);
         }
     }
 }

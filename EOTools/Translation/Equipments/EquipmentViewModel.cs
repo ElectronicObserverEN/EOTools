@@ -13,7 +13,6 @@ using System.Linq;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.Models.FitBonus;
 using EOTools.Translation.FitBonus;
-using EOTools.Translation.Equipments.UpgradeChecker;
 
 namespace EOTools.Translation.Equipments;
 
@@ -63,18 +62,8 @@ public partial class EquipmentViewModel : ObservableObject
         Model.NameJP = NameJP;
         Model.NameEN = NameEN;
         Model.ApiId = ApiId;
-
-        /*using EOToolsDbContext db = new();
-
-        foreach (EquipmentUpgradeImprovmentViewModel upg in Upgrades)
-        {
-            db.Update(upg.Model);
-        }
-
-        db.SaveChanges();*/
     }
-
-
+    
     private void ShowUpgradeEditDialog(EquipmentUpgradeImprovmentViewModel vm, bool newEntity)
     {
         EquipmentUpgradeImprovmentViewModel vmEdit = new(vm.Model, EquipmentUpgradesService.Instance.DbContext);
@@ -157,27 +146,10 @@ public partial class EquipmentViewModel : ObservableObject
 
             if (newEntity)
             {
-                /*Upgrades.Add(vm);
-                EquipmentUpgradesService.Instance.DbContext.Add(vm.Model);
-
-                EquipmentUpgradeDataModel? model = EquipmentUpgradesService.Instance.DbContext.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
-
-                if (model is null)
-                {
-                    model = new EquipmentUpgradeDataModel()
-                    {
-                        EquipmentId = ApiId
-                    };
-
-                    EquipmentUpgradesService.Instance.DbContext.Add(model);
-                }
-                else
-                {
-                    EquipmentUpgradesService.Instance.DbContext.Attach(model);
-                }
-
-                model.Improvement.Add(vm.Model);*/
+                FitBonusManager.FitBonuses.Add(vm);
             }
+
+            FitBonusManager.SaveFile();
         }
     }
 

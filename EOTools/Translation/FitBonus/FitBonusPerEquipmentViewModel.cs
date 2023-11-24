@@ -1,10 +1,11 @@
-﻿using EOTools.Models;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using CommunityToolkit.Mvvm.Input;
 using EOTools.Models.FitBonus;
 
 namespace EOTools.Translation.FitBonus
 {
-    public class FitBonusPerEquipmentViewModel
+    public partial class FitBonusPerEquipmentViewModel
     {
         public FitBonusPerEquipmentModel Model { get; set; }
 
@@ -14,9 +15,12 @@ namespace EOTools.Translation.FitBonus
         {
             Model = model;
 
-            foreach (FitBonusDataModel dataModel in Model.Bonuses)
+            if (Model.Bonuses is not null)
             {
-                FitBonusDataList.Add(new FitBonusDataViewModel(dataModel));
+                foreach (FitBonusDataModel dataModel in Model.Bonuses)
+                {
+                    FitBonusDataList.Add(new FitBonusDataViewModel(dataModel));
+                }
             }
         }
 
@@ -26,6 +30,14 @@ namespace EOTools.Translation.FitBonus
             {
                 bonus.SaveChanges();
             }
+
+            Model.Bonuses = FitBonusDataList.Select(vm => vm.Model).ToList();
+        }
+
+        [RelayCommand]
+        private void AddBonus()
+        {
+            FitBonusDataList.Add(new(new()));
         }
     }
 }

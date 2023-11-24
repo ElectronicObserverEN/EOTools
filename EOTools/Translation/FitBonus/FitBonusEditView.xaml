@@ -26,7 +26,7 @@
 
 		<DataTemplate x:Key="ShipTemplate" DataType="{x:Type ships:ShipModel}">
 			<Button
-				Margin="5,0,0,0"
+				Margin="5,0"
 				VerticalAlignment="Center"
 				Content="{Binding NameEN}" />
 		</DataTemplate>
@@ -50,6 +50,10 @@
 								</ui:ItemsRepeater.Layout>
 
 							</ui:ItemsRepeater>
+							<Button
+								Margin="5,0"
+								Command="{Binding AddShipMasterIdCommand}"
+								Content="Add ship" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
@@ -60,6 +64,10 @@
 									<ui:StackLayout Orientation="Horizontal" />
 								</ui:ItemsRepeater.Layout>
 							</ui:ItemsRepeater>
+							<Button
+								Margin="5,0"
+								Command="{Binding AddShipIdCommand}"
+								Content="Add ship" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
@@ -97,7 +105,27 @@
 	</Window.Resources>
 
 	<Grid>
-		<ScrollViewer>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0" Orientation="Horizontal">
+			<Button
+				Margin="5"
+				Click="OnConfirmClick"
+				Content="Save changes" />
+			<Button
+				Margin="5"
+				Click="OnCancelClick"
+				Content="Cancel" />
+			<Button
+				Margin="5"
+				Command="{Binding AddBonusCommand}"
+				Content="Add bonus data" />
+		</StackPanel>
+
+		<ScrollViewer Grid.Row="1">
 			<StackPanel Orientation="Horizontal">
 				<ui:ItemsRepeater ItemTemplate="{StaticResource FitBonusData}" ItemsSource="{Binding FitBonusDataList}">
 					<ui:ItemsRepeater.Layout>
