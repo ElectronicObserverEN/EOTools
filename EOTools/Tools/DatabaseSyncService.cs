@@ -21,6 +21,7 @@ public class DatabaseSyncService
     private string SeasonsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Seasons.json");
     private string EquipmentFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Equipments.json");
     private string ShipFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Ships.json");
+    private string ShipClassFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "ShipClass.json");
 
     public void StageDatabaseChangesToGit()
     {
@@ -32,6 +33,7 @@ public class DatabaseSyncService
         JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
         JsonHelper.WriteJson(EquipmentFilePath, db.Equipments.ToList());
         JsonHelper.WriteJson(ShipFilePath, db.Ships.ToList());
+        JsonHelper.WriteJson(ShipClassFilePath, db.ShipClass.ToList());
 
         GitManager.Stage(UpdatesFilePath);
         GitManager.Stage(EventsFilePath);
@@ -39,6 +41,7 @@ public class DatabaseSyncService
         GitManager.Stage(SeasonsFilePath);
         GitManager.Stage(EquipmentFilePath);
         GitManager.Stage(ShipFilePath);
+        GitManager.Stage(ShipClassFilePath);
     }
 
     public void PushDatabaseChangesToGit()
@@ -61,6 +64,7 @@ public class DatabaseSyncService
         db.RemoveRange(db.Updates);
         db.RemoveRange(db.Equipments);
         db.RemoveRange(db.Ships);
+        db.RemoveRange(db.ShipClass);
 
         // rebuild db
         db.Updates.AddRange(JsonHelper.ReadJson<List<UpdateModel>>(UpdatesFilePath));
@@ -69,6 +73,7 @@ public class DatabaseSyncService
         db.Quests.AddRange(JsonHelper.ReadJson<List<QuestModel>>(QuestsFilePath));
         db.Equipments.AddRange(JsonHelper.ReadJson<List<EquipmentModel>>(EquipmentFilePath));
         db.Ships.AddRange(JsonHelper.ReadJson<List<ShipModel>>(ShipFilePath));
+        db.ShipClass.AddRange(JsonHelper.ReadJson<List<ShipClassModel>>(ShipClassFilePath));
 
         db.SaveChanges();
     }

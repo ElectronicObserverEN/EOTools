@@ -69,6 +69,15 @@
     <Compile Update="Translation\QuestManager\Updates\UpdateListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Translation\Ships\ShipClass\ShipClassListView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\Ships\ShipClass\ShipEditView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Translation\Ships\ShipClass\ShipClassManagerView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Translation\Ships\ShipList\ShipListView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

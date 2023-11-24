@@ -23,10 +23,11 @@
 					x:Name="MenuItemShipTranslation"
 					Click="MenuItemShipTranslation_Click"
 					Header="_Translate ships" />
+
 				<MenuItem
 					x:Name="MenuItemEquipTranslation"
 					Click="MenuItemEquipTranslation_Click"
-					Header="_Translate equipments" />
+					Header="_Translate equipments " />
 				<MenuItem
 					x:Name="MenuItemDestinationUpdate"
 					Click="MenuItemDestinationUpdate_Click"
@@ -57,6 +58,7 @@
 				<MenuItem Click="ManageQuestsClick" Header="Manage quests" />
 				<MenuItem Click="ManageEquipmentsClick" Header="Manage equipments" />
 				<MenuItem Click="ManageShipsClick" Header="Manage ships" />
+				<MenuItem Click="ManageShipClassClick" Header="Manage ship class" />
 				<Separator />
 				<MenuItem Click="UpdateMaintData" Header="Update maint data" />
 				<MenuItem Click="PushDatabase" Header="Force push database to git" />

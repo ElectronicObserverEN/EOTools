@@ -13,6 +13,8 @@ public class ShipModel
     public string NameJP { get; set; } = "";
 
     public int ApiId { get; set; }
+    
+    public int? ShipClassId { get; set; }
 
     public string GetNameEN() => Ioc.Default.GetRequiredService<ShipTranslationService>().Name(NameJP, ApiId);
 

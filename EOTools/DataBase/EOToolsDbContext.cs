@@ -6,12 +6,11 @@ using EOTools.Translation.QuestManager.Quests;
 using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
-using System.Collections.Generic;
 
 namespace EOTools.DataBase
 {
+    // dotnet ef migrations add <name> --context EOToolsDbContext
     public class EOToolsDbContext : DbContext
     {
         public DbSet<UpdateModel> Updates { get; set; }
@@ -20,6 +19,7 @@ namespace EOTools.DataBase
         public DbSet<EventModel> Events { get; set; }
         public DbSet<EquipmentModel> Equipments { get; set; }
         public DbSet<ShipModel> Ships { get; set; }
+        public DbSet<ShipClassModel> ShipClass { get; set; }
         public DbSet<EquipmentUpgradeDataModel> EquipmentUpgrades { get; set; }
 
         public string DbPath { get; }

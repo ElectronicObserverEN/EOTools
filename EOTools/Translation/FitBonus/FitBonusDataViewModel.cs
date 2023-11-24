@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models.FitBonus;
 using EOTools.Models.Ships;
-using EOTools.Tools.ShipPicker;
+using EOTools.Translation.Ships.ShipList;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -163,25 +163,25 @@ namespace EOTools.Translation.FitBonus
         [RelayCommand]
         private void AddShipMasterId()
         {
-            ShipPickerViewModel vm = new();
-            ShipDataPickerView picker = new(vm);
+            ShipListViewModel vm = new();
+            ShipListView picker = new(vm);
 
             if (picker.ShowDialog() is not true) return;
             if (vm.SelectedShip is null) return;
 
-            ShipsMasterIds.Add(vm.SelectedShip);
+            ShipsMasterIds.Add(vm.SelectedShip.Model);
         }
 
         [RelayCommand]
         private void AddShipId()
         {
-            ShipPickerViewModel vm = new();
-            ShipDataPickerView picker = new(vm);
+            ShipListViewModel vm = new();
+            ShipListView picker = new(vm);
 
             if (picker.ShowDialog() is not true) return;
             if (vm.SelectedShip is null) return;
 
-            ShipsIds.Add(vm.SelectedShip);
+            ShipsIds.Add(vm.SelectedShip.Model);
         }
     }
 }

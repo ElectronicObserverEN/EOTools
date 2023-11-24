@@ -13,6 +13,7 @@ using EOTools.Translation.QuestManager.Updates;
 using EOTools.Translation.Ships;
 using Microsoft.EntityFrameworkCore;
 using System.Windows;
+using EOTools.Translation.Ships.ShipClass;
 
 namespace EOTools
 {
@@ -121,6 +122,11 @@ namespace EOTools
         private void ManageShipsClick(object sender, RoutedEventArgs e)
         {
             MainContentFrame.Content = new ShipManagerView();
+        }
+
+        private void ManageShipClassClick(object sender, RoutedEventArgs e)
+        {
+            MainContentFrame.Content = new ShipClassManagerView();
         }
 
         private void ConfigClick(object sender, RoutedEventArgs e)
