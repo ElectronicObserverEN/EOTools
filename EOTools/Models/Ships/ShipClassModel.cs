@@ -9,4 +9,3 @@ public class ShipClassModel
     public string NameEnglish { get; set; } = "";
     public string NameJapanese { get; set; } = "";
 }
-

@@ -23,6 +23,7 @@
 			<Grid.RowDefinitions>
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
@@ -61,6 +62,19 @@
 				Grid.Column="1"
 				Margin="5"
 				Text="{Binding NameJP}" />
+
+			<TextBlock
+				Grid.Row="3"
+				Grid.Column="0"
+				Margin="5"
+				Text="Ship class" />
+
+			<Button
+				Grid.Row="3"
+				Grid.Column="1"
+				Margin="5"
+				Command="{Binding OpenClassPickerCommand}"
+				Content="{Binding ClassName}" />
 		</Grid>
 
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">

@@ -7,7 +7,6 @@ using ModernWpf.Controls;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,25 +124,44 @@ public partial class ShipManagerViewModel : ObservableObject
         string importPath = Path.Combine(AppSettings.KancolleEOAPIFolder, "kcsapi", "api_start2", "getData");
 
         JObject data = JsonHelper.ReadKCJson(importPath);
-
-        List<JToken> ships = data["api_data"]["api_mst_ship"].AsJEnumerable().ToList();
-
+        
         using EOToolsDbContext db = new();
 
-        foreach (JToken shipJson in ships)
+        foreach (JObject shipJson in data["api_data"]["api_mst_ship"].Children<JObject>())
         {
-            ShipModel model = new()
-            {
-                ApiId = int.Parse(shipJson["api_id"].ToString()),
-                NameJP = shipJson["api_name"].ToString()
-            };
+            int apiId = int.Parse(shipJson["api_id"].ToString());
+            string nameJp = shipJson["api_name"].ToString();
+            int? classId = null;
 
-            if (!Ships.Any(sh => sh.Model.ApiId == model.ApiId))
+            if (shipJson.ContainsKey("api_ctype") && apiId < 1500)
             {
+                classId = int.Parse(shipJson["api_ctype"].ToString());
+            }
+
+            ShipViewModel? vm = Ships.Find(sh => sh.Model.ApiId == apiId);
+
+            if (vm is null)
+            {
+                ShipModel model = new()
+                {
+                    ApiId = apiId,
+                    NameJP = nameJp
+                };
+
                 model.NameEN = model.GetNameEN();
+
                 db.Add(model);
 
                 Ships.Add(new(model));
+            }
+            else
+            {
+                // Update ship class id
+                vm.NameEN = vm.Model.GetNameEN();
+                vm.ClassId = classId;
+                vm.SaveChanges();
+
+                db.Ships.Update(vm.Model);
             }
         }
 

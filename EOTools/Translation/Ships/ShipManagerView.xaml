@@ -67,6 +67,7 @@
 				<DataGridTextColumn Binding="{Binding ApiId}" Header="Id" />
 				<DataGridTextColumn Binding="{Binding NameEN}" Header="Ship" />
 				<DataGridTextColumn Binding="{Binding NameJP}" Header="Ship JP" />
+				<DataGridTextColumn Binding="{Binding ClassName}" Header="Ship class" />
 			</DataGrid.Columns>
 		</DataGrid>
 	</Grid>

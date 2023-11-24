@@ -7,6 +7,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.DataBase;
+using EOTools.Models.Ships;
+using System.Linq;
 
 namespace EOTools.Translation
 {
@@ -59,6 +63,23 @@ namespace EOTools.Translation
             if (!string.IsNullOrEmpty(FilePath))
             {
                 LoadFile();
+            }
+
+            // Add missing data
+            EOToolsDbContext db = Ioc.Default.GetRequiredService<EOToolsDbContext>();
+            List<string> allJpString = JsonClass.Select(s => s.NameJP).ToList();
+
+            foreach (ShipClassModel sclass in db.ShipClass)
+            {
+                if (!allJpString.Contains(sclass.NameJapanese))
+                {
+                    JsonClass.Add(new()
+                    {
+                        NameEN = sclass.NameEnglish,
+                        NameJP = sclass.NameJapanese,
+                        ShipId = sclass.ApiId
+                    });
+                }
             }
         }
 
