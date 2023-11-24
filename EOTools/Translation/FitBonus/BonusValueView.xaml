@@ -3,96 +3,107 @@
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:local="clr-namespace:EOTools.Translation.FitBonus"
+	xmlns:fitBonus="clr-namespace:EOTools.Translation.FitBonus"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
+	d:DataContext="{d:DesignInstance Type=fitBonus:FitBonusValueViewModel}"
 	d:DesignHeight="450"
 	d:DesignWidth="800"
 	mc:Ignorable="d">
 
-	<StackPanel Orientation="Vertical">
+	<UserControl.Resources>
+		<Style TargetType="ui:NumberBox">
+			<Setter Property="Margin" Value="3" />
+		</Style>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Firepower</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Firepower, FallbackValue=0}" />
-		</DockPanel>
+		<Style TargetType="TextBlock">
+			<Setter Property="VerticalAlignment" Value="Center" />
+			<Setter Property="Margin" Value="5,0" />
+		</Style>
+	</UserControl.Resources>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Torpedo</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Torpedo, FallbackValue=0}" />
-		</DockPanel>
+	<Grid>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">AntiAir</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.AntiAir, FallbackValue=0}" />
-		</DockPanel>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Armor</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Armor, FallbackValue=0}" />
-		</DockPanel>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition SharedSizeGroup="label" />
+			<ColumnDefinition SharedSizeGroup="value" />
+			<ColumnDefinition SharedSizeGroup="label" />
+			<ColumnDefinition SharedSizeGroup="value" />
+		</Grid.ColumnDefinitions>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Evasion</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Evasion, FallbackValue=0}" />
-		</DockPanel>
+		<TextBlock Grid.Row="0" Grid.Column="0">
+			Firepower
+		</TextBlock>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">ASW</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.ASW, FallbackValue=0}" />
-		</DockPanel>
+		<ui:NumberBox
+			Grid.Row="0"
+			Grid.Column="1"
+			Value="{Binding Firepower, FallbackValue=0}" />
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">LOS</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.LOS, FallbackValue=0}" />
-		</DockPanel>
+		<TextBlock Grid.Row="0" Grid.Column="2">Torpedo</TextBlock>
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Accuracy</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Accuracy, FallbackValue=0}" />
-		</DockPanel>
+		<ui:NumberBox
+			Grid.Row="0"
+			Grid.Column="3"
+			Value="{Binding Torpedo, FallbackValue=0}" />
 
-		<DockPanel>
-			<TextBlock VerticalAlignment="Center">Range</TextBlock>
-			<ui:NumberBox
-				Width="40"
-				Margin="10,0,0,0"
-				VerticalAlignment="Center"
-				Value="{Binding Model.Range, FallbackValue=0}" />
-		</DockPanel>
+		<TextBlock Grid.Row="1" Grid.Column="0">AntiAir</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="1"
+			Grid.Column="1"
+			Value="{Binding AntiAir, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="1" Grid.Column="2">Armor</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="1"
+			Grid.Column="3"
+			Value="{Binding Armor, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="2" Grid.Column="0">Evasion</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="2"
+			Grid.Column="1"
+			Value="{Binding Evasion, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="2" Grid.Column="2">ASW</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="2"
+			Grid.Column="3"
+			Value="{Binding Asw, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="3" Grid.Column="0">LOS</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="3"
+			Grid.Column="1"
+			Value="{Binding Los, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="3" Grid.Column="2">Accuracy</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="3"
+			Grid.Column="3"
+			Value="{Binding Accuracy, FallbackValue=0}" />
+
+		<TextBlock Grid.Row="4" Grid.Column="0">Range</TextBlock>
+
+		<ui:NumberBox
+			Grid.Row="4"
+			Grid.Column="1"
+			Value="{Binding Range, FallbackValue=0}" />
 
 
-	</StackPanel>
+	</Grid>
 </UserControl>

@@ -42,17 +42,6 @@
 
 					<StackPanel>
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship classes</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.ShipClasses}">
-
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
-
-							</ui:ItemsRepeater>
-						</StackPanel>
-
-						<StackPanel Orientation="Horizontal">
 							<TextBlock Margin="10" VerticalAlignment="Center">Ship ids (exact remodel)</TextBlock>
 							<ui:ItemsRepeater ItemTemplate="{StaticResource ShipTemplate}" ItemsSource="{Binding ShipsMasterIds}">
 
@@ -74,85 +63,31 @@
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship types</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.ShipTypes}">
-
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
-							</ui:ItemsRepeater>
-						</StackPanel>
-
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Equipments required</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.EquipmentRequired}">
-
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
-							</ui:ItemsRepeater>
-							<TextBlock Margin="5" VerticalAlignment="Center">x</TextBlock>
+							<TextBlock Margin="5,0" VerticalAlignment="Center">Equipment level required</TextBlock>
 							<ui:NumberBox
-								Width="40"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding Model.NumberOfEquipmentsRequired}" />
-						</StackPanel>
-
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Equipments types required</TextBlock>
-							<ui:ItemsRepeater ItemTemplate="{StaticResource ElementListTemplate}" ItemsSource="{Binding Model.EquipmentTypesRequired}">
-
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
-							</ui:ItemsRepeater>
-							<TextBlock Margin="5" VerticalAlignment="Center">x</TextBlock>
-							<ui:NumberBox
-								Width="40"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding Model.NumberOfEquipmentTypesRequired}" />
-						</StackPanel>
-
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Equipment level required</TextBlock>
-							<ui:NumberBox
-								Width="40"
+								Margin="3"
 								VerticalAlignment="Center"
 								ValidationMode="Disabled"
 								Value="{Binding EquipmentLevel}" />
 						</StackPanel>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Times required</TextBlock>
-							<ui:NumberBox
-								Width="40"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding Model.NumberOfEquipmentsRequiredAfterOtherFilters}" />
-						</StackPanel>
-
 						<CheckBox Content="Display bonuses ?" IsChecked="{Binding DisplayBonus}" />
 
-						<DockPanel Visibility="{Binding BonusVisibility}">
-							<TextBlock Margin="10" VerticalAlignment="Center">Bonus</TextBlock>
+						<StackPanel Visibility="{Binding BonusVisibility}">
 							<local:BonusValueView DataContext="{Binding BonusViewModel}" />
-						</DockPanel>
+						</StackPanel>
 
 						<CheckBox Content="Display air radar bonuses ?" IsChecked="{Binding DisplayBonusAirRadar}" />
 
-						<DockPanel Visibility="{Binding BonusAirRadarVisibility}">
-							<TextBlock Margin="10" VerticalAlignment="Center">Bonus with air radar</TextBlock>
+						<StackPanel Visibility="{Binding BonusAirRadarVisibility}">
 							<local:BonusValueView DataContext="{Binding BonusesIfAirRadarViewModel}" />
-						</DockPanel>
+						</StackPanel>
 
 						<CheckBox Content="Display surface radar bonuses ?" IsChecked="{Binding DisplayBonusLosRadar}" />
 
-						<DockPanel Visibility="{Binding BonusLosRadarVisibility}">
-							<TextBlock Margin="10" VerticalAlignment="Center">Bonus if LOS radar</TextBlock>
+						<StackPanel Visibility="{Binding BonusLosRadarVisibility}">
 							<local:BonusValueView DataContext="{Binding BonusesIfLOSRadarViewModel}" />
-						</DockPanel>
+						</StackPanel>
 
 					</StackPanel>
 
