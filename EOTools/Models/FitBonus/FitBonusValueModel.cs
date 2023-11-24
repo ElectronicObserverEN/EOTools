@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 
-namespace EOTools.Models
+namespace EOTools.Models.FitBonus
 {
     public class FitBonusValueModel
     {
-
         [JsonProperty("houg")]
         public int? Firepower { get; set; }
 
@@ -34,6 +33,5 @@ namespace EOTools.Models
 
         [JsonProperty("leng")]
         public int? Range { get; set; }
-
     }
 }

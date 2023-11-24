@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using EOTools.Models.FitBonus;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -57,6 +58,11 @@ namespace EOTools.Translation.FitBonus
             {
                 FitBonuses.Add(new FitBonusPerEquipmentViewModel(model));
             }
+        }
+
+        public void SaveFile()
+        {
+            JsonHelper.WriteJsonByOnlyIndentingXTimes(FitBonusFilePath, FitBonuses.Select(vm => vm.Model), 4, true);
         }
 
         [RelayCommand]

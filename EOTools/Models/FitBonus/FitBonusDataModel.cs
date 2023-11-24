@@ -1,38 +1,38 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace EOTools.Models
+namespace EOTools.Models.FitBonus
 {
     public class FitBonusDataModel
     {
         [JsonProperty("shipClass")]
-        public List<int?> ShipClasses { get; set; } = null;
+        public List<int?>? ShipClasses { get; set; } = null;
 
         /// <summary>
         /// Master id = exact id of the ship
         /// </summary>
         [JsonProperty("shipX")]
-        public List<int?> ShipMasterIds { get; set; } = null;
+        public List<int?>? ShipMasterIds { get; set; } = null;
 
         /// <summary>
         /// Base id of the ship (minimum remodel), bonus applies to all of the ship forms
         /// </summary>
         [JsonProperty("shipS")]
-        public List<int?> ShipIds { get; set; } = null;
+        public List<int>? ShipIds { get; set; } = null;
 
         [JsonProperty("shipType")]
-        public List<int?> ShipTypes { get; set; } = null;
+        public List<int?>? ShipTypes { get; set; } = null;
 
 
         [JsonProperty("requires")]
-        public List<int?> EquipmentRequired { get; set; } = null;
+        public List<int?>? EquipmentRequired { get; set; } = null;
 
         [JsonProperty("requiresNum")]
         public int? NumberOfEquipmentsRequired { get; set; }
 
 
         [JsonProperty("requiresType")]
-        public List<int?> EquipmentTypesRequired { get; set; } = null;
+        public List<int?>? EquipmentTypesRequired { get; set; } = null;
 
         [JsonProperty("requiresNumType")]
         public int? NumberOfEquipmentTypesRequired { get; set; }
@@ -68,6 +68,5 @@ namespace EOTools.Models
         /// </summary>
         [JsonProperty("bonusAR")]
         public FitBonusValueModel? BonusesIfAirRadar { get; set; } = null;
-
     }
 }

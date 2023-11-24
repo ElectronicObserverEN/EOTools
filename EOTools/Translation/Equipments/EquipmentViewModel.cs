@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.Models.FitBonus;
+using EOTools.Translation.FitBonus;
 
 namespace EOTools.Translation.Equipments;
 
@@ -27,6 +30,9 @@ public partial class EquipmentViewModel : ObservableObject
     public EquipmentModel Model { get; set; }
 
     public ObservableCollection<EquipmentUpgradeImprovmentViewModel> Upgrades { get; set; }
+    public ObservableCollection<FitBonusPerEquipmentViewModel> FitBonus { get; set; }
+
+    private FitBonusManager FitBonusManager { get; }
 
     public EquipmentViewModel(EquipmentModel model)
     {
@@ -44,6 +50,11 @@ public partial class EquipmentViewModel : ObservableObject
             .ToList();
 
         Upgrades = new(upgrades);
+
+        FitBonusManager = Ioc.Default.GetRequiredService<FitBonusManager>();
+
+        IEnumerable<FitBonusPerEquipmentViewModel> fitBonuses = FitBonusManager.FitBonuses.Where(fb => fb.Model.EquipmentIds?.Contains(ApiId) is true);
+        FitBonus = new(fitBonuses);
     }
 
     public void SaveChanges()
@@ -132,6 +143,44 @@ public partial class EquipmentViewModel : ObservableObject
         EquipmentUpgradesService.Instance.ReloadList();
     }
 
+    private void ShowFitBonusEditDialog(FitBonusPerEquipmentViewModel vm, bool newEntity)
+    {
+        FitBonusPerEquipmentViewModel vmEdit = new(vm.Model);
+
+        FitBonusEditView view = new(vmEdit);
+
+        if (view.ShowDialog() == true)
+        {
+            vmEdit.SaveChanges();
+            vm.Model = vmEdit.Model;
+            //vm.LoadFromModel();
+
+            if (newEntity)
+            {
+                /*Upgrades.Add(vm);
+                EquipmentUpgradesService.Instance.DbContext.Add(vm.Model);
+
+                EquipmentUpgradeDataModel? model = EquipmentUpgradesService.Instance.DbContext.EquipmentUpgrades.FirstOrDefault(upg => upg.EquipmentId == ApiId);
+
+                if (model is null)
+                {
+                    model = new EquipmentUpgradeDataModel()
+                    {
+                        EquipmentId = ApiId
+                    };
+
+                    EquipmentUpgradesService.Instance.DbContext.Add(model);
+                }
+                else
+                {
+                    EquipmentUpgradesService.Instance.DbContext.Attach(model);
+                }
+
+                model.Improvement.Add(vm.Model);*/
+            }
+        }
+    }
+
     [RelayCommand]
     public void ShowAddEquipmentUpgradeDialog()
     {
@@ -154,5 +203,13 @@ public partial class EquipmentViewModel : ObservableObject
         db.SaveChanges();
         Upgrades.Remove(vm);
         EquipmentUpgradesService.Instance.ReloadList();
+    }
+
+    [RelayCommand]
+    public void ShowAddFitBonusDialog()
+    {
+        FitBonusPerEquipmentModel model = new();
+        FitBonusPerEquipmentViewModel vm = new(model);
+        ShowFitBonusEditDialog(vm, true);
     }
 }

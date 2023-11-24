@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.DataBase;
 using EOTools.ElectronicObserverApi;
 using EOTools.Tools.CurrentDeck;
 using EOTools.Tools.Translations;
@@ -49,6 +50,7 @@ namespace EOTools
                 .AddSingleton<CurrentDeckService>()
                 .AddSingleton<ElectronicObserverApiService>()
                 .AddSingleton<FitBonusManager>()
+                .AddDbContext<EOToolsDbContext>()
                 .BuildServiceProvider();
 
             Ioc.Default.ConfigureServices(services);

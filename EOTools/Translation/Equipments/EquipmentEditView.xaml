@@ -25,6 +25,7 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
@@ -104,6 +105,35 @@
 				</DataGrid>
 			</StackPanel>
 
+			<StackPanel
+				Grid.Row="4"
+				Grid.Column="0"
+				Grid.ColumnSpan="2"
+				Orientation="Vertical">
+				<Button
+					Margin="5"
+					Command="{Binding ShowAddFitBonusDialogCommand}"
+					Content="Add fit bonus" />
+
+				<DataGrid
+					AutoGenerateColumns="True"
+					IsReadOnly="True"
+					ItemsSource="{Binding FitBonus}">
+
+					<DataGrid.Columns>
+
+						<DataGridTemplateColumn>
+							<DataGridTemplateColumn.CellTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" />
+								</DataTemplate>
+							</DataGridTemplateColumn.CellTemplate>
+						</DataGridTemplateColumn>
+
+						<DataGridTextColumn Binding="{Binding}" Header="Fit bonus" />
+					</DataGrid.Columns>
+				</DataGrid>
+			</StackPanel>
 		</Grid>
 
 		<StackPanel HorizontalAlignment="Right" Orientation="Horizontal">

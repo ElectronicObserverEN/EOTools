@@ -1,6 +1,11 @@
-﻿using EOTools.Models;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.DataBase;
+using EOTools.Models.FitBonus;
+using EOTools.Models.Ships;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -8,53 +13,13 @@ namespace EOTools.Translation.FitBonus
     {
         public FitBonusDataModel Model { get; set; }
 
-        public int NumberOfEquipmentsRequired
-        {
-            get
-            {
-                return Model.NumberOfEquipmentsRequired ?? 0;
-            }
-            set
-            {
-                Model.NumberOfEquipmentsRequired = value == 0 ? null : value;
-            }
-        }
+        /*public int NumberOfEquipmentsRequired { get; set; }
 
-        public int NumberOfEquipmentTypesRequired
-        {
-            get
-            {
-                return Model.NumberOfEquipmentTypesRequired ?? 0;
-            }
-            set
-            {
-                Model.NumberOfEquipmentTypesRequired = value == 0 ? null : value;
-            }
-        }
+        public int NumberOfEquipmentTypesRequired { get; set; }
 
-        public int EquipmentLevel
-        {
-            get
-            {
-                return Model.EquipmentLevel ?? 0;
-            }
-            set
-            {
-                Model.EquipmentLevel = value == 0 ? null : value;
-            }
-        }
-
-        public int NumberOfEquipmentsRequiredAfterOtherFilters
-        {
-            get
-            {
-                return Model.NumberOfEquipmentsRequiredAfterOtherFilters ?? 0;
-            }
-            set
-            {
-                Model.NumberOfEquipmentsRequiredAfterOtherFilters = value == 0 ? null : value;
-            }
-        }
+        public int NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }*/
+           
+        public int EquipmentLevel { get; set; }
 
         public Visibility BonusVisibility => BonusViewModel is null ? Visibility.Collapsed : Visibility.Visible;
         public Visibility BonusAirRadarVisibility => BonusesIfAirRadarViewModel is null ? Visibility.Collapsed : Visibility.Visible;
@@ -67,6 +32,10 @@ namespace EOTools.Translation.FitBonus
         public FitBonusValueViewModel? BonusViewModel { get; set; }
         public FitBonusValueViewModel? BonusesIfAirRadarViewModel { get; set; }
         public FitBonusValueViewModel? BonusesIfLOSRadarViewModel { get; set; }
+
+        public ObservableCollection<ShipModel> ShipsIds { get; set; }
+
+        private EOToolsDbContext Database { get; } = Ioc.Default.GetRequiredService<EOToolsDbContext>();
 
         public FitBonusDataViewModel(FitBonusDataModel model)
         {
@@ -88,6 +57,12 @@ namespace EOTools.Translation.FitBonus
             {
                 { } => new(Model.BonusesIfLOSRadar),
                 _ => null
+            };
+
+            ShipsIds = model.ShipIds switch
+            {
+                {} ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
+                _ => new()
             };
 
             DisplayBonus = Model.Bonuses is not null;
@@ -128,6 +103,40 @@ namespace EOTools.Translation.FitBonus
 
                     OnPropertyChanged(nameof(BonusLosRadarVisibility));
                 }
+            };
+        }
+
+        public void SaveChanges()
+        {
+            if (BonusViewModel is not null)
+            {
+                BonusViewModel.SaveChanges();
+                Model.Bonuses = BonusViewModel.Model;
+            }
+
+            if (BonusesIfAirRadarViewModel is not null)
+            {
+                BonusesIfAirRadarViewModel.SaveChanges();
+                Model.BonusesIfAirRadar = BonusesIfAirRadarViewModel.Model;
+            }
+
+            if (BonusesIfLOSRadarViewModel is not null)
+            {
+                BonusesIfLOSRadarViewModel.SaveChanges();
+                Model.BonusesIfLOSRadar = BonusesIfLOSRadarViewModel.Model;
+            }
+
+
+            Model.EquipmentLevel = EquipmentLevel switch
+            {
+                > 0 => EquipmentLevel,
+                _ => null
+            };
+
+            Model.ShipIds = ShipsIds switch
+            {
+                not null => ShipsIds.Select(s => s.ApiId).ToList(),
+                _ => null
             };
         }
     }

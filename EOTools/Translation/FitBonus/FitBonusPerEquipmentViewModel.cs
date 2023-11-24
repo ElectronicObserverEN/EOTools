@@ -1,10 +1,6 @@
 ﻿using EOTools.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EOTools.Models.FitBonus;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -21,6 +17,14 @@ namespace EOTools.Translation.FitBonus
             foreach (FitBonusDataModel dataModel in Model.Bonuses)
             {
                 FitBonusDataList.Add(new FitBonusDataViewModel(dataModel));
+            }
+        }
+
+        public void SaveChanges()
+        {
+            foreach (FitBonusDataViewModel bonus in FitBonusDataList)
+            {
+                bonus.SaveChanges();
             }
         }
     }
