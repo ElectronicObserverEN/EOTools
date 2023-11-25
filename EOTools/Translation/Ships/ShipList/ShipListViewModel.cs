@@ -4,6 +4,7 @@ using EOTools.DataBase;
 using EOTools.Models.Ships;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EOTools.Translation.Ships.ShipList;
 
@@ -26,6 +27,7 @@ public partial class ShipListViewModel : ObservableObject
         using EOToolsDbContext db = new();
 
         ShipList = new(db.Ships
+            .Include(nameof(ShipModel.ShipClass))
             .Select(ship => new ShipViewModel(ship))
             .ToList());
 

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -19,11 +18,11 @@ public partial class ShipViewModel : ObservableObject
 
     [ObservableProperty] private int _apiId;
 
-    [ObservableProperty] private int? _classId;
+    [ObservableProperty] private ShipClassModel? _shipClass;
 
-    public string ClassName => ClassId switch
+    public string ClassName => ShipClass switch
     {
-        { } id => Database.ShipClass.FirstOrDefault(sc => sc.ApiId == id)?.NameEnglish ?? "Select a class",
+        { } shipClass => shipClass.NameEnglish,
         _ => "Select a class"
     };
 
@@ -39,7 +38,7 @@ public partial class ShipViewModel : ObservableObject
 
     private void OnClassIdChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is not nameof(ClassId)) return;
+        if (e.PropertyName is not nameof(ShipClass)) return;
 
         OnPropertyChanged(nameof(ClassName));
     }
@@ -49,7 +48,7 @@ public partial class ShipViewModel : ObservableObject
         NameEN = Model.NameEN;
         NameJP = Model.NameJP;
         ApiId = Model.ApiId;
-        ClassId = Model.ShipClassId;
+        ShipClass = Model.ShipClass;
     }
 
     public void SaveChanges()
@@ -57,7 +56,7 @@ public partial class ShipViewModel : ObservableObject
         Model.NameEN = NameEN;
         Model.NameJP = NameJP;
         Model.ApiId = ApiId;
-        Model.ShipClassId = ClassId;
+        Model.ShipClass = ShipClass;
     }
 
     public bool IsFriendly => Model.IsFriendly;
@@ -71,6 +70,6 @@ public partial class ShipViewModel : ObservableObject
         if (view.ShowDialog() is not true) return;
         if (vm.SelectedClass is null) return;
 
-        ClassId = vm.SelectedClass.ApiId;
+        ShipClass = vm.SelectedClass.Model;
     }
 }

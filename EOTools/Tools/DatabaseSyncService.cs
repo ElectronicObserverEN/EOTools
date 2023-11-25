@@ -8,6 +8,7 @@ using EOTools.Translation.QuestManager.Updates;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace EOTools.Tools;
 
@@ -32,7 +33,7 @@ public class DatabaseSyncService
         JsonHelper.WriteJson(SeasonsFilePath, db.Seasons.ToList());
         JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
         JsonHelper.WriteJson(EquipmentFilePath, db.Equipments.ToList());
-        JsonHelper.WriteJson(ShipFilePath, db.Ships.ToList());
+        JsonHelper.WriteJson(ShipFilePath, db.Ships.Include(nameof(ShipModel.ShipClass)).ToList());
         JsonHelper.WriteJson(ShipClassFilePath, db.ShipClass.ToList());
 
         GitManager.Stage(UpdatesFilePath);
@@ -72,8 +73,14 @@ public class DatabaseSyncService
         db.Seasons.AddRange(JsonHelper.ReadJson<List<SeasonModel>>(SeasonsFilePath));
         db.Quests.AddRange(JsonHelper.ReadJson<List<QuestModel>>(QuestsFilePath));
         db.Equipments.AddRange(JsonHelper.ReadJson<List<EquipmentModel>>(EquipmentFilePath));
-        db.Ships.AddRange(JsonHelper.ReadJson<List<ShipModel>>(ShipFilePath));
-        db.ShipClass.AddRange(JsonHelper.ReadJson<List<ShipClassModel>>(ShipClassFilePath));
+
+        List<ShipClassModel> classList = JsonHelper.ReadJson<List<ShipClassModel>>(ShipClassFilePath);
+
+        db.ShipClass.AddRange(classList);
+
+        List<ShipModel> ships = JsonHelper.ReadJson<List<ShipModel>>(ShipFilePath);
+        ships.ForEach(s => s.ShipClass = classList.Find(sc => sc.Id == s.ShipClassId));
+        db.Ships.AddRange(ships);
 
         db.SaveChanges();
     }
