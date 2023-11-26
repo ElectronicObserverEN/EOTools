@@ -97,6 +97,7 @@ namespace EOTools.Translation.FitBonus
 
             NumberOfEquipmentsRequiredAfterOtherFilters = model.NumberOfEquipmentsRequiredAfterOtherFilters ?? 0;
             EquipmentRequiresLevel = model.EquipmentRequiresLevel ?? 0;
+            EquipmentLevel = model.EquipmentLevel ?? 0;
 
             DisplayBonus = Model.Bonuses is not null;
             DisplayBonusAirRadar = Model.BonusesIfAirRadar is not null;
