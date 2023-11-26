@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
 using EOTools.Models.FitBonus;
 using EOTools.Models.Ships;
+using EOTools.Translation.Ships.ShipClass;
 using EOTools.Translation.Ships.ShipList;
 
 namespace EOTools.Translation.FitBonus
@@ -17,9 +18,9 @@ namespace EOTools.Translation.FitBonus
 
         /*public int NumberOfEquipmentsRequired { get; set; }
 
-        public int NumberOfEquipmentTypesRequired { get; set; }
+        public int NumberOfEquipmentTypesRequired { get; set; }*/
 
-        public int NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }*/
+        public int NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }
 
         public int EquipmentLevel { get; set; }
 
@@ -39,6 +40,7 @@ namespace EOTools.Translation.FitBonus
 
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
         public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
+        public ObservableCollection<ShipClassModel> ShipClasses { get; set; }
 
         private EOToolsDbContext Database { get; } = Ioc.Default.GetRequiredService<EOToolsDbContext>();
 
@@ -75,6 +77,14 @@ namespace EOTools.Translation.FitBonus
                 { } ids => new(ids.Select(id => Database.Ships.First(s => s.ApiId == id))),
                 _ => new()
             };
+
+            ShipClasses = model.ShipClasses switch
+            {
+                { } ids => new(ids.Select(id => Database.ShipClass.First(s => s.ApiId == id))),
+                _ => new()
+            };
+
+            NumberOfEquipmentsRequiredAfterOtherFilters = model.NumberOfEquipmentsRequiredAfterOtherFilters ?? 0;
 
             DisplayBonus = Model.Bonuses is not null;
             DisplayBonusAirRadar = Model.BonusesIfAirRadar is not null;
@@ -140,7 +150,6 @@ namespace EOTools.Translation.FitBonus
                 Model.BonusesIfLOSRadar = null;
             }
 
-
             Model.EquipmentLevel = EquipmentLevel switch
             {
                 > 0 => EquipmentLevel,
@@ -158,6 +167,18 @@ namespace EOTools.Translation.FitBonus
                 { Count: > 0 } => ShipsMasterIds.Select(s => s.ApiId).ToList(),
                 _ => null
             };
+
+            Model.ShipClasses = ShipClasses switch
+            {
+                { Count: > 0 } => ShipClasses.Select(s => s.ApiId).ToList(),
+                _ => null
+            };
+
+            Model.NumberOfEquipmentsRequiredAfterOtherFilters = NumberOfEquipmentsRequiredAfterOtherFilters switch
+            {
+                > 0 => NumberOfEquipmentsRequiredAfterOtherFilters,
+                _ => null
+            };
         }
 
         [RelayCommand]
@@ -173,6 +194,12 @@ namespace EOTools.Translation.FitBonus
         }
 
         [RelayCommand]
+        private void RemoveShipMasterId(ShipModel model)
+        {
+            ShipsMasterIds.Remove(model);
+        }
+
+        [RelayCommand]
         private void AddShipId()
         {
             ShipListViewModel vm = new();
@@ -182,6 +209,30 @@ namespace EOTools.Translation.FitBonus
             if (vm.SelectedShip is null) return;
 
             ShipsIds.Add(vm.SelectedShip.Model);
+        }
+
+        [RelayCommand]
+        private void RemoveShipId(ShipModel model)
+        {
+            ShipsIds.Remove(model);
+        }
+
+        [RelayCommand]
+        private void AddShipClass()
+        {
+            ShipClassListViewModel vm = new();
+            ShipClassListView picker = new(vm);
+
+            if (picker.ShowDialog() is not true) return;
+            if (vm.SelectedClass is null) return;
+
+            ShipClasses.Add(vm.SelectedClass.Model);
+        }
+
+        [RelayCommand]
+        private void RemoveShipClass(ShipClassModel model)
+        {
+            ShipClasses.Remove(model);
         }
     }
 }

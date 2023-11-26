@@ -33,10 +33,10 @@
 		</Grid.RowDefinitions>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition SharedSizeGroup="label" />
-			<ColumnDefinition SharedSizeGroup="value" />
-			<ColumnDefinition SharedSizeGroup="label" />
-			<ColumnDefinition SharedSizeGroup="value" />
+			<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
+			<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
+			<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
+			<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
 		</Grid.ColumnDefinitions>
 
 		<TextBlock Grid.Row="0" Grid.Column="0">

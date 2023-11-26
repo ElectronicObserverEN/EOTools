@@ -146,6 +146,7 @@ public partial class EquipmentViewModel : ObservableObject
 
             if (newEntity)
             {
+                vm.Model.EquipmentIds = new() { ApiId };
                 FitBonusManager.FitBonuses.Add(vm);
             }
 

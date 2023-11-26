@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace EOTools.Models.FitBonus
@@ -6,7 +7,7 @@ namespace EOTools.Models.FitBonus
     public class FitBonusDataModel
     {
         [JsonProperty("shipClass")]
-        public List<int?>? ShipClasses { get; set; } = null;
+        public List<int>? ShipClasses { get; set; } = null;
 
         /// <summary>
         /// Master id = exact id of the ship
@@ -27,6 +28,7 @@ namespace EOTools.Models.FitBonus
         [JsonProperty("requires")]
         public List<int?>? EquipmentRequired { get; set; } = null;
 
+        [Obsolete("Use NumberOfEquipmentsRequiredAfterOtherFilters instead", true)]
         [JsonProperty("requiresNum")]
         public int? NumberOfEquipmentsRequired { get; set; }
 
