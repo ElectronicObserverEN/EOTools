@@ -5,6 +5,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:local="clr-namespace:EOTools.Translation.FitBonus"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="clr-namespace:EOTools.Models"
 	xmlns:ships="clr-namespace:EOTools.Models.Ships"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="FitBonusEditView"
@@ -106,7 +107,41 @@
 							<Button
 								Margin="5,0"
 								Command="{Binding AddShipClassCommand}"
-								Content="Add ship" />
+								Content="Add class" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Margin="10" VerticalAlignment="Center">Required other equipments</TextBlock>
+							<ui:ItemsRepeater ItemsSource="{Binding EquipmentRequired}">
+
+								<ui:ItemsRepeater.Layout>
+									<ui:StackLayout Orientation="Horizontal" />
+								</ui:ItemsRepeater.Layout>
+
+								<ui:ItemsRepeater.ItemTemplate>
+									<DataTemplate DataType="{x:Type models:EquipmentModel}">
+										<Button
+											Margin="5,0"
+											VerticalAlignment="Center"
+											Command="{Binding DataContext.RemoveEquipmentCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+											CommandParameter="{Binding}"
+											Content="{Binding NameEN}" />
+									</DataTemplate>
+								</ui:ItemsRepeater.ItemTemplate>
+							</ui:ItemsRepeater>
+							<Button
+								Margin="5,0"
+								Command="{Binding AddEquipmentCommand}"
+								Content="Add equipment" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Margin="5,0" VerticalAlignment="Center">Other equipment level required</TextBlock>
+							<ui:NumberBox
+								Margin="3"
+								VerticalAlignment="Center"
+								ValidationMode="Disabled"
+								Value="{Binding EquipmentRequiresLevel}" />
 						</StackPanel>
 
 						<StackPanel Orientation="Horizontal">

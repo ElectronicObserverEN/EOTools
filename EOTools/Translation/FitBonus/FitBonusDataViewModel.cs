@@ -5,8 +5,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
+using EOTools.Models;
 using EOTools.Models.FitBonus;
 using EOTools.Models.Ships;
+using EOTools.Tools.EquipmentPicker;
 using EOTools.Translation.Ships.ShipClass;
 using EOTools.Translation.Ships.ShipList;
 
@@ -19,6 +21,8 @@ namespace EOTools.Translation.FitBonus
         /*public int NumberOfEquipmentsRequired { get; set; }
 
         public int NumberOfEquipmentTypesRequired { get; set; }*/
+
+        public int EquipmentRequiresLevel { get; set; }
 
         public int NumberOfEquipmentsRequiredAfterOtherFilters { get; set; }
 
@@ -41,6 +45,7 @@ namespace EOTools.Translation.FitBonus
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
         public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
         public ObservableCollection<ShipClassModel> ShipClasses { get; set; }
+        public ObservableCollection<EquipmentModel> EquipmentRequired { get; set; }
 
         private EOToolsDbContext Database { get; } = Ioc.Default.GetRequiredService<EOToolsDbContext>();
 
@@ -84,7 +89,14 @@ namespace EOTools.Translation.FitBonus
                 _ => new()
             };
 
+            EquipmentRequired = model.EquipmentRequired switch
+            {
+                { } ids => new(ids.Select(id => Database.Equipments.First(eq => eq.ApiId == id))),
+                _ => new()
+            };
+
             NumberOfEquipmentsRequiredAfterOtherFilters = model.NumberOfEquipmentsRequiredAfterOtherFilters ?? 0;
+            EquipmentRequiresLevel = model.EquipmentRequiresLevel ?? 0;
 
             DisplayBonus = Model.Bonuses is not null;
             DisplayBonusAirRadar = Model.BonusesIfAirRadar is not null;
@@ -174,9 +186,21 @@ namespace EOTools.Translation.FitBonus
                 _ => null
             };
 
+            Model.EquipmentRequired = EquipmentRequired switch
+            {
+                { Count: > 0 } => EquipmentRequired.Select(s => s.ApiId).ToList(),
+                _ => null
+            };
+
             Model.NumberOfEquipmentsRequiredAfterOtherFilters = NumberOfEquipmentsRequiredAfterOtherFilters switch
             {
                 > 0 => NumberOfEquipmentsRequiredAfterOtherFilters,
+                _ => null
+            };
+
+            Model.EquipmentRequiresLevel = EquipmentRequiresLevel switch
+            {
+                > 0 => EquipmentRequiresLevel,
                 _ => null
             };
         }
@@ -233,6 +257,24 @@ namespace EOTools.Translation.FitBonus
         private void RemoveShipClass(ShipClassModel model)
         {
             ShipClasses.Remove(model);
+        }
+
+        [RelayCommand]
+        private void AddEquipment()
+        {
+            EquipmentPickerViewModel vm = new(Database.Equipments.ToList());
+            EquipmentDataPickerView picker = new(vm);
+
+            if (picker.ShowDialog() is not true) return;
+            if (vm.SelectedEquipment is null) return;
+
+            EquipmentRequired.Add(vm.SelectedEquipment);
+        }
+
+        [RelayCommand]
+        private void RemoveEquipment(EquipmentModel model)
+        {
+            EquipmentRequired.Remove(model);
         }
     }
 }

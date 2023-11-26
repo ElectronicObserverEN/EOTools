@@ -26,7 +26,9 @@ namespace EOTools.Models.FitBonus
 
 
         [JsonProperty("requires")]
-        public List<int?>? EquipmentRequired { get; set; } = null;
+        public List<int>? EquipmentRequired { get; set; } = null;
+
+        [JsonProperty("requiresLevel")] public int? EquipmentRequiresLevel { get; set; } = null;
 
         [Obsolete("Use NumberOfEquipmentsRequiredAfterOtherFilters instead", true)]
         [JsonProperty("requiresNum")]
