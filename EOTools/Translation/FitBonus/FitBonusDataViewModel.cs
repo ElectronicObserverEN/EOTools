@@ -11,6 +11,7 @@ using EOTools.Models.Ships;
 using EOTools.Tools.EquipmentPicker;
 using EOTools.Translation.Ships.ShipClass;
 using EOTools.Translation.Ships.ShipList;
+using EOTools.Translation.Ships.ShipNationality;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -45,6 +46,7 @@ namespace EOTools.Translation.FitBonus
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
         public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
         public ObservableCollection<ShipClassModel> ShipClasses { get; set; }
+        public ObservableCollection<ShipNationalityViewModel> ShipNationalities { get; set; }
         public ObservableCollection<EquipmentModel> EquipmentRequired { get; set; }
 
         private EOToolsDbContext Database { get; } = Ioc.Default.GetRequiredService<EOToolsDbContext>();
@@ -86,6 +88,12 @@ namespace EOTools.Translation.FitBonus
             ShipClasses = model.ShipClasses switch
             {
                 { } ids => new(ids.Select(id => Database.ShipClass.First(s => s.ApiId == id))),
+                _ => new()
+            };
+
+            ShipNationalities = model.ShipNationalities switch
+            {
+                { } ids => new(ids.Select(id => new ShipNationalityViewModel() { Nationality = id })),
                 _ => new()
             };
 
@@ -187,6 +195,12 @@ namespace EOTools.Translation.FitBonus
                 _ => null
             };
 
+            Model.ShipNationalities = ShipNationalities switch
+            {
+                { Count: > 0 } => ShipNationalities.Select(s => s.Nationality).ToList(),
+                _ => null
+            };
+
             Model.EquipmentRequired = EquipmentRequired switch
             {
                 { Count: > 0 } => EquipmentRequired.Select(s => s.ApiId).ToList(),
@@ -258,6 +272,23 @@ namespace EOTools.Translation.FitBonus
         private void RemoveShipClass(ShipClassModel model)
         {
             ShipClasses.Remove(model);
+        }
+
+        [RelayCommand]
+        private void AddNationality()
+        {
+            ShipNationalityViewModel vm = new();
+            ShipNationalities.Add(vm);
+
+            vm.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName is not nameof(ShipNationalityViewModel.Nationality)) return;
+
+                if (vm.Nationality is ShipNationality.Remove)
+                {
+                    ShipNationalities.Remove(vm);
+                }
+            };
         }
 
         [RelayCommand]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using EOTools.Translation.Ships.ShipNationality;
 using Newtonsoft.Json;
 
 namespace EOTools.Models.FitBonus
@@ -24,6 +25,7 @@ namespace EOTools.Models.FitBonus
         [JsonProperty("shipType")]
         public List<int?>? ShipTypes { get; set; } = null;
 
+        [JsonProperty("shipNationality")] public List<ShipNationality>? ShipNationalities { get; set; }
 
         [JsonProperty("requires")]
         public List<int>? EquipmentRequired { get; set; } = null;

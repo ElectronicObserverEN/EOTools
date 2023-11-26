@@ -6,6 +6,7 @@
 	xmlns:local="clr-namespace:EOTools.Translation.FitBonus"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="clr-namespace:EOTools.Models"
+	xmlns:shipNationality="clr-namespace:EOTools.Translation.Ships.ShipNationality"
 	xmlns:ships="clr-namespace:EOTools.Models.Ships"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="FitBonusEditView"
@@ -107,6 +108,30 @@
 							<Button
 								Margin="5,0"
 								Command="{Binding AddShipClassCommand}"
+								Content="Add class" />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal">
+							<TextBlock Margin="10" VerticalAlignment="Center">Ship nationality</TextBlock>
+							<ui:ItemsRepeater ItemsSource="{Binding ShipNationalities}">
+
+								<ui:ItemsRepeater.Layout>
+									<ui:StackLayout Orientation="Horizontal" />
+								</ui:ItemsRepeater.Layout>
+
+								<ui:ItemsRepeater.ItemTemplate>
+									<DataTemplate DataType="{x:Type shipNationality:ShipNationalityViewModel}">
+										<ComboBox
+											Margin="5,0"
+											VerticalAlignment="Center"
+											ItemsSource="{Binding Nationalities}"
+											SelectedItem="{Binding Nationality}" />
+									</DataTemplate>
+								</ui:ItemsRepeater.ItemTemplate>
+							</ui:ItemsRepeater>
+							<Button
+								Margin="5,0"
+								Command="{Binding AddNationalityCommand}"
 								Content="Add class" />
 						</StackPanel>
 
