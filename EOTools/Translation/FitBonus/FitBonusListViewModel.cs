@@ -37,12 +37,12 @@ public partial class FitBonusListViewModel : ObservableObject
 
         EquipmentDataPickerView picker = new(vm);
 
-        if (picker.ShowDialog() == true && vm.SelectedEquipment != null)
+        if (picker.ShowDialog() == true && vm.SelectedEquipment?.ApiId is { } selectedEquipmentId)
         {
-            SelectedEquipment = vm.SelectedEquipment.ApiId;
+            SelectedEquipment = selectedEquipmentId;
             OnPropertyChanged(nameof(SelectedEquipmentName));
             FitBonuses = BonusManager.FitBonuses
-                .Where(fit => fit.Model.EquipmentIds?.Contains(SelectedEquipment) is true)
+                .Where(fit => fit.Model.EquipmentIds?.Contains(selectedEquipmentId) is true)
                 .ToList();
         }
     }

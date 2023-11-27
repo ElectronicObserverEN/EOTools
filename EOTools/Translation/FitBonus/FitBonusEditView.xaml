@@ -18,11 +18,12 @@
 	mc:Ignorable="d">
 
 	<Window.Resources>
+		<Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+			<Setter Property="Margin" Value="2" />
+		</Style>
+
 		<DataTemplate x:Key="ElementListTemplate">
-			<Button
-				Margin="5,0,0,0"
-				VerticalAlignment="Center"
-				Content="{Binding}" />
+			<Button VerticalAlignment="Center" Content="{Binding}" />
 		</DataTemplate>
 
 		<DataTemplate x:Key="FitBonusData" DataType="local:FitBonusDataViewModel">
@@ -34,178 +35,285 @@
 					BorderThickness="1"
 					CornerRadius="10">
 
-					<StackPanel>
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship ids (exact remodel)</TextBlock>
-							<ui:ItemsRepeater ItemsSource="{Binding ShipsMasterIds}">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
 
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
 
-								<ui:ItemsRepeater.ItemTemplate>
-									<DataTemplate DataType="{x:Type ships:ShipModel}">
-										<Button
-											Margin="5,0"
-											VerticalAlignment="Center"
-											Command="{Binding DataContext.RemoveShipMasterIdCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-											CommandParameter="{Binding}"
-											Content="{Binding NameEN}" />
-									</DataTemplate>
-								</ui:ItemsRepeater.ItemTemplate>
+						<TextBlock
+							Grid.Row="0"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Ship ids (exact remodel)" />
 
-							</ui:ItemsRepeater>
-							<Button
-								Margin="5,0"
-								Command="{Binding AddShipMasterIdCommand}"
-								Content="Add ship" />
-						</StackPanel>
+						<ui:ItemsRepeater
+							Grid.Row="0"
+							Grid.Column="2"
+							ItemsSource="{Binding ShipsMasterIds}">
+							<ui:ItemsRepeater.Layout>
+								<ui:StackLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship ids (Any remodel)</TextBlock>
-							<ui:ItemsRepeater ItemsSource="{Binding ShipsIds}">
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type ships:ShipModel}">
+									<Button
+										Margin="5,0"
+										VerticalAlignment="Center"
+										Command="{Binding DataContext.RemoveShipMasterIdCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
+										CommandParameter="{Binding}"
+										Content="{Binding NameEN}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
 
-								<ui:ItemsRepeater.Layout>
-									<ui:FlowLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
+						<Button
+							Grid.Row="0"
+							Grid.Column="1"
+							Command="{Binding AddShipMasterIdCommand}"
+							Content="Add ship" />
 
-								<ui:ItemsRepeater.ItemTemplate>
-									<DataTemplate DataType="{x:Type ships:ShipModel}">
-										<Button
-											Margin="5,0"
-											VerticalAlignment="Center"
-											Command="{Binding DataContext.RemoveShipIdCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-											CommandParameter="{Binding}"
-											Content="{Binding NameEN}" />
-									</DataTemplate>
-								</ui:ItemsRepeater.ItemTemplate>
-							</ui:ItemsRepeater>
-							<Button
-								Margin="5,0"
-								Command="{Binding AddShipIdCommand}"
-								Content="Add ship" />
-						</StackPanel>
+						<TextBlock
+							Grid.Row="1"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Ship ids (Any remodel)" />
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship classes</TextBlock>
-							<ui:ItemsRepeater ItemsSource="{Binding ShipClasses}">
+						<ui:ItemsRepeater
+							Grid.Row="1"
+							Grid.Column="2"
+							ItemsSource="{Binding ShipsIds}">
 
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
+							<ui:ItemsRepeater.Layout>
+								<ui:FlowLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
 
-								<ui:ItemsRepeater.ItemTemplate>
-									<DataTemplate DataType="{x:Type ships:ShipClassModel}">
-										<Button
-											Margin="5,0"
-											VerticalAlignment="Center"
-											Command="{Binding DataContext.RemoveShipClassCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-											CommandParameter="{Binding}"
-											Content="{Binding NameEnglish}" />
-									</DataTemplate>
-								</ui:ItemsRepeater.ItemTemplate>
-							</ui:ItemsRepeater>
-							<Button
-								Margin="5,0"
-								Command="{Binding AddShipClassCommand}"
-								Content="Add class" />
-						</StackPanel>
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type ships:ShipModel}">
+									<Button
+										Margin="5,0"
+										VerticalAlignment="Center"
+										Command="{Binding DataContext.RemoveShipIdCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
+										CommandParameter="{Binding}"
+										Content="{Binding NameEN}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Ship nationality</TextBlock>
-							<ui:ItemsRepeater ItemsSource="{Binding ShipNationalities}">
+						<Button
+							Grid.Row="1"
+							Grid.Column="1"
+							VerticalAlignment="Center"
+							Command="{Binding AddShipIdCommand}"
+							Content="Add ship" />
 
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
+						<TextBlock
+							Grid.Row="2"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Ship classes" />
 
-								<ui:ItemsRepeater.ItemTemplate>
-									<DataTemplate DataType="{x:Type shipNationality:ShipNationalityViewModel}">
-										<ComboBox
-											Margin="5,0"
-											VerticalAlignment="Center"
-											ItemsSource="{Binding Nationalities}"
-											SelectedItem="{Binding Nationality}" />
-									</DataTemplate>
-								</ui:ItemsRepeater.ItemTemplate>
-							</ui:ItemsRepeater>
-							<Button
-								Margin="5,0"
-								Command="{Binding AddNationalityCommand}"
-								Content="Add class" />
-						</StackPanel>
+						<ui:ItemsRepeater
+							Grid.Row="2"
+							Grid.Column="2"
+							ItemsSource="{Binding ShipClasses}">
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="10" VerticalAlignment="Center">Required other equipments</TextBlock>
-							<ui:ItemsRepeater ItemsSource="{Binding EquipmentRequired}">
+							<ui:ItemsRepeater.Layout>
+								<ui:StackLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
 
-								<ui:ItemsRepeater.Layout>
-									<ui:StackLayout Orientation="Horizontal" />
-								</ui:ItemsRepeater.Layout>
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type ships:ShipClassModel}">
+									<Button
+										VerticalAlignment="Center"
+										Command="{Binding DataContext.RemoveShipClassCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
+										CommandParameter="{Binding}"
+										Content="{Binding NameEnglish}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
 
-								<ui:ItemsRepeater.ItemTemplate>
-									<DataTemplate DataType="{x:Type models:EquipmentModel}">
-										<Button
-											Margin="5,0"
-											VerticalAlignment="Center"
-											Command="{Binding DataContext.RemoveEquipmentCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
-											CommandParameter="{Binding}"
-											Content="{Binding NameEN}" />
-									</DataTemplate>
-								</ui:ItemsRepeater.ItemTemplate>
-							</ui:ItemsRepeater>
-							<Button
-								Margin="5,0"
-								Command="{Binding AddEquipmentCommand}"
-								Content="Add equipment" />
-						</StackPanel>
+						<Button
+							Grid.Row="2"
+							Grid.Column="1"
+							Command="{Binding AddShipClassCommand}"
+							Content="Add class" />
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="5,0" VerticalAlignment="Center">Other equipment level required</TextBlock>
-							<ui:NumberBox
-								Margin="3"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding EquipmentRequiresLevel}" />
-						</StackPanel>
+						<TextBlock
+							Grid.Row="3"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Ship nationality" />
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="5,0" VerticalAlignment="Center">Equipment level required</TextBlock>
-							<ui:NumberBox
-								Margin="3"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding EquipmentLevel}" />
-						</StackPanel>
+						<ui:ItemsRepeater
+							Grid.Row="3"
+							Grid.Column="2"
+							ItemsSource="{Binding ShipNationalities}">
 
-						<StackPanel Orientation="Horizontal">
-							<TextBlock Margin="5,0" VerticalAlignment="Center">Number of equipments required*</TextBlock>
-							<ui:NumberBox
-								Margin="3"
-								VerticalAlignment="Center"
-								ValidationMode="Disabled"
-								Value="{Binding NumberOfEquipmentsRequiredAfterOtherFilters}" />
-						</StackPanel>
+							<ui:ItemsRepeater.Layout>
+								<ui:StackLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
 
-						<CheckBox Content="Display bonuses ?" IsChecked="{Binding DisplayBonus}" />
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type shipNationality:ShipNationalityViewModel}">
+									<ComboBox
+										Margin="5,0"
+										VerticalAlignment="Center"
+										ItemsSource="{Binding Nationalities}"
+										SelectedItem="{Binding Nationality}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
 
-						<StackPanel Visibility="{Binding BonusVisibility}">
-							<local:BonusValueView DataContext="{Binding BonusViewModel}" />
-						</StackPanel>
+						<Button
+							Grid.Row="3"
+							Grid.Column="1"
+							Command="{Binding AddNationalityCommand}"
+							Content="Add nationality" />
 
-						<CheckBox Content="Display air radar bonuses ?" IsChecked="{Binding DisplayBonusAirRadar}" />
+						<TextBlock
+							Grid.Row="4"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Required other equipments" />
 
-						<StackPanel Visibility="{Binding BonusAirRadarVisibility}">
-							<local:BonusValueView DataContext="{Binding BonusesIfAirRadarViewModel}" />
-						</StackPanel>
+						<ui:ItemsRepeater
+							Grid.Row="4"
+							Grid.Column="2"
+							ItemsSource="{Binding EquipmentRequired}">
 
-						<CheckBox Content="Display surface radar bonuses ?" IsChecked="{Binding DisplayBonusLosRadar}" />
+							<ui:ItemsRepeater.Layout>
+								<ui:StackLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
 
-						<StackPanel Visibility="{Binding BonusLosRadarVisibility}">
-							<local:BonusValueView DataContext="{Binding BonusesIfLOSRadarViewModel}" />
-						</StackPanel>
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type models:EquipmentModel}">
+									<Button
+										VerticalAlignment="Center"
+										Command="{Binding DataContext.RemoveEquipmentCommand, RelativeSource={RelativeSource AncestorType=Grid}}"
+										CommandParameter="{Binding}"
+										Content="{Binding NameEN}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
 
-					</StackPanel>
+						<Button
+							Grid.Row="4"
+							Grid.Column="1"
+							Command="{Binding AddEquipmentCommand}"
+							Content="Add equipment" />
+
+						<TextBlock
+							Grid.Row="5"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Other equipment level required" />
+						<ui:NumberBox
+							Grid.Row="5"
+							Grid.Column="1"
+							Margin="3"
+							VerticalAlignment="Center"
+							ValidationMode="Disabled"
+							Value="{Binding EquipmentRequiresLevel}" />
+
+						<TextBlock
+							Grid.Row="6"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Equipment level required" />
+
+						<ui:NumberBox
+							Grid.Row="6"
+							Grid.Column="1"
+							Margin="3"
+							VerticalAlignment="Center"
+							ValidationMode="Disabled"
+							Value="{Binding EquipmentLevel}" />
+
+						<TextBlock
+							Grid.Row="7"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Number of equipments required*" />
+
+						<ui:NumberBox
+							Grid.Row="7"
+							Grid.Column="1"
+							Margin="3"
+							VerticalAlignment="Center"
+							ValidationMode="Disabled"
+							Value="{Binding NumberOfEquipmentsRequiredAfterOtherFilters}" />
+
+						<Grid
+							Grid.Row="8"
+							Grid.Column="0"
+							ColumnSpan="3">
+
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" MinWidth="300" />
+								<ColumnDefinition Width="Auto" MinWidth="300" />
+								<ColumnDefinition Width="Auto" MinWidth="300" />
+							</Grid.ColumnDefinitions>
+
+							<CheckBox
+								Grid.Row="0"
+								Grid.Column="0"
+								Content="Display bonuses ?"
+								IsChecked="{Binding DisplayBonus}" />
+
+							<StackPanel
+								Grid.Row="1"
+								Grid.Column="0"
+								Visibility="{Binding BonusVisibility}">
+								<local:BonusValueView DataContext="{Binding BonusViewModel}" />
+							</StackPanel>
+
+							<CheckBox
+								Grid.Row="0"
+								Grid.Column="1"
+								Content="Display air radar bonuses ?"
+								IsChecked="{Binding DisplayBonusAirRadar}" />
+
+							<StackPanel
+								Grid.Row="1"
+								Grid.Column="1"
+								Visibility="{Binding BonusAirRadarVisibility}">
+								<local:BonusValueView DataContext="{Binding BonusesIfAirRadarViewModel}" />
+							</StackPanel>
+
+							<CheckBox
+								Grid.Row="0"
+								Grid.Column="2"
+								Content="Display surface radar bonuses ?"
+								IsChecked="{Binding DisplayBonusLosRadar}" />
+
+							<StackPanel
+								Grid.Row="1"
+								Grid.Column="2"
+								Visibility="{Binding BonusLosRadarVisibility}">
+								<local:BonusValueView DataContext="{Binding BonusesIfLOSRadarViewModel}" />
+							</StackPanel>
+						</Grid>
+					</Grid>
 
 				</Border>
 			</Grid>
@@ -235,12 +343,41 @@
 		</StackPanel>
 
 		<ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto">
-			<StackPanel Orientation="Horizontal">
-				<ui:ItemsRepeater ItemTemplate="{StaticResource FitBonusData}" ItemsSource="{Binding FitBonusDataList}">
-					<!--ui:ItemsRepeater.Layout>
+			<StackPanel>
+				<StackPanel Orientation="Horizontal">
+					<TextBlock
+						Margin="5,0"
+						VerticalAlignment="Center"
+						Text="Bonus applies to the following equipments : " />
+					<ui:ItemsRepeater ItemsSource="{Binding Equipments}">
+						<ui:ItemsRepeater.Layout>
+							<ui:FlowLayout Orientation="Horizontal" />
+						</ui:ItemsRepeater.Layout>
+
+						<ui:ItemsRepeater.ItemTemplate>
+							<DataTemplate DataType="{x:Type models:EquipmentModel}">
+								<Button
+									Margin="5,0"
+									VerticalAlignment="Center"
+									Command="{Binding DataContext.RemoveEquipmentCommand, RelativeSource={RelativeSource AncestorType=StackPanel}}"
+									CommandParameter="{Binding}"
+									Content="{Binding NameEN}" />
+							</DataTemplate>
+						</ui:ItemsRepeater.ItemTemplate>
+					</ui:ItemsRepeater>
+					<Button
+						Margin="5,0"
+						Command="{Binding AddEquipmentCommand}"
+						Content="Add equipment" />
+				</StackPanel>
+
+				<StackPanel Orientation="Horizontal">
+					<ui:ItemsRepeater ItemTemplate="{StaticResource FitBonusData}" ItemsSource="{Binding FitBonusDataList}">
+						<!--ui:ItemsRepeater.Layout>
 						<ui:StackLayout Orientation="Horizontal" />
 					</ui:ItemsRepeater.Layout-->
-				</ui:ItemsRepeater>
+					</ui:ItemsRepeater>
+				</StackPanel>
 			</StackPanel>
 		</ScrollViewer>
 	</Grid>

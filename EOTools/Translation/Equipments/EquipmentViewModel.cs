@@ -34,8 +34,12 @@ public partial class EquipmentViewModel : ObservableObject
 
     private FitBonusManager FitBonusManager { get; }
 
+    private EOToolsDbContext Database { get; }
+
     public EquipmentViewModel(EquipmentModel model)
     {
+        Database = Ioc.Default.GetRequiredService<EOToolsDbContext>();
+
         Model = model;
 
         NameEN = model.NameEN;
@@ -137,6 +141,11 @@ public partial class EquipmentViewModel : ObservableObject
     {
         FitBonusPerEquipmentViewModel vmEdit = new(vm.Model);
 
+        if (newEntity && Database.Equipments.FirstOrDefault(eq => eq.ApiId == ApiId) is { } equipmentModel)
+        {
+            vmEdit.Equipments.Add(equipmentModel);
+        }
+
         FitBonusEditView view = new(vmEdit);
 
         if (view.ShowDialog() == true)
@@ -146,8 +155,8 @@ public partial class EquipmentViewModel : ObservableObject
 
             if (newEntity)
             {
-                vm.Model.EquipmentIds = new() { ApiId };
                 FitBonusManager.FitBonuses.Add(vm);
+                FitBonus.Add(vm);
             }
 
             FitBonusManager.SaveFile();
