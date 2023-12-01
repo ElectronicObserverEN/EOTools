@@ -50,15 +50,15 @@ namespace EOTools.Translation.FitBonus
 
         public void SaveChanges()
         {
-            Model.Firepower = Firepower > 0 ? Firepower : null;
-            Model.Torpedo = Torpedo > 0 ? Torpedo : null;
-            Model.AntiAir = AntiAir > 0 ? AntiAir : null;
-            Model.Armor = Armor > 0 ? Armor : null;
+            Model.Firepower = Firepower != 0 ? Firepower : null;
+            Model.Torpedo = Torpedo != 0 ? Torpedo : null;
+            Model.AntiAir = AntiAir != 0 ? AntiAir : null;
+            Model.Armor = Armor != 0 ? Armor : null;
 
-            Model.LOS = Los > 0 ? Los : null;
-            Model.ASW = Asw > 0 ? Asw : null;
-            Model.Evasion = Evasion > 0 ? Evasion : null;
-            Model.Accuracy = Accuracy > 0 ? Accuracy : null;
+            Model.LOS = Los != 0 ? Los : null;
+            Model.ASW = Asw != 0 ? Asw : null;
+            Model.Evasion = Evasion != 0 ? Evasion : null;
+            Model.Accuracy = Accuracy != 0 ? Accuracy : null;
         }
     }
 }

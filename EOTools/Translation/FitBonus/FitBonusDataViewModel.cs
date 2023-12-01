@@ -12,6 +12,7 @@ using EOTools.Tools.EquipmentPicker;
 using EOTools.Translation.Ships.ShipClass;
 using EOTools.Translation.Ships.ShipList;
 using EOTools.Translation.Ships.ShipNationality;
+using EOTools.Translation.Ships.ShipType;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -46,6 +47,7 @@ namespace EOTools.Translation.FitBonus
         public ObservableCollection<ShipModel> ShipsIds { get; set; }
         public ObservableCollection<ShipModel> ShipsMasterIds { get; set; }
         public ObservableCollection<ShipClassModel> ShipClasses { get; set; }
+        public ObservableCollection<ShipTypesViewModel> ShipTypeList { get; set; }
         public ObservableCollection<ShipNationalityViewModel> ShipNationalities { get; set; }
         public ObservableCollection<EquipmentModel> EquipmentRequired { get; set; }
 
@@ -94,6 +96,12 @@ namespace EOTools.Translation.FitBonus
             ShipNationalities = model.ShipNationalities switch
             {
                 { } ids => new(ids.Select(id => new ShipNationalityViewModel() { Nationality = id })),
+                _ => new()
+            };
+
+            ShipTypeList = model.ShipTypes switch
+            {
+                { } ids => new(ids.Select(id => new ShipTypesViewModel() { ShipType = id })),
                 _ => new()
             };
 
@@ -201,6 +209,12 @@ namespace EOTools.Translation.FitBonus
                 _ => null
             };
 
+            Model.ShipTypes = ShipTypeList switch
+            {
+                { Count: > 0 } => ShipTypeList.Select(s => s.ShipType).ToList(),
+                _ => null
+            };
+
             Model.EquipmentRequired = EquipmentRequired switch
             {
                 { Count: > 0 } => EquipmentRequired.Select(s => s.ApiId).ToList(),
@@ -287,6 +301,23 @@ namespace EOTools.Translation.FitBonus
                 if (vm.Nationality is ShipNationality.Remove)
                 {
                     ShipNationalities.Remove(vm);
+                }
+            };
+        }
+
+        [RelayCommand]
+        private void AddShipType()
+        {
+            ShipTypesViewModel vm = new();
+            ShipTypeList.Add(vm);
+
+            vm.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName is not nameof(ShipTypesViewModel.ShipType)) return;
+
+                if (vm.ShipType is ShipTypes.Remove)
+                {
+                    ShipTypeList.Remove(vm);
                 }
             };
         }

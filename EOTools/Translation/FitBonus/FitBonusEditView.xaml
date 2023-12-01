@@ -7,6 +7,7 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:models="clr-namespace:EOTools.Models"
 	xmlns:shipNationality="clr-namespace:EOTools.Translation.Ships.ShipNationality"
+	xmlns:shipType="clr-namespace:EOTools.Translation.Ships.ShipType"
 	xmlns:ships="clr-namespace:EOTools.Models.Ships"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="FitBonusEditView"
@@ -189,10 +190,42 @@
 							Grid.Row="4"
 							Grid.Column="0"
 							VerticalAlignment="Center"
-							Text="Required other equipments" />
+							Text="Ship types" />
 
 						<ui:ItemsRepeater
 							Grid.Row="4"
+							Grid.Column="2"
+							ItemsSource="{Binding ShipTypeList}">
+
+							<ui:ItemsRepeater.Layout>
+								<ui:StackLayout Orientation="Horizontal" />
+							</ui:ItemsRepeater.Layout>
+
+							<ui:ItemsRepeater.ItemTemplate>
+								<DataTemplate DataType="{x:Type shipType:ShipTypesViewModel}">
+									<ComboBox
+										Margin="5,0"
+										VerticalAlignment="Center"
+										ItemsSource="{Binding ShipTypes}"
+										SelectedItem="{Binding ShipType}" />
+								</DataTemplate>
+							</ui:ItemsRepeater.ItemTemplate>
+						</ui:ItemsRepeater>
+
+						<Button
+							Grid.Row="4"
+							Grid.Column="1"
+							Command="{Binding AddShipTypeCommand}"
+							Content="Add type" />
+
+						<TextBlock
+							Grid.Row="5"
+							Grid.Column="0"
+							VerticalAlignment="Center"
+							Text="Required other equipments" />
+
+						<ui:ItemsRepeater
+							Grid.Row="5"
 							Grid.Column="2"
 							ItemsSource="{Binding EquipmentRequired}">
 
@@ -212,18 +245,18 @@
 						</ui:ItemsRepeater>
 
 						<Button
-							Grid.Row="4"
+							Grid.Row="5"
 							Grid.Column="1"
 							Command="{Binding AddEquipmentCommand}"
 							Content="Add equipment" />
 
 						<TextBlock
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="0"
 							VerticalAlignment="Center"
 							Text="Other equipment level required" />
 						<ui:NumberBox
-							Grid.Row="5"
+							Grid.Row="6"
 							Grid.Column="1"
 							Margin="3"
 							VerticalAlignment="Center"
@@ -231,13 +264,13 @@
 							Value="{Binding EquipmentRequiresLevel}" />
 
 						<TextBlock
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="0"
 							VerticalAlignment="Center"
 							Text="Equipment level required" />
 
 						<ui:NumberBox
-							Grid.Row="6"
+							Grid.Row="7"
 							Grid.Column="1"
 							Margin="3"
 							VerticalAlignment="Center"
@@ -245,13 +278,13 @@
 							Value="{Binding EquipmentLevel}" />
 
 						<TextBlock
-							Grid.Row="7"
+							Grid.Row="8"
 							Grid.Column="0"
 							VerticalAlignment="Center"
 							Text="Number of equipments required*" />
 
 						<ui:NumberBox
-							Grid.Row="7"
+							Grid.Row="8"
 							Grid.Column="1"
 							Margin="3"
 							VerticalAlignment="Center"
@@ -259,7 +292,7 @@
 							Value="{Binding NumberOfEquipmentsRequiredAfterOtherFilters}" />
 
 						<Grid
-							Grid.Row="8"
+							Grid.Row="9"
 							Grid.Column="0"
 							ColumnSpan="3">
 
