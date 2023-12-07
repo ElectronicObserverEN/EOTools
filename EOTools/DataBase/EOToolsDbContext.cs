@@ -7,6 +7,7 @@ using EOTools.Translation.QuestManager.Seasons;
 using EOTools.Translation.QuestManager.Updates;
 using Microsoft.EntityFrameworkCore;
 using System;
+using EOTools.Tools;
 
 namespace EOTools.DataBase
 {
@@ -26,10 +27,7 @@ namespace EOTools.DataBase
 
         public EOToolsDbContext()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-
-            DbPath = System.IO.Path.Join(path, "EOTools", "EOTools.db");
+            DbPath = DatabaseSyncService.DataBaseLocalPath;
             System.IO.Directory.CreateDirectory(System.IO.Path.GetDirectoryName(DbPath));
         }
 

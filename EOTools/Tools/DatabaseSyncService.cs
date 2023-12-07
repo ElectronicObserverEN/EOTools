@@ -1,14 +1,10 @@
-﻿using EOTools.DataBase;
-using EOTools.Models;
+﻿using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.DataBase;
 using EOTools.Models.Ships;
-using EOTools.Translation.QuestManager.Events;
-using EOTools.Translation.QuestManager.Quests;
-using EOTools.Translation.QuestManager.Seasons;
-using EOTools.Translation.QuestManager.Updates;
-using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.IO;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
 
 namespace EOTools.Tools;
 
@@ -23,6 +19,9 @@ public class DatabaseSyncService
     private string EquipmentFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Equipments.json");
     private string ShipFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Ships.json");
     private string ShipClassFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "ShipClass.json");
+    private string DataBaseRepoPath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Data.db");
+
+    public static string DataBaseLocalPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EOTools", "EOTools.db");
 
     public void StageDatabaseChangesToGit()
     {
@@ -36,6 +35,8 @@ public class DatabaseSyncService
         JsonHelper.WriteJson(ShipFilePath, db.Ships.Include(nameof(ShipModel.ShipClass)).ToList());
         JsonHelper.WriteJson(ShipClassFilePath, db.ShipClass.ToList());
 
+        File.Copy(DataBaseLocalPath, DataBaseRepoPath, true);
+
         GitManager.Stage(UpdatesFilePath);
         GitManager.Stage(EventsFilePath);
         GitManager.Stage(QuestsFilePath);
@@ -43,6 +44,7 @@ public class DatabaseSyncService
         GitManager.Stage(EquipmentFilePath);
         GitManager.Stage(ShipFilePath);
         GitManager.Stage(ShipClassFilePath);
+        GitManager.Stage(DataBaseRepoPath);
     }
 
     public void PushDatabaseChangesToGit()
@@ -57,31 +59,12 @@ public class DatabaseSyncService
     {
         GitManager.Pull();
 
-        using EOToolsDbContext db = new();
+        EOToolsDbContext db = Ioc.Default.GetRequiredService<EOToolsDbContext>();
 
-        db.RemoveRange(db.Quests);
-        db.RemoveRange(db.Seasons);
-        db.RemoveRange(db.Events);
-        db.RemoveRange(db.Updates);
-        db.RemoveRange(db.Equipments);
-        db.RemoveRange(db.Ships);
-        db.RemoveRange(db.ShipClass);
+        db.Database.CloseConnection();
 
-        // rebuild db
-        db.Updates.AddRange(JsonHelper.ReadJson<List<UpdateModel>>(UpdatesFilePath));
-        db.Events.AddRange(JsonHelper.ReadJson<List<EventModel>>(EventsFilePath));
-        db.Seasons.AddRange(JsonHelper.ReadJson<List<SeasonModel>>(SeasonsFilePath));
-        db.Quests.AddRange(JsonHelper.ReadJson<List<QuestModel>>(QuestsFilePath));
-        db.Equipments.AddRange(JsonHelper.ReadJson<List<EquipmentModel>>(EquipmentFilePath));
+        File.Copy(DataBaseRepoPath, DataBaseLocalPath, true);
 
-        List<ShipClassModel> classList = JsonHelper.ReadJson<List<ShipClassModel>>(ShipClassFilePath);
-
-        db.ShipClass.AddRange(classList);
-
-        List<ShipModel> ships = JsonHelper.ReadJson<List<ShipModel>>(ShipFilePath);
-        ships.ForEach(s => s.ShipClass = classList.Find(sc => sc.Id == s.ShipClassId));
-        db.Ships.AddRange(ships);
-
-        db.SaveChanges();
+        db.Database.OpenConnection();
     }
 }

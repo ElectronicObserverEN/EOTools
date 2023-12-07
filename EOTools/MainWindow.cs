@@ -1,4 +1,5 @@
-﻿using EOTools.Config;
+﻿using System.IO;
+using EOTools.Config;
 using EOTools.DataBase;
 using EOTools.RPCTools;
 using EOTools.Tools;
@@ -26,9 +27,6 @@ namespace EOTools
         {
             InitializeComponent();
 
-            using EOToolsDbContext db = new();
-            db.Database.Migrate();
-
             AppSettings.LoadSettings();
 
             if (string.IsNullOrEmpty(AppSettings.ElectronicObserverDataFolderPath))
@@ -37,7 +35,17 @@ namespace EOTools
             }
 
             if (string.IsNullOrEmpty(AppSettings.ElectronicObserverDataFolderPath))
+            {
                 App.Current.Shutdown();
+            }
+
+            if (!File.Exists(DatabaseSyncService.DataBaseLocalPath))
+            {
+                new DatabaseSyncService().PullAndRestoreDataBase();
+            }
+
+            using EOToolsDbContext db = new();
+            db.Database.Migrate();
 
             WindowState = WindowState.Maximized;
         }
