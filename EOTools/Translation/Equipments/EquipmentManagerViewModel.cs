@@ -69,6 +69,7 @@ public partial class EquipmentManagerViewModel : ObservableObject
             vm.ApiId = vmEdit.ApiId;
             vm.NameEN = vmEdit.NameEN;
             vm.NameJP = vmEdit.NameJP;
+            vm.CanBeCrafted = vmEdit.CanBeCrafted;
             vm.Upgrades = vmEdit.Upgrades;
 
             try

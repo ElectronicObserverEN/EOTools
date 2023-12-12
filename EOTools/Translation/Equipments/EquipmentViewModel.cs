@@ -19,13 +19,16 @@ namespace EOTools.Translation.Equipments;
 public partial class EquipmentViewModel : ObservableObject
 {
     [ObservableProperty]
-    private string nameEN = "";
+    private string _nameEN = "";
 
     [ObservableProperty]
-    private string nameJP = "";
+    private string _nameJP = "";
 
     [ObservableProperty]
-    private int apiId;
+    private int _apiId;
+
+    [ObservableProperty] 
+    private bool _canBeCrafted;
 
     public EquipmentModel Model { get; set; }
 
@@ -45,6 +48,7 @@ public partial class EquipmentViewModel : ObservableObject
         NameEN = model.NameEN;
         NameJP = model.NameJP;
         ApiId = model.ApiId;
+        CanBeCrafted = model.CanBeCrafted;
 
         List<EquipmentUpgradeImprovmentViewModel> upgrades =
             EquipmentUpgradesService.Instance.AllUpgradeModel
@@ -66,6 +70,7 @@ public partial class EquipmentViewModel : ObservableObject
         Model.NameJP = NameJP;
         Model.NameEN = NameEN;
         Model.ApiId = ApiId;
+        Model.CanBeCrafted = CanBeCrafted;
     }
     
     private void ShowUpgradeEditDialog(EquipmentUpgradeImprovmentViewModel vm, bool newEntity)

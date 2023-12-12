@@ -26,6 +26,7 @@
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
 				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
 				<RowDefinition />
 			</Grid.RowDefinitions>
 
@@ -65,8 +66,20 @@
 				Margin="5"
 				Text="{Binding NameJP}" />
 
-			<StackPanel
+			<TextBlock
 				Grid.Row="3"
+				Grid.Column="0"
+				Margin="5"
+				Text="Can be crafted" />
+
+			<CheckBox
+				Grid.Row="3"
+				Grid.Column="1"
+				Margin="5"
+				IsChecked="{Binding CanBeCrafted}" />
+
+			<StackPanel
+				Grid.Row="4"
 				Grid.Column="0"
 				Grid.ColumnSpan="2"
 				Orientation="Vertical">
@@ -106,7 +119,7 @@
 			</StackPanel>
 
 			<StackPanel
-				Grid.Row="4"
+				Grid.Row="5"
 				Grid.Column="0"
 				Grid.ColumnSpan="2"
 				Orientation="Vertical">

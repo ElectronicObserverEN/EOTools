@@ -15,4 +15,7 @@ public class EquipmentModel
 
     [JsonProperty("name_en")]
     public string NameEN { get; set; } = "";
+
+    [JsonProperty("development", DefaultValueHandling = DefaultValueHandling.Ignore)]
+    public bool CanBeCrafted { get; set; }
 }
