@@ -1,36 +1,33 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using System;
-using System.Text;
-using System.Windows;
-using CommunityToolkit.Mvvm.Input;
 
 namespace EOTools.Translation.QuestManager.Updates;
 
 public partial class UpdateViewModel : ObservableObject
 {
     [ObservableProperty]
-    private DateTime updateDate = DateTime.Now;
+    private DateTime? _updateDate = DateTime.Now;
 
     [ObservableProperty]
-    private TimeSpan updateStartTime = TimeSpan.Zero;
+    private TimeSpan? _updateStartTime = TimeSpan.Zero;
 
     [ObservableProperty]
-    private TimeSpan? updateEndTime = null;
+    private TimeSpan? _updateEndTime = null;
 
     [ObservableProperty]
-    private string name = "";
+    private string _name = "";
 
     [ObservableProperty]
-    private string description = "";
+    private string _description = "";
 
     [ObservableProperty]
-    private bool wasLiveUpdate = false;
+    private bool _wasLiveUpdate = false;
 
     [ObservableProperty]
-    private string startTweet = "";
+    private string _startTweet = "";
 
     [ObservableProperty]
-    private string endTweet = "";
+    private string _endTweet = "";
 
     public UpdateModel Model { get; private set; }
 
@@ -58,28 +55,5 @@ public partial class UpdateViewModel : ObservableObject
         Model.UpdateEndTime = UpdateEndTime;
         Model.EndTweetLink = EndTweet;
         Model.StartTweetLink = StartTweet;
-    }
-
-    [RelayCommand]
-    private void CopyDiscordTimeStampToClipBoard()
-    {
-        StringBuilder timestamp = new StringBuilder();
-
-        // Times are in JST, need to convert back to UTC
-        DateTime start = UpdateDate.Add(UpdateStartTime);
-        TimeZoneInfo japaneseTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Tokyo Standard Time");
-        DateTimeOffset startUtcTime = TimeZoneInfo.ConvertTimeToUtc(start, japaneseTimeZone);
-
-        timestamp.AppendLine($"Maintenance starts on <t:{startUtcTime.ToUnixTimeSeconds()}:F> (<t:{startUtcTime.ToUnixTimeSeconds()}:R>)");
-
-        if (UpdateEndTime is { } updateEnd)
-        {
-            DateTime end = UpdateDate.Add(updateEnd);
-            DateTimeOffset endUtcTime = TimeZoneInfo.ConvertTimeToUtc(end, japaneseTimeZone);
-
-            timestamp.AppendLine($"Maintenance should end on <t:{endUtcTime.ToUnixTimeSeconds()}:F> (<t:{endUtcTime.ToUnixTimeSeconds()}:R>)");
-        }
-
-        Clipboard.SetText(timestamp.ToString());
     }
 }

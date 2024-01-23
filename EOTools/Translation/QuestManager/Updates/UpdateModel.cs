@@ -10,10 +10,10 @@ public class UpdateModel
     public int Id { get; set; }
 
     [JsonProperty("start_date")]
-    public DateTime UpdateDate { get; set; } = DateTime.Now;
+    public DateTime? UpdateDate { get; set; } = DateTime.Now;
 
     [JsonProperty("start_time")]
-    public TimeSpan UpdateStartTime { get; set; } = TimeSpan.Zero;
+    public TimeSpan? UpdateStartTime { get; set; } = TimeSpan.Zero;
 
     [JsonProperty("end_time")]
     public TimeSpan? UpdateEndTime { get; set; } = null;
@@ -39,11 +39,14 @@ public class UpdateModel
     /// <returns></returns>
     public bool UpdateIsComing()
     {
-        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
-        DateTime start = UpdateDate.Date.Add(UpdateStartTime);
+        if (UpdateDate is null) return true;
+        if (UpdateStartTime is null) return true;
+
+        DateTime dateNowJst = DateTime.UtcNow + new TimeSpan(9, 0, 0);
+        DateTime start = UpdateDate.Value.Date.Add(UpdateStartTime.Value);
 
         // Update has started ?
-        return start > dateNowJST;
+        return start > dateNowJst;
     }
 
     /// <summary>
@@ -52,19 +55,22 @@ public class UpdateModel
     /// <returns></returns>
     public bool UpdateInProgress()
     {
-        DateTime dateNowJST = DateTime.UtcNow + new TimeSpan(9, 0, 0);
-        DateTime start = UpdateDate.Date.Add(UpdateStartTime);
+        if (UpdateDate is null) return false;
+        if (UpdateStartTime is null) return false;
+
+        DateTime dateNowJst = DateTime.UtcNow + new TimeSpan(9, 0, 0);
+        DateTime start = UpdateDate.Value.Date.Add(UpdateStartTime.Value);
 
         // Update has started and no end time => update in progress
-        if (start < dateNowJST && UpdateEndTime is null) return true;
+        if (start < dateNowJst && UpdateEndTime is null) return true;
 
         // Update has started and end time => update could be in progress
-        if (start < dateNowJST && UpdateEndTime is TimeSpan endTime)
+        if (start < dateNowJst && UpdateEndTime is { } endTime)
         {
-            DateTime end = UpdateDate.Date.Add(endTime);
+            DateTime end = UpdateDate.Value.Date.Add(endTime);
 
             // End didn't happen yet => Update is in progress
-            if (end > dateNowJST) return true;
+            if (end > dateNowJst) return true;
         }
         return false;
     }

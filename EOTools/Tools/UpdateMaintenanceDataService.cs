@@ -35,9 +35,9 @@ public class UpdateMaintenanceDataService
         // get last update : 
         (UpdateModel? update, int updState) = GetMaintenanceState();
 
-        if (update is not null)
+        if (update is { UpdateDate: { } updateDate, UpdateStartTime: { } updateTime })
         {
-            updateData["kancolle_mt"] = $"{update.UpdateDate.Date.Add(update.UpdateStartTime):yyyy/MM/dd HH:mm:ss}";
+            updateData["kancolle_mt"] = $"{updateDate.Date.Add(updateTime):yyyy/MM/dd HH:mm:ss}";
 
             updateData["MaintInfoLink"] = string.IsNullOrEmpty(update.EndTweetLink) switch
             {
@@ -74,10 +74,11 @@ public class UpdateMaintenanceDataService
 
         UpdateModel? update = db.Updates
             .AsEnumerable()
-            .Where(upd => upd.WasLiveUpdate is false)
+            .Where(upd => !upd.WasLiveUpdate)
+            .Where(upd => upd.UpdateDate is not null)
+            .Where(upd => upd.UpdateStartTime is not null)
             .Where(upd => upd.UpdateInProgress() || upd.UpdateIsComing())
-            .OrderBy(upd => upd.UpdateDate)
-            .FirstOrDefault();
+            .MinBy(upd => upd.UpdateDate);
 
         if (update is null)
         {

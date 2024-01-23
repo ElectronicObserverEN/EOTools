@@ -32,11 +32,6 @@
 								CommandParameter="{Binding}"
 								Content="Edit" />
 
-							<Button
-								Margin="5,0,5,0"
-								Command="{Binding CopyDiscordTimeStampToClipBoardCommand}"
-								Content="Copy update message" />
-
 							<StackPanel Margin="5" Orientation="Vertical">
 								<TextBlock
 									Margin="5"
