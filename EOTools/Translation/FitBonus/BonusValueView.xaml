@@ -23,87 +23,96 @@
 	</UserControl.Resources>
 
 	<Grid>
-
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
-			<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
-			<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
-			<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
-		</Grid.ColumnDefinitions>
+		<Button Command="{Binding PasteBonusCommand}" Content="Paste from clipboard" />
 
-		<TextBlock Grid.Row="0" Grid.Column="0">
-			Firepower
-		</TextBlock>
+		<Grid Row="1">
 
-		<ui:NumberBox
-			Grid.Row="0"
-			Grid.Column="1"
-			Value="{Binding Firepower, FallbackValue=0}" />
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
 
-		<TextBlock Grid.Row="0" Grid.Column="2">Torpedo</TextBlock>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
+				<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
+				<ColumnDefinition Width="Auto" SharedSizeGroup="label" />
+				<ColumnDefinition Width="Auto" SharedSizeGroup="value" />
+			</Grid.ColumnDefinitions>
 
-		<ui:NumberBox
-			Grid.Row="0"
-			Grid.Column="3"
-			Value="{Binding Torpedo, FallbackValue=0}" />
+			<TextBlock Grid.Row="0" Grid.Column="0">
+				Firepower
+			</TextBlock>
 
-		<TextBlock Grid.Row="1" Grid.Column="0">AntiAir</TextBlock>
+			<ui:NumberBox
+				Grid.Row="0"
+				Grid.Column="1"
+				Value="{Binding Firepower, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="1"
-			Grid.Column="1"
-			Value="{Binding AntiAir, FallbackValue=0}" />
+			<TextBlock Grid.Row="0" Grid.Column="2">Torpedo</TextBlock>
 
-		<TextBlock Grid.Row="1" Grid.Column="2">Armor</TextBlock>
+			<ui:NumberBox
+				Grid.Row="0"
+				Grid.Column="3"
+				Value="{Binding Torpedo, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="1"
-			Grid.Column="3"
-			Value="{Binding Armor, FallbackValue=0}" />
+			<TextBlock Grid.Row="1" Grid.Column="0">AntiAir</TextBlock>
 
-		<TextBlock Grid.Row="2" Grid.Column="0">Evasion</TextBlock>
+			<ui:NumberBox
+				Grid.Row="1"
+				Grid.Column="1"
+				Value="{Binding AntiAir, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="2"
-			Grid.Column="1"
-			Value="{Binding Evasion, FallbackValue=0}" />
+			<TextBlock Grid.Row="1" Grid.Column="2">Armor</TextBlock>
 
-		<TextBlock Grid.Row="2" Grid.Column="2">ASW</TextBlock>
+			<ui:NumberBox
+				Grid.Row="1"
+				Grid.Column="3"
+				Value="{Binding Armor, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="2"
-			Grid.Column="3"
-			Value="{Binding Asw, FallbackValue=0}" />
+			<TextBlock Grid.Row="2" Grid.Column="0">Evasion</TextBlock>
 
-		<TextBlock Grid.Row="3" Grid.Column="0">LOS</TextBlock>
+			<ui:NumberBox
+				Grid.Row="2"
+				Grid.Column="1"
+				Value="{Binding Evasion, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="3"
-			Grid.Column="1"
-			Value="{Binding Los, FallbackValue=0}" />
+			<TextBlock Grid.Row="2" Grid.Column="2">ASW</TextBlock>
 
-		<TextBlock Grid.Row="3" Grid.Column="2">Accuracy</TextBlock>
+			<ui:NumberBox
+				Grid.Row="2"
+				Grid.Column="3"
+				Value="{Binding Asw, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="3"
-			Grid.Column="3"
-			Value="{Binding Accuracy, FallbackValue=0}" />
+			<TextBlock Grid.Row="3" Grid.Column="0">LOS</TextBlock>
 
-		<TextBlock Grid.Row="4" Grid.Column="0">Range</TextBlock>
+			<ui:NumberBox
+				Grid.Row="3"
+				Grid.Column="1"
+				Value="{Binding Los, FallbackValue=0}" />
 
-		<ui:NumberBox
-			Grid.Row="4"
-			Grid.Column="1"
-			Value="{Binding Range, FallbackValue=0}" />
+			<TextBlock Grid.Row="3" Grid.Column="2">Accuracy</TextBlock>
+
+			<ui:NumberBox
+				Grid.Row="3"
+				Grid.Column="3"
+				Value="{Binding Accuracy, FallbackValue=0}" />
+
+			<TextBlock Grid.Row="4" Grid.Column="0">Range</TextBlock>
+
+			<ui:NumberBox
+				Grid.Row="4"
+				Grid.Column="1"
+				Value="{Binding Range, FallbackValue=0}" />
 
 
+		</Grid>
 	</Grid>
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿using EOTools.Models.FitBonus;
 using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -59,6 +61,19 @@ namespace EOTools.Translation.FitBonus
             Model.ASW = Asw != 0 ? Asw : null;
             Model.Evasion = Evasion != 0 ? Evasion : null;
             Model.Accuracy = Accuracy != 0 ? Accuracy : null;
+        }
+
+        [RelayCommand]
+        private void PasteBonus()
+        {
+            string text = Clipboard.GetText();
+
+            FitBonusValueModel? bonus = JsonConvert.DeserializeObject<FitBonusValueModel>(text);
+
+            if (bonus is null) return;
+
+            Model = bonus;
+            LoadFromModel();
         }
     }
 }
