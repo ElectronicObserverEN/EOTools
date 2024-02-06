@@ -1,6 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
@@ -13,6 +15,7 @@ using EOTools.Translation.Ships.ShipClass;
 using EOTools.Translation.Ships.ShipList;
 using EOTools.Translation.Ships.ShipNationality;
 using EOTools.Translation.Ships.ShipType;
+using Newtonsoft.Json;
 
 namespace EOTools.Translation.FitBonus
 {
@@ -338,6 +341,45 @@ namespace EOTools.Translation.FitBonus
         private void RemoveEquipment(EquipmentModel model)
         {
             EquipmentRequired.Remove(model);
+        }
+
+        [RelayCommand]
+        private void PasteShipsIds()
+        {
+            List<int>? ids = JsonConvert.DeserializeObject<List<int>?>(Clipboard.GetText());
+
+            if (ids is null) return;
+
+            foreach (int id in ids)
+            {
+                ShipsIds.Add(Database.Ships.First(s => s.ApiId == id));
+            }
+        }
+
+        [RelayCommand]
+        private void PasteShipsMasterIds()
+        {
+            List<int>? ids = JsonConvert.DeserializeObject<List<int>?>(Clipboard.GetText());
+
+            if (ids is null) return;
+
+            foreach (int id in ids)
+            {
+                ShipsMasterIds.Add(Database.Ships.First(s => s.ApiId == id));
+            }
+        }
+
+        [RelayCommand]
+        private void PasteShipsClassesIds()
+        {
+            List<int>? ids = JsonConvert.DeserializeObject<List<int>?>(Clipboard.GetText());
+
+            if (ids is null) return;
+
+            foreach (int id in ids)
+            {
+                ShipClasses.Add(Database.ShipClass.First(s => s.ApiId == id));
+            }
         }
     }
 }

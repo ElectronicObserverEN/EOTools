@@ -39,7 +39,8 @@
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="Auto" SharedSizeGroup="buttons" />
+							<ColumnDefinition Width="Auto" SharedSizeGroup="buttons" />
 							<ColumnDefinition Width="*" />
 						</Grid.ColumnDefinitions>
 
@@ -64,7 +65,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="0"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding ShipsMasterIds}">
 							<ui:ItemsRepeater.Layout>
 								<ui:StackLayout Orientation="Horizontal" />
@@ -88,6 +89,12 @@
 							Command="{Binding AddShipMasterIdCommand}"
 							Content="Add ship" />
 
+						<Button
+							Grid.Row="0"
+							Grid.Column="2"
+							Command="{Binding PasteShipsMasterIdsCommand}"
+							Content="Paste" />
+
 						<TextBlock
 							Grid.Row="1"
 							Grid.Column="0"
@@ -96,7 +103,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="1"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding ShipsIds}">
 
 							<ui:ItemsRepeater.Layout>
@@ -122,6 +129,12 @@
 							Command="{Binding AddShipIdCommand}"
 							Content="Add ship" />
 
+						<Button
+							Grid.Row="1"
+							Grid.Column="2"
+							Command="{Binding PasteShipsIdsCommand}"
+							Content="Paste" />
+
 						<TextBlock
 							Grid.Row="2"
 							Grid.Column="0"
@@ -130,7 +143,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="2"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding ShipClasses}">
 
 							<ui:ItemsRepeater.Layout>
@@ -154,6 +167,12 @@
 							Command="{Binding AddShipClassCommand}"
 							Content="Add class" />
 
+						<Button
+							Grid.Row="2"
+							Grid.Column="2"
+							Command="{Binding PasteShipsClassesIdsCommand}"
+							Content="Paste" />
+
 						<TextBlock
 							Grid.Row="3"
 							Grid.Column="0"
@@ -162,7 +181,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="3"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding ShipNationalities}">
 
 							<ui:ItemsRepeater.Layout>
@@ -194,7 +213,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="4"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding ShipTypeList}">
 
 							<ui:ItemsRepeater.Layout>
@@ -226,7 +245,7 @@
 
 						<ui:ItemsRepeater
 							Grid.Row="5"
-							Grid.Column="2"
+							Grid.Column="3"
 							ItemsSource="{Binding EquipmentRequired}">
 
 							<ui:ItemsRepeater.Layout>
@@ -294,7 +313,7 @@
 						<Grid
 							Grid.Row="9"
 							Grid.Column="0"
-							ColumnSpan="3">
+							ColumnSpan="4">
 
 							<Grid.RowDefinitions>
 								<RowDefinition Height="Auto" />
