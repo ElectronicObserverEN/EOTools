@@ -25,6 +25,9 @@ namespace EOTools.Models.FitBonus
         [JsonProperty("saku")]
         public int? LOS { get; set; }
 
+        [JsonProperty("baku")] 
+        public int? Bombing { get; set; }
+
         /// <summary>
         /// Visible acc fit actually doesn't work according to some studies
         /// </summary>

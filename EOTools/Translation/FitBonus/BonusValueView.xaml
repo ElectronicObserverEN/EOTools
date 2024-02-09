@@ -112,6 +112,12 @@
 				Grid.Column="1"
 				Value="{Binding Range, FallbackValue=0}" />
 
+			<TextBlock Grid.Row="4" Grid.Column="2">Bombing</TextBlock>
+
+			<ui:NumberBox
+				Grid.Row="4"
+				Grid.Column="3"
+				Value="{Binding Bombing, FallbackValue=0}" />
 
 		</Grid>
 	</Grid>

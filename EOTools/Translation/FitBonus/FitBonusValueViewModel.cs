@@ -19,6 +19,7 @@ namespace EOTools.Translation.FitBonus
         [ObservableProperty] private int _los;
         [ObservableProperty] private int _accuracy;
         [ObservableProperty] private int _range;
+        [ObservableProperty] private int _bombing;
 
         public FitBonusValueViewModel(FitBonusValueModel model)
         {
@@ -34,6 +35,7 @@ namespace EOTools.Translation.FitBonus
         public Visibility DisplayEvasion => Model.Evasion is null ? Visibility.Collapsed : Visibility.Visible;
         public Visibility DisplayASW => Model.ASW is null ? Visibility.Collapsed : Visibility.Visible;
         public Visibility DisplayLOS => Model.LOS is null ? Visibility.Collapsed : Visibility.Visible;
+        public Visibility DisplayBombing => Model.Bombing is null ? Visibility.Collapsed : Visibility.Visible;
         public Visibility DisplayAccuracy => Model.Accuracy is null ? Visibility.Collapsed : Visibility.Visible;
         public Visibility DisplayRange => Model.Range is null ? Visibility.Collapsed : Visibility.Visible;
 
@@ -48,6 +50,7 @@ namespace EOTools.Translation.FitBonus
             Asw = Model.ASW ?? 0;
             Evasion = Model.Evasion ?? 0;
             Accuracy = Model.Accuracy ?? 0;
+            Bombing = Model.Bombing ?? 0;
         }
 
         public void SaveChanges()
@@ -61,6 +64,7 @@ namespace EOTools.Translation.FitBonus
             Model.ASW = Asw != 0 ? Asw : null;
             Model.Evasion = Evasion != 0 ? Evasion : null;
             Model.Accuracy = Accuracy != 0 ? Accuracy : null;
+            Model.Bombing = Bombing != 0 ? Bombing : null;
         }
 
         [RelayCommand]
