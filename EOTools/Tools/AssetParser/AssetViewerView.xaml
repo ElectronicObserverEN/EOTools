@@ -1,0 +1,33 @@
+﻿<Window
+	x:Class="EOTools.Tools.AssetParser.AssetViewerView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Tools.AssetParser"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:ui="http://schemas.modernwpf.com/2019"
+	Title="Assert viewer"
+	Width="800"
+	Height="450"
+	d:DataContext="{d:DesignInstance local:AssetViewModel}"
+	ui:WindowHelper.UseModernWindowStyle="True"
+	mc:Ignorable="d">
+	<Grid>
+		<ScrollViewer>
+			<ui:ItemsRepeater ItemsSource="{Binding Parts}">
+				<ui:ItemsRepeater.Layout>
+					<ui:StackLayout Orientation="Vertical" />
+				</ui:ItemsRepeater.Layout>
+
+				<ui:ItemsRepeater.ItemTemplate>
+					<DataTemplate DataType="local:AssetPartViewModel">
+						<Grid>
+							<Image Width="{Binding FrameData.FrameDimensions.Width}" Source="{Binding Image}" />
+							<TextBlock Text="{Binding FrameData.Name}" />
+						</Grid>
+					</DataTemplate>
+				</ui:ItemsRepeater.ItemTemplate>
+			</ui:ItemsRepeater>
+		</ScrollViewer>
+	</Grid>
+</Window>

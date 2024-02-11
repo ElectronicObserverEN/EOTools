@@ -14,6 +14,7 @@ using EOTools.Translation.QuestManager.Updates;
 using EOTools.Translation.Ships;
 using Microsoft.EntityFrameworkCore;
 using System.Windows;
+using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.Translation.Ships.ShipClass;
 
 namespace EOTools
@@ -23,8 +24,12 @@ namespace EOTools
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ToolManager Tools { get; }
+
         public MainWindow()
         {
+            Tools = Ioc.Default.GetRequiredService<ToolManager>();
+
             InitializeComponent();
 
             AppSettings.LoadSettings();
@@ -163,5 +168,9 @@ namespace EOTools
             service.PullAndRestoreDataBase();
         }
 
+        private async void OpenAssetViewer(object sender, RoutedEventArgs e)
+        {
+            await Tools.OpenAssetViewer();
+        }
     }
 }

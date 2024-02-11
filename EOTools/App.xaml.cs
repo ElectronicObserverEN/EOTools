@@ -10,6 +10,8 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using EOTools.Tools;
+using EOTools.Tools.AssetParser;
 
 namespace EOTools
 {
@@ -29,6 +31,15 @@ namespace EOTools
             e.Handled = true;
         }
 
+        public static async Task ShowErrorMessage(string message)
+        {
+            ContentDialog errorDialog = new();
+            errorDialog.Content = message;
+            errorDialog.CloseButtonText = "Close";
+
+            await errorDialog.ShowAsync();
+        }
+
         public static async Task ShowErrorMessage(Exception ex)
         {
             while (ex.InnerException != null)
@@ -36,11 +47,7 @@ namespace EOTools
                 ex = ex.InnerException;
             }
 
-            ContentDialog errorDialog = new ContentDialog();
-            errorDialog.Content = $"{ex.Message}\n\n\n\n{ex.StackTrace}";
-            errorDialog.CloseButtonText = "Close";
-
-            await errorDialog.ShowAsync();
+            await ShowErrorMessage($"{ex.Message}\n\n\n\n{ex.StackTrace}");
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -50,6 +57,9 @@ namespace EOTools
                 .AddSingleton<CurrentDeckService>()
                 .AddSingleton<ElectronicObserverApiService>()
                 .AddSingleton<FitBonusManager>()
+                .AddSingleton<AssetStructureReader>()
+                .AddSingleton<AssetReader>()
+                .AddSingleton<ToolManager>()
                 .AddDbContext<EOToolsDbContext>()
                 .BuildServiceProvider();
 
