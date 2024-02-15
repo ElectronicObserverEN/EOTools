@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.Translation.Ships.ShipClass;
+using EOTools.Translation.FitBonus.FitBonusChecker;
 
 namespace EOTools
 {

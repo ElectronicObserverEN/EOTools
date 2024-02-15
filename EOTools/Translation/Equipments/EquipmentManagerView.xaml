@@ -56,6 +56,11 @@
 					Margin="5"
 					Command="{Binding OpenEquipmentUpgradeCheckerCommand}"
 					Content="Check upgrade data" />
+
+				<Button
+					Margin="5"
+					Command="{Binding OpenFitBonusCheckerCommand}"
+					Content="Check fit bonuses" />
 			</StackPanel>
 		</StackPanel>
 

@@ -1,0 +1,18 @@
+﻿<UserControl
+	x:Class="EOTools.Control.Grid.DataGridWithPagination"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:controls="http://schemas.modernwpf.com/2019"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:EOTools.Control.Grid"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="DataGridWithPaginationControl"
+	d:DataContext="{d:DesignInstance local:DataGridWithPagination}"
+	d:DesignHeight="450"
+	d:DesignWidth="800"
+	mc:Ignorable="d">
+
+	<Grid DataContext="{Binding ViewModel, ElementName=DataGridWithPaginationControl}">
+		<DataGrid AutoGenerateColumns="True" ItemsSource="{Binding DisplayedData}" />
+	</Grid>
+</UserControl>

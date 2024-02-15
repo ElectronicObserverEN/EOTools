@@ -19,7 +19,7 @@ namespace EOTools
     /// Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
-  {
+    {
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             // Process unhandled exception
