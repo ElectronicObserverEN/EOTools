@@ -15,6 +15,24 @@
 	Loaded="FitBonusCheckerView_OnLoaded"
 	mc:Ignorable="d">
 	<Grid>
-		<grid:DataGridWithPagination ViewModel="{Binding Pagination}" />
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Pagination.DisplayedData}">
+			<DataGrid.Columns>
+				<DataGridTextColumn
+					Binding="{Binding Ship.NameEN}"
+					Header="Ship"
+					IsReadOnly="True" />
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<grid:PaginationControl
+			Grid.Row="1"
+			Margin="20,10"
+			HorizontalAlignment="Right"
+			ViewModel="{Binding Pagination}" />
 	</Grid>
 </Window>

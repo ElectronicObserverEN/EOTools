@@ -6,10 +6,10 @@ namespace EOTools.Control.Grid;
 /// <summary>
 /// Interaction logic for DataGridWithPagination.xaml
 /// </summary>
-public partial class DataGridWithPagination : UserControl
+public partial class PaginationControl
 {
     public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
-        "ViewModel", typeof(PaginationViewModel), typeof(DataGridWithPagination), new PropertyMetadata(default(PaginationViewModel)));
+        "ViewModel", typeof(PaginationViewModel), typeof(PaginationControl), new PropertyMetadata(default(PaginationViewModel)));
 
     public PaginationViewModel ViewModel
     {
@@ -17,7 +17,7 @@ public partial class DataGridWithPagination : UserControl
         set => SetValue(ViewModelProperty, value);
     }
 
-    public DataGridWithPagination()
+    public PaginationControl()
     {
         InitializeComponent();
     }

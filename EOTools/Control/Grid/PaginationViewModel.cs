@@ -19,27 +19,61 @@ public partial class PaginationViewModel : ObservableObject
     }];
 
     [ObservableProperty]
-    private int _selectedPage = 1;
+    private PaginationPageViewModel _currentPage;
 
-    public int CountPerPage => 10;
+    public int ItemsPerPage => 10;
+
+    [ObservableProperty]
+    private PaginationPageViewModel _lastPage;
 
     public required IDataFetcher Fetcher { get; set; }
+
+    public PaginationViewModel()
+    {
+        _currentPage = Pages.First();
+        _lastPage = Pages.Last();
+    }
 
     [RelayCommand]
     public async Task Reload()
     {
-        PaginatedResultModel<IGridRowFetched>? result = await Fetcher.LoadData((SelectedPage - 1) * CountPerPage, SelectedPage * CountPerPage);
+        PaginatedResultModel<IGridRowFetched>? result = await Fetcher.LoadData((CurrentPage.PageIndex - 1) * ItemsPerPage, ItemsPerPage);
 
         if (result is null) return;
 
         DisplayedData = result.Results;
+        List<PaginationPageViewModel> paginationPageViewModels = new();
 
-        int index = 0;
-
-        Pages = Enumerable
-            .Repeat<PaginationPageViewModel>(new()
+        for (int index = 0; index < result.TotalCount / ItemsPerPage; index++)
+        {
+            paginationPageViewModels.Add(new()
             {
-                PageIndex = ++index
-            }, result.TotalCount / CountPerPage);
+                PageIndex = index + 1,
+            });
+        }
+
+        Pages = paginationPageViewModels;
+
+        CurrentPage = paginationPageViewModels.Find(page => page.PageIndex == CurrentPage.PageIndex) ?? paginationPageViewModels[0];
+
+        LastPage = paginationPageViewModels[^1];
+    }
+
+    [RelayCommand]
+    private async Task PreviousPage()
+    {
+        List<PaginationPageViewModel> paginationPageViewModels = Pages.ToList();
+        CurrentPage = paginationPageViewModels.Find(page => page.PageIndex == CurrentPage.PageIndex - 1) ?? paginationPageViewModels[0];
+
+        await Reload();
+    }
+
+    [RelayCommand]
+    private async Task NextPage()
+    {
+        List<PaginationPageViewModel> paginationPageViewModels = Pages.ToList();
+        CurrentPage = paginationPageViewModels.Find(page => page.PageIndex == CurrentPage.PageIndex + 1) ?? paginationPageViewModels[^1];
+
+        await Reload();
     }
 }
