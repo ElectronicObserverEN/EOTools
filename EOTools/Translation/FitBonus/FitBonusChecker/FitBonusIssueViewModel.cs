@@ -1,8 +1,10 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.Generic;
+using CommunityToolkit.Mvvm.ComponentModel;
 using EOTools.DataBase;
 using EOTools.Models.Ships;
 using System.Linq;
 using EOTools.Control.Grid;
+using EOTools.Models;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
@@ -14,6 +16,9 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
 
     [ObservableProperty] 
     private ShipModel _ship = new();
+
+    [ObservableProperty]
+    private List<EquipmentModel> _equipments = new();
 
     public FitBonusIssueViewModel(FitBonusIssueModel model, EOToolsDbContext db)
     {
@@ -27,5 +32,9 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
     {
         Ship = Database.Ships
             .FirstOrDefault(ship => ship.ApiId == Model.Ship.ShipId) ?? new ShipModel();
+
+        Equipments = Model.Equipments
+            .Select(eq => Database.Equipments.FirstOrDefault(eqDb => eqDb.ApiId == eq.EquipmentId) ?? new())
+            .ToList();
     }
 }

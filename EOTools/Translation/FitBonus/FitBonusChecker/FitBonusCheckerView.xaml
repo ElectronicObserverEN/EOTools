@@ -6,6 +6,7 @@
 	xmlns:grid="clr-namespace:EOTools.Control.Grid"
 	xmlns:local="clr-namespace:EOTools.Translation.FitBonus.FitBonusChecker"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:models="clr-namespace:EOTools.Models"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="Check fit bonuses"
 	Width="1000"
@@ -16,16 +17,35 @@
 	mc:Ignorable="d">
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
-		<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Pagination.DisplayedData}">
+		<DataGrid
+			AutoGenerateColumns="False"
+			ItemsSource="{Binding Pagination.DisplayedData}"
+			VerticalScrollBarVisibility="Visible">
 			<DataGrid.Columns>
 				<DataGridTextColumn
 					Binding="{Binding Ship.NameEN}"
 					Header="Ship"
 					IsReadOnly="True" />
+
+				<DataGridTemplateColumn Header="Equipments" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="{x:Type local:FitBonusIssueViewModel}">
+							<Grid>
+								<ui:ItemsRepeater ItemsSource="{Binding Equipments}">
+									<ui:ItemsRepeater.ItemTemplate>
+										<DataTemplate DataType="{x:Type models:EquipmentModel}">
+											<TextBlock Text="{Binding NameEN}" />
+										</DataTemplate>
+									</ui:ItemsRepeater.ItemTemplate>
+								</ui:ItemsRepeater>
+							</Grid>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 
