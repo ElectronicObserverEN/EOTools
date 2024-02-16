@@ -6,6 +6,8 @@ namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
 public record FitBonusIssueModel
 {
+    [JsonPropertyName("id")] public int Id { get; set; }
+
     [JsonPropertyName("software_version")] public string SoftwareVersion { get; set; } = "";
 
     [JsonPropertyName("data_version")] public int DataVersion { get; set; }

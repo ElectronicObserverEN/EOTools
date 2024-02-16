@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using EOTools.DataBase;
+using EOTools.ElectronicObserverApi;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
@@ -11,8 +12,9 @@ public partial class FitBonusCheckerView
     public FitBonusCheckerView()
     {
         EOToolsDbContext db = Ioc.Default.GetRequiredService<EOToolsDbContext>();
+        ElectronicObserverApiService api = Ioc.Default.GetRequiredService<ElectronicObserverApiService>();
 
-        ViewModel = new FitBonusCheckerViewModel(db);
+        ViewModel = new FitBonusCheckerViewModel(db, api);
 
         DataContext = ViewModel;
 

@@ -168,6 +168,17 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
+
+				<DataGridTemplateColumn Header="Actions" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate DataType="{x:Type local:FitBonusIssueViewModel}">
+							<Button
+								Command="{Binding DataContext.SetAsFixedCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:FitBonusCheckerView}}"
+								CommandParameter="{Binding Id}"
+								Content="Set as fixed" />
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
 

@@ -3,6 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using EOTools.DataBase;
 using EOTools.Models.Ships;
 using System.Linq;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.Input;
 using EOTools.Control.Grid;
 using EOTools.Models;
 using EOTools.Models.FitBonus;
@@ -26,6 +28,8 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
 
     [ObservableProperty]
     private FitBonusValueModel _actualValue = new ();
+
+    public int Id => Model.Id;
 
     public FitBonusIssueViewModel(FitBonusIssueModel model, EOToolsDbContext db)
     {

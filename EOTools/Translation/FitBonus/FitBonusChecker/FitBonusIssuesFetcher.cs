@@ -8,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
-public class FitBonusIssuesFetcher(EOToolsDbContext db) : IDataFetcher
+public class FitBonusIssuesFetcher(EOToolsDbContext db, ElectronicObserverApiService api) : IDataFetcher
 {
     public async Task<PaginatedResultModel<IGridRowFetched>?> LoadData(int skip, int take)
     {
         if (string.IsNullOrEmpty(AppSettings.ElectronicObserverApiUrl)) return null;
-        ElectronicObserverApiService api = Ioc.Default.GetRequiredService<ElectronicObserverApiService>();
 
         PaginatedResultModel<FitBonusIssueModel>? result = await api.GetJson<PaginatedResultModel<FitBonusIssueModel>>($"FitBonusIssues?issueState=1&skip={skip}&take={take}");
 
