@@ -5,6 +5,7 @@ using EOTools.Models;
 using EOTools.Models.EquipmentUpgrade;
 using EOTools.Tools;
 using EOTools.Translation.Equipments.UpgradeChecker;
+using EOTools.Translation.FitBonus.FitBonusChecker;
 using ModernWpf.Controls;
 using Newtonsoft.Json.Linq;
 using System;
@@ -318,6 +319,12 @@ public partial class EquipmentManagerViewModel : ObservableObject
     {
         UpgradeCheckerView view = new UpgradeCheckerView();
         view.Show();
+    }
+
+    [RelayCommand]
+    private void OpenFitBonusChecker()
+    {
+        new FitBonusCheckerView().Show();
     }
     #endregion
 }
