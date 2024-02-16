@@ -5,6 +5,7 @@ using EOTools.Models.Ships;
 using System.Linq;
 using EOTools.Control.Grid;
 using EOTools.Models;
+using EOTools.Models.FitBonus;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
@@ -19,6 +20,12 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
 
     [ObservableProperty]
     private List<EquipmentModel> _equipments = new();
+
+    [ObservableProperty]
+    private FitBonusValueModel _expectedValue = new();
+
+    [ObservableProperty]
+    private FitBonusValueModel _actualValue = new ();
 
     public FitBonusIssueViewModel(FitBonusIssueModel model, EOToolsDbContext db)
     {
@@ -36,5 +43,8 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
         Equipments = Model.Equipments
             .Select(eq => Database.Equipments.FirstOrDefault(eqDb => eqDb.ApiId == eq.EquipmentId) ?? new())
             .ToList();
+
+        ExpectedValue = Model.ExpectedBonus;
+        ActualValue = Model.ActualBonus;
     }
 }

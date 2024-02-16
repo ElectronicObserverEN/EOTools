@@ -1,20 +1,20 @@
 ﻿using EOTools.Models.FitBonus;
-using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
 public record FitBonusIssueModel
 {
-    [JsonProperty("software_version")] public string SoftwareVersion { get; set; } = "";
+    [JsonPropertyName("software_version")] public string SoftwareVersion { get; set; } = "";
 
-    [JsonProperty("data_version")] public int DataVersion { get; set; }
+    [JsonPropertyName("data_version")] public int DataVersion { get; set; }
 
-    [JsonProperty("expected")] public FitBonusValueModel ExpectedBonus { get; set; } = new();
+    [JsonPropertyName("expected")] public required FitBonusValueModel ExpectedBonus { get; set; }
 
-    [JsonProperty("actual")] public FitBonusValueModel ActualBonus { get; set; } = new();
+    [JsonPropertyName("actual")] public required FitBonusValueModel ActualBonus { get; set; }
 
-    [JsonProperty("ship")] public ShipWithStatsModel Ship { get; set; } = new();
+    [JsonPropertyName("ship")] public required ShipWithStatsModel Ship { get; set; }
 
-    [JsonProperty("equipments")] public List<EquipmentWithStatsModel> Equipments { get; set; } = new();
+    [JsonPropertyName("equipments")] public required List<EquipmentWithStatsModel> Equipments { get; set; }
 }

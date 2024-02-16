@@ -1,33 +1,33 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
 public record ShipWithStatsModel
 {
-    [JsonProperty("shipId")] public int ShipId { get; set; }
+    [JsonPropertyName("shipId")] public int ShipId { get; set; }
 
-    [JsonProperty("level")] public int Level { get; set; }
+    [JsonPropertyName("level")] public int Level { get; set; }
 
-    [JsonProperty("firepower")] public int Firepower { get; set; }
+    [JsonPropertyName("firepower")] public int Firepower { get; set; }
 
-    [JsonProperty("torpedo")] public int Torpedo { get; set; }
+    [JsonPropertyName("torpedo")] public int Torpedo { get; set; }
 
-    [JsonProperty("antiAir")] public int AntiAir { get; set; }
+    [JsonPropertyName("antiAir")] public int AntiAir { get; set; }
 
-    [JsonProperty("armor")] public int Armor { get; set; }
+    [JsonPropertyName("armor")] public int Armor { get; set; }
 
-    [JsonProperty("evasion")] public int Evasion { get; set; }
-    [JsonProperty("evasionKnown")] public bool EvasionDetermined { get; set; }
+    [JsonPropertyName("evasion")] public int Evasion { get; set; }
+    [JsonPropertyName("evasionKnown")] public bool EvasionDetermined { get; set; }
 
-    [JsonProperty("asw")] public int ASW { get; set; }
-    [JsonProperty("aswKnown")] public bool ASWDetermined { get; set; }
+    [JsonPropertyName("asw")] public int ASW { get; set; }
+    [JsonPropertyName("aswKnown")] public bool ASWDetermined { get; set; }
 
-    [JsonProperty("los")] public int LOS { get; set; }
-    [JsonProperty("losKnown")] public bool LOSDetermined { get; set; }
+    [JsonPropertyName("los")] public int LOS { get; set; }
+    [JsonPropertyName("losKnown")] public bool LOSDetermined { get; set; }
 
-    [JsonProperty("accuracy")] public int Accuracy { get; set; }
+    [JsonPropertyName("accuracy")] public int Accuracy { get; set; }
 
-    [JsonProperty("range")] public int Range { get; set; }
+    [JsonPropertyName("range")] public int Range { get; set; }
 
     public bool IsSameShip(ShipWithStatsModel? otherModel)
     {

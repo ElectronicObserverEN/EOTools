@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
 public record EquipmentWithStatsModel
 {
-    [JsonProperty("equipmentId")] public int EquipmentId { get; set; }
+    [JsonPropertyName("equipmentId")] public int EquipmentId { get; set; }
 
-    [JsonProperty("level")] public int Level { get; set; }
+    [JsonPropertyName("level")] public int Level { get; set; }
 
     public virtual bool Equals(EquipmentWithStatsModel? other)
     {
