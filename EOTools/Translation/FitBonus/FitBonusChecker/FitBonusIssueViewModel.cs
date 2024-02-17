@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
-using CommunityToolkit.Mvvm.ComponentModel;
-using EOTools.DataBase;
-using EOTools.Models.Ships;
-using System.Linq;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using EOTools.Control.Grid;
-using EOTools.Models;
+using EOTools.DataBase;
 using EOTools.Models.FitBonus;
+using EOTools.Models.Ships;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EOTools.Translation.FitBonus.FitBonusChecker;
 
@@ -17,17 +14,17 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
 
     private EOToolsDbContext Database { get; }
 
-    [ObservableProperty] 
+    [ObservableProperty]
     private ShipModel _ship = new();
 
     [ObservableProperty]
-    private List<EquipmentModel> _equipments = new();
+    private List<EquipmentWithStatsViewModel> _equipments = new();
 
     [ObservableProperty]
     private FitBonusValueModel _expectedValue = new();
 
     [ObservableProperty]
-    private FitBonusValueModel _actualValue = new ();
+    private FitBonusValueModel _actualValue = new();
 
     public int Id => Model.Id;
 
@@ -45,7 +42,7 @@ public partial class FitBonusIssueViewModel : ObservableObject, IGridRowFetched
             .FirstOrDefault(ship => ship.ApiId == Model.Ship.ShipId) ?? new ShipModel();
 
         Equipments = Model.Equipments
-            .Select(eq => Database.Equipments.FirstOrDefault(eqDb => eqDb.ApiId == eq.EquipmentId) ?? new())
+            .Select(eq => new EquipmentWithStatsViewModel(eq, Database))
             .ToList();
 
         ExpectedValue = Model.ExpectedBonus;

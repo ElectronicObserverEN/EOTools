@@ -6,7 +6,6 @@
 	xmlns:grid="clr-namespace:EOTools.Control.Grid"
 	xmlns:local="clr-namespace:EOTools.Translation.FitBonus.FitBonusChecker"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:models="clr-namespace:EOTools.Models"
 	xmlns:ui="http://schemas.modernwpf.com/2019"
 	Title="Check fit bonuses"
 	Width="1000"
@@ -37,8 +36,10 @@
 							<Grid>
 								<ui:ItemsRepeater ItemsSource="{Binding Equipments}">
 									<ui:ItemsRepeater.ItemTemplate>
-										<DataTemplate DataType="{x:Type models:EquipmentModel}">
-											<TextBlock Text="{Binding NameEN}" />
+										<DataTemplate DataType="{x:Type local:EquipmentWithStatsViewModel}">
+											<TextBlock>
+												<Run Text="{Binding Equipment.NameEN}" /> <Run Text="+" /><Run Text="{Binding Level}" />
+											</TextBlock>
 										</DataTemplate>
 									</ui:ItemsRepeater.ItemTemplate>
 								</ui:ItemsRepeater>
