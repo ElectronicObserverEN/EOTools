@@ -44,7 +44,7 @@ public partial class PaginationViewModel : ObservableObject
         DisplayedData = result.Results;
         List<PaginationPageViewModel> paginationPageViewModels = new();
 
-        for (int index = 0; index < result.TotalCount / ItemsPerPage; index++)
+        for (int index = 0; index <= result.TotalCount / ItemsPerPage; index++)
         {
             paginationPageViewModels.Add(new()
             {
