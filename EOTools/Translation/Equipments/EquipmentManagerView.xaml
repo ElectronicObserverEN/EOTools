@@ -59,6 +59,11 @@
 
 				<Button
 					Margin="5"
+					Command="{Binding UpdateFitBonusCommand}"
+					Content="Update fit bonuses" />
+
+				<Button
+					Margin="5"
 					Command="{Binding OpenFitBonusCheckerCommand}"
 					Content="Check fit bonuses" />
 			</StackPanel>

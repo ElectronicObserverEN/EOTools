@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using EOTools.Models;
 using EOTools.Tools;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using EOTools.Models.FitBonus;
 
@@ -34,14 +34,18 @@ namespace EOTools.Translation.FitBonus
             }
         }
 
+        private FitBonusUpdaterService FitBonusUpdaterService { get; }
+
         public string FitBonusFilePath => Path.Combine(ElectronicObserverDataFolderPath, "Data", "FitBonuses.json");
         public string UpdateFilePath => Path.Combine(ElectronicObserverDataFolderPath, "update.json");
 
-        public ObservableCollection<FitBonusPerEquipmentViewModel> FitBonuses { get; set; } = new ObservableCollection<FitBonusPerEquipmentViewModel>();
+        public ObservableCollection<FitBonusPerEquipmentViewModel> FitBonuses { get; set; } = new();
 
 
-        public FitBonusManager()
+        public FitBonusManager(FitBonusUpdaterService updateService)
         {
+            FitBonusUpdaterService = updateService;
+
             if (!string.IsNullOrEmpty(ElectronicObserverDataFolderPath) && File.Exists(FitBonusFilePath))
             {
                 LoadFile();
@@ -78,6 +82,21 @@ namespace EOTools.Translation.FitBonus
                     ElectronicObserverDataFolderPath = dialog.SelectedPath;
                 }
             }
+        }
+
+        public async Task UpdateThenSaveFileThenPush()
+        {
+            List<FitBonusPerEquipmentViewModel>? bonuses = await FitBonusUpdaterService.GetFitBonuses();
+
+            if (bonuses is null) return;
+            FitBonuses.Clear();
+
+            foreach (FitBonusPerEquipmentViewModel bonus in bonuses)
+            {
+                FitBonuses.Add(bonus);
+            }
+
+            SaveFileThenPush();
         }
 
         [RelayCommand]

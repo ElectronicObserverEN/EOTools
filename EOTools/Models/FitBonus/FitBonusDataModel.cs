@@ -39,7 +39,7 @@ namespace EOTools.Models.FitBonus
 
 
         [JsonProperty("requiresType")]
-        public List<int?>? EquipmentTypesRequired { get; set; } = null;
+        public List<int>? EquipmentTypesRequired { get; set; } = null;
 
         [JsonProperty("requiresNumType")]
         public int? NumberOfEquipmentTypesRequired { get; set; }
@@ -64,16 +64,20 @@ namespace EOTools.Models.FitBonus
         [JsonProperty("bonus")]
         public FitBonusValueModel? Bonuses { get; set; } = null;
 
-        /// <summary>
-        /// Bonuses to apply if ship had a radar with LOS >= 5
-        /// </summary>
-        [JsonProperty("bonusSR")]
-        public FitBonusValueModel? BonusesIfLOSRadar { get; set; } = null;
 
         /// <summary>
-        /// Bonuses to apply if ship had a radar with AA >= 2
+        /// Bonuses to apply if ship has a radar with LOS >= 5
         /// </summary>
-        [JsonProperty("bonusAR")]
-        public FitBonusValueModel? BonusesIfAirRadar { get; set; } = null;
+        [JsonProperty("bonusSR")] public FitBonusValueModel? BonusesIfSurfaceRadar { get; set; }
+
+        /// <summary>
+        /// Bonuses to apply if ship has a radar with AA >= 2
+        /// </summary>
+        [JsonProperty("bonusAR")] public FitBonusValueModel? BonusesIfAirRadar { get; set; }
+
+        /// <summary>
+        /// Bonuses to apply if ship has a radar with ACC >= 8
+        /// </summary>
+        [JsonProperty("bonusAccR")] public FitBonusValueModel? BonusesIfAccuracyRadar { get; set; }
     }
 }

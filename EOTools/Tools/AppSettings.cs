@@ -122,6 +122,17 @@ namespace EOTools.Tools
                 Ioc.Default.GetRequiredService<ElectronicObserverApiService>().Initialize();
             }
         }
+
+        private static string _fitBonusSourceUrl = "";
+        public static string FitBonusSourceUrl
+        {
+            get => _fitBonusSourceUrl;
+            set
+            {
+                _fitBonusSourceUrl = value;
+                WriteSettings();
+            }
+        }
         #endregion
 
         private const string SettingFileName = @"Config.json";
@@ -137,41 +148,46 @@ namespace EOTools.Tools
 
             if (_jsonSettings is null) return;
 
-            JToken _value;
+            JToken? value;
 
-            if (_jsonSettings.TryGetValue("GetDataPath", out _value))
+            if (_jsonSettings.TryGetValue("GetDataPath", out value))
             {
-                kancolleEOAPIFolder = _value.ToString();
+                kancolleEOAPIFolder = value.ToString();
             }
 
-            if (_jsonSettings.TryGetValue("ShipIconFolder", out _value))
+            if (_jsonSettings.TryGetValue("ShipIconFolder", out value))
             {
-                shipIconFolder = _value.ToString();
+                shipIconFolder = value.ToString();
             }
 
-            if (_jsonSettings.TryGetValue("ElectronicObserverDataFolderPath", out _value))
+            if (_jsonSettings.TryGetValue("ElectronicObserverDataFolderPath", out value))
             {
-                electronicObserverDataFolderPath = _value.ToString();
+                electronicObserverDataFolderPath = value.ToString();
             }
 
-            if (_jsonSettings.TryGetValue("DisablePush", out _value))
+            if (_jsonSettings.TryGetValue("DisablePush", out value))
             {
-                disablePush = (bool)_value;
+                disablePush = (bool)value;
             }
 
-            if (_jsonSettings.TryGetValue("EoDbPath", out _value))
+            if (_jsonSettings.TryGetValue("EoDbPath", out value))
             {
-                eoDbPath = (string)_value;
+                eoDbPath = (string)value;
             }
             
-            if(_jsonSettings.TryGetValue("EoApiUrl", out _value))
+            if(_jsonSettings.TryGetValue("EoApiUrl", out value))
             {
-                _electronicObserverApiUrl = (string)_value;
+                _electronicObserverApiUrl = (string)value;
             }
             
-            if(_jsonSettings.TryGetValue("EoApiKey", out _value))
+            if(_jsonSettings.TryGetValue("EoApiKey", out value))
             {
-                _electronicObserverApiKey = (string)_value;
+                _electronicObserverApiKey = (string)value;
+            }
+
+            if (_jsonSettings.TryGetValue(nameof(FitBonusSourceUrl), out value))
+            {
+                _fitBonusSourceUrl = (string)value;
             }
         }
         
@@ -186,6 +202,7 @@ namespace EOTools.Tools
                 { "EoDbPath", EoDbPath },
                 { "EoApiUrl", ElectronicObserverApiUrl },
                 { "EoApiKey", ElectronicObserverApiKey },
+                { nameof(FitBonusSourceUrl), FitBonusSourceUrl },
             };
 
             JsonHelper.WriteJson(SettingFileName, _jsonData);

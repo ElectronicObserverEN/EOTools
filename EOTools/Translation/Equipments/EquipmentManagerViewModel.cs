@@ -14,6 +14,8 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.DependencyInjection;
+using EOTools.Translation.FitBonus;
 
 namespace EOTools.Translation.Equipments;
 
@@ -21,11 +23,15 @@ public partial class EquipmentManagerViewModel : ObservableObject
 {
     public ObservableCollection<EquipmentViewModel> EquipmentList { get; set; } = new();
 
+    private FitBonusManager FitBonusManager { get; }
+
     [ObservableProperty]
     private string filter = "";
 
     public EquipmentManagerViewModel()
     {
+        FitBonusManager = Ioc.Default.GetRequiredService<FitBonusManager>();
+
         ReloadEquipmentList();
 
         PropertyChanged += EquipmentManagerViewModel_PropertyChanged;
@@ -319,6 +325,12 @@ public partial class EquipmentManagerViewModel : ObservableObject
     {
         UpgradeCheckerView view = new UpgradeCheckerView();
         view.Show();
+    }
+
+    [RelayCommand]
+    private async Task UpdateFitBonus()
+    {
+        await FitBonusManager.UpdateThenSaveFileThenPush();
     }
 
     [RelayCommand]

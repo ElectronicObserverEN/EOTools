@@ -72,9 +72,9 @@ namespace EOTools.Translation.FitBonus
                 _ => new(new()),
             };
 
-            BonusesIfLOSRadarViewModel = Model.BonusesIfLOSRadar switch
+            BonusesIfLOSRadarViewModel = Model.BonusesIfSurfaceRadar switch
             {
-                { } => new(Model.BonusesIfLOSRadar),
+                { } => new(Model.BonusesIfSurfaceRadar),
                 _ => new(new()),
             };
 
@@ -120,7 +120,7 @@ namespace EOTools.Translation.FitBonus
 
             DisplayBonus = Model.Bonuses is not null;
             DisplayBonusAirRadar = Model.BonusesIfAirRadar is not null;
-            DisplayBonusLosRadar = Model.BonusesIfLOSRadar is not null;
+            DisplayBonusLosRadar = Model.BonusesIfSurfaceRadar is not null;
 
             PropertyChanged += (sender, args) =>
             {
@@ -175,11 +175,11 @@ namespace EOTools.Translation.FitBonus
             if (DisplayBonusLosRadar)
             {
                 BonusesIfLOSRadarViewModel.SaveChanges();
-                Model.BonusesIfLOSRadar = BonusesIfLOSRadarViewModel.Model;
+                Model.BonusesIfSurfaceRadar = BonusesIfLOSRadarViewModel.Model;
             }
             else
             {
-                Model.BonusesIfLOSRadar = null;
+                Model.BonusesIfSurfaceRadar = null;
             }
 
             Model.EquipmentLevel = EquipmentLevel switch

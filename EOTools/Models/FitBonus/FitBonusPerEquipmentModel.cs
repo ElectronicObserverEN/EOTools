@@ -6,7 +6,7 @@ namespace EOTools.Models.FitBonus
     public class FitBonusPerEquipmentModel
     {
         [JsonProperty("types")]
-        public List<int?>? EquipmentTypes { get; set; } = null;
+        public List<int>? EquipmentTypes { get; set; } = null;
 
         [JsonProperty("ids")]
         public List<int>? EquipmentIds { get; set; } = null;

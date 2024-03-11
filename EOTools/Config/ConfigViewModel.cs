@@ -7,25 +7,28 @@ namespace EOTools.Config
     public partial class ConfigViewModel : ObservableObject
     {
         [ObservableProperty]
-        private string electronicObserverDataFolderPath = "";
+        private string _electronicObserverDataFolderPath = "";
 
         [ObservableProperty]
-        private string kancolleEOAPIFolder = "";
+        private string _kancolleEOAPIFolder = "";
 
         [ObservableProperty]
-        private string shipIconFolder = "";
+        private string _shipIconFolder = "";
 
         [ObservableProperty]
-        private string eoDatabaseFile = "";
+        private string _eoDatabaseFile = "";
 
         [ObservableProperty]
-        private bool disablePush = false;
+        private bool _disablePush = false;
 
         [ObservableProperty]
-        private string electronicObserverApiUrl = "";
+        private string _electronicObserverApiUrl = "";
 
         [ObservableProperty]
-        private string electronicObserverApiKey = "";
+        private string _electronicObserverApiKey = "";
+
+        [ObservableProperty]
+        private string _fitBonusSourceUrl = "";
 
         public string DataFolderDisplay => string.IsNullOrEmpty(ElectronicObserverDataFolderPath) ? "Select a folder" : ElectronicObserverDataFolderPath;
         public string APIFolderDisplay => string.IsNullOrEmpty(KancolleEOAPIFolder) ? "Select a folder" : KancolleEOAPIFolder;
@@ -40,7 +43,8 @@ namespace EOTools.Config
             DisablePush = AppSettings.DisablePush;
             EoDatabaseFile = AppSettings.EoDbPath;
             ElectronicObserverApiUrl = AppSettings.ElectronicObserverApiUrl;
-            electronicObserverApiKey = AppSettings.ElectronicObserverApiKey;
+            ElectronicObserverApiKey = AppSettings.ElectronicObserverApiKey;
+            FitBonusSourceUrl = AppSettings.FitBonusSourceUrl;
 
             PropertyChanged += ConfigViewModel_PropertyChanged;
         }
@@ -74,6 +78,9 @@ namespace EOTools.Config
                     break;
                 case nameof(ElectronicObserverApiKey):
                     AppSettings.ElectronicObserverApiKey = ElectronicObserverApiKey;
+                    break;
+                case nameof(FitBonusSourceUrl):
+                    AppSettings.FitBonusSourceUrl = FitBonusSourceUrl;
                     break;
             }
         }
