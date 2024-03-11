@@ -62,6 +62,7 @@ public partial class ShipManagerViewModel : ObservableObject
             vm.ApiId = vmEdit.ApiId;
             vm.NameJP = vmEdit.NameJP;
             vm.NameEN = vmEdit.NameEN;
+            vm.ShipClass = vmEdit.ShipClass;
 
             try
             {
