@@ -324,7 +324,16 @@ public partial class QuestManagerViewModel : ObservableObject
                 DescEN = questData.Value<string>("desc_jp") ?? "",
             };
 
-            AddQuestToList(new(newModel));
+            // check if quest already added 
+            using EOToolsDbContext db = new();
+
+            bool questExists = db.Quests
+                .Any(q => q.ApiId == newModel.ApiId && q.Code == newModel.Code);
+
+            if (!questExists)
+            {
+                AddQuestToList(new(newModel));
+            }
         }
     }
     #endregion
