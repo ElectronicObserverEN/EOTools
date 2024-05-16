@@ -61,7 +61,17 @@ namespace EOTools.Models
             DescEN = "";
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public QuestData()
+        {
+            Code = "";
+            NameJP = "";
+            NameEN = "";
+            nameEN = "";
+            DescJP = "";
+            DescEN = "";
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
