@@ -61,6 +61,7 @@ namespace EOTools
                 .AddSingleton<AssetReader>()
                 .AddSingleton<ToolManager>()
                 .AddSingleton<FitBonusUpdaterService>()
+                .AddSingleton<UpdateShipDataService>()
                 .AddDbContext<EOToolsDbContext>()
                 .BuildServiceProvider();
 

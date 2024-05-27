@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
 using System.Net;
-using System.Windows.Shapes;
 
 namespace EOTools.Tools
 {

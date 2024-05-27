@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace EOTools.Tools
+﻿namespace EOTools.Tools
 {
     public class GitManager
     {

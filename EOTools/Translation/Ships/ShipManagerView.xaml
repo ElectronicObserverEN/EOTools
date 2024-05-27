@@ -36,6 +36,10 @@
 					Command="{Binding ImportFromAPICommand}"
 					Content="Import from API"
 					IsEnabled="True" />
+				<Button
+					Margin="5"
+					Command="{Binding PushTranslationsCommand}"
+					Content="Push to Git" />
 			</StackPanel>
 		</StackPanel>
 

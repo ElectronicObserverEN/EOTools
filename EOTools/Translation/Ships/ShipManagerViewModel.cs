@@ -327,4 +327,11 @@ public partial class ShipManagerViewModel : ObservableObject
         125 => "Nevada級",
         _ => "不明",
     };
+
+    [RelayCommand]
+    private void PushTranslations()
+    {
+        UpdateShipDataService service = Ioc.Default.GetRequiredService<UpdateShipDataService>();
+        service.UpdateShipTranslations();
+    }
 }

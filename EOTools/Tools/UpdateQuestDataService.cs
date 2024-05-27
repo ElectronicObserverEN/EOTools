@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace EOTools.Tools;
 
-public class UpdateQuestDataService
+public class UpdateQuestDataService : TranslationUpdateService
 {
     private GitManager GitManager => new GitManager(AppSettings.ElectronicObserverDataFolderPath);
 
@@ -17,9 +17,7 @@ public class UpdateQuestDataService
     private string UpdateDataFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "update.json");
     public static string TrackersFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "QuestTrackers.json");
     public static string QuestsTranslationsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Translations", "en-US", "quest.json");
-
-    private List<string> OtherLanguages { get; } = ["ko-KR"];
-
+    
     public void UpdateQuestTranslations()
     {
         // --- Stage & push

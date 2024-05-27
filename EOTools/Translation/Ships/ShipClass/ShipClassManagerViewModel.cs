@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.DependencyInjection;
 using CommunityToolkit.Mvvm.Input;
 using EOTools.DataBase;
-using EOTools.Migrations;
-using EOTools.Models;
 using EOTools.Models.Ships;
 using EOTools.Tools;
 using EOTools.Tools.Translations;
 using ModernWpf.Controls;
-using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EOTools.Translation.Ships.ShipClass;
 
@@ -137,5 +133,12 @@ public partial class ShipClassManagerViewModel : ObservableObject
         await db.SaveChangesAsync();
 
         ReloadShipList();
+    }
+
+    [RelayCommand]
+    private void PushTranslations()
+    {
+        UpdateShipDataService service = Ioc.Default.GetRequiredService<UpdateShipDataService>();
+        service.UpdateShipTranslations();
     }
 }
