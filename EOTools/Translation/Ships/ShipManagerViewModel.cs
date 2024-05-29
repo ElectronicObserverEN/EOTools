@@ -319,12 +319,14 @@ public partial class ShipManagerViewModel : ObservableObject
         117 => "鵜来型",
         118 => "Ranger級",
         119 => "特種船M丙型",
-        120 => "第百一号型",
+        120 => "二等輸送艦",
         121 => "New Orleans級",
         122 => "Salmon級",
         123 => "改敷島型",
         124 => "Marcello級",
         125 => "Nevada級",
+        126 => "改氷川丸級",
+        127 => "巡潜乙型改一",
         _ => "不明",
     };
 
