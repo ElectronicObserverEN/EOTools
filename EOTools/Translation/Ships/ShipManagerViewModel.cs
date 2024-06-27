@@ -146,7 +146,7 @@ public partial class ShipManagerViewModel : ObservableObject
                 int classId = int.Parse(shipJson["api_ctype"].ToString());
 
                 string nameJapanese = GetShipClassUntranslated(classId, apiId);
-                shipClass = db.ShipClass.FirstOrDefault(sc => sc.ApiId == classId && sc.NameJapanese == nameJapanese);
+                shipClass = db.ShipClass.FirstOrDefault(sc => sc.ApiId == classId);
 
                 if (shipClass is null)
                 {
@@ -154,7 +154,7 @@ public partial class ShipManagerViewModel : ObservableObject
                     {
                         ApiId = classId,
                         NameJapanese = nameJapanese,
-                        NameEnglish = translationService.Class(nameJapanese)
+                        NameEnglish = translationService.Class(nameJapanese),
                     };
 
                     await db.ShipClass.AddAsync(shipClass);
@@ -176,15 +176,6 @@ public partial class ShipManagerViewModel : ObservableObject
                 db.Add(model);
 
                 Ships.Add(new(model));
-            }
-            else
-            {
-                // Update ship class id
-                vm.NameEN = vm.Model.GetNameEN();
-                vm.ShipClass = shipClass;
-                vm.SaveChanges();
-
-                db.Ships.Update(vm.Model);
             }
         }
 
