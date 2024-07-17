@@ -51,8 +51,14 @@
 
 			<MenuItem Header="Manage data">
 				<MenuItem Click="ManageUpdateClick" Header="Manage updates" />
-				<MenuItem Click="ManageSeasonClick" Header="Manage seasons" />
-				<MenuItem Click="ManageEventClick" Header="Manage events" />
+				<MenuItem
+					Click="ManageSeasonClick"
+					Header="Manage seasons"
+					IsEnabled="false" />
+				<MenuItem
+					Click="ManageEventClick"
+					Header="Manage events"
+					IsEnabled="false" />
 				<Separator />
 				<MenuItem Click="ManageQuestsClick" Header="Manage quests" />
 				<MenuItem Click="ManageEquipmentsClick" Header="Manage equipments" />

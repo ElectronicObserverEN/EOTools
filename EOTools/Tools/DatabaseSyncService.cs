@@ -12,33 +12,29 @@ public class DatabaseSyncService
 {
     private GitManager GitManager => new(AppSettings.ElectronicObserverDataFolderPath);
 
-    private string UpdatesFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Updates.json");
-    private string EventsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Events.json");
     private string QuestsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Quests.json");
     private string SeasonsFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Seasons.json");
     private string EquipmentFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Equipments.json");
     private string ShipFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Ships.json");
     private string ShipClassFilePath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "ShipClass.json");
-    private string DataBaseRepoPath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Data.db");
+    private string DataBaseRepoPath => Path.Combine(AppSettings.ElectronicObserverDataFolderPath, "Data", "Data.old.db");
 
     public static string DataBaseLocalPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "EOTools", "EOTools.db");
 
     public void StageDatabaseChangesToGit()
     {
+        PullDataBase();
+
         using EOToolsDbContext db = new();
 
-        JsonHelper.WriteJson(UpdatesFilePath, db.Updates.ToList());
         JsonHelper.WriteJson(QuestsFilePath, db.Quests.ToList());
         JsonHelper.WriteJson(SeasonsFilePath, db.Seasons.ToList());
-        JsonHelper.WriteJson(EventsFilePath, db.Events.ToList());
         JsonHelper.WriteJson(EquipmentFilePath, db.Equipments.ToList());
         JsonHelper.WriteJson(ShipFilePath, db.Ships.Include(nameof(ShipModel.ShipClass)).ToList());
         JsonHelper.WriteJson(ShipClassFilePath, db.ShipClass.ToList());
 
         File.Copy(DataBaseLocalPath, DataBaseRepoPath, true);
 
-        GitManager.Stage(UpdatesFilePath);
-        GitManager.Stage(EventsFilePath);
         GitManager.Stage(QuestsFilePath);
         GitManager.Stage(SeasonsFilePath);
         GitManager.Stage(EquipmentFilePath);
